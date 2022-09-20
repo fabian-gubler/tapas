@@ -27,7 +27,7 @@ jobs:
 
     - name: Build with Maven
       run: mvn -f app/pom.xml --batch-mode --update-snapshots verify
-    - run: cp ./app/target/app-0.1.0.jar ./target  
+    - run: cp ./app/target/app-0.0.1.jar ./target
 
     - run: cp docker-compose.yml ./target
     - name: Archive artifacts
