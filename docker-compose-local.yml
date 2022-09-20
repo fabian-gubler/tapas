@@ -1,0 +1,20 @@
+# Dockerfile/Docker-Compose file based on an initial version authored by Alexander Lontke (ASSE, Fall Semester 2021)
+
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    # Use environment variables instead of application.properties
+    environment:
+     - KEY=VALUE
+    ports: #Just needed when testing from outside the docker network
+     - "8080:8080"    
+    networks:
+      - tapas-network
+
+networks:
+  tapas-network:
+    driver: bridge
