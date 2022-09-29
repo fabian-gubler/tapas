@@ -43,7 +43,7 @@ services:
 
   tapas-tasks:
     image: openjdk
-    command: "java -jar /data/tapas-tasks-0.0.1-SNAPSHOT.jar"
+    command: "java -jar /data/tapas-tasks-0.0.1.jar"
     restart: unless-stopped
     volumes:
       - ./:/data/
