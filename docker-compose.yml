@@ -40,3 +40,18 @@ services:
       - "traefik.http.routers.app.tls=true"
       - "traefik.http.routers.app.entryPoints=web,websecure"
       - "traefik.http.routers.app.tls.certresolver=le"
+
+  tapas-tasks:
+    image: openjdk
+    command: "java -jar /data/tapas-tasks-0.0.1-SNAPSHOT.jar"
+    restart: unless-stopped
+    volumes:
+      - ./:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tapas-tasks.rule=Host(`tapas-tasks.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.tapas-tasks.service=tapas-tasks"
+      - "traefik.http.services.tapas-tasks.loadbalancer.server.port=8081"
+      - "traefik.http.routers.tapas-tasks.tls=true"
+      - "traefik.http.routers.tapas-tasks.entryPoints=web,websecure"
+      - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
