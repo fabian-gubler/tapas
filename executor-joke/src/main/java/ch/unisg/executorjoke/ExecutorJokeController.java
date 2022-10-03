@@ -9,7 +9,7 @@ public class ExecutorJokeController {
 
     private final String API_URI = "https://api.chucknorris.io/jokes/random";
 
-    @GetMapping("/executor-joke/")
+    @GetMapping("/executor/joke")
     public String index() {
         return getJoke();
     }
