@@ -35,12 +35,16 @@ public class Executor {
         return new Executor(executorType, endpoint);
     }
 
+    public String getTaskExecutionFullURI() {
+        return this.getEndpoint().getValue();
+    }
 
     @Value
     public static class ExecutorId {
         String value;
     }
 
+    // todo: validate endpoint and provided URI that error is thrown if invalid URI is provided
     @Value
     public static class Endpoint {
         String value;
