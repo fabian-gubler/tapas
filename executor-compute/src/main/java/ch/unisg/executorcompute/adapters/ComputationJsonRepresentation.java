@@ -15,10 +15,10 @@ public class ComputationJsonRepresentation {
     @Getter
     private final double valueB;
 
-    public ComputationJsonRepresentation(String computationType, double valueA, double valueB) {
+    public ComputationJsonRepresentation(String computationType, String valueA, String valueB) {
         this.type = computationType;
-        this.valueA = valueA;
-        this.valueB = valueB;
+        this.valueA = Double.parseDouble(valueA);
+        this.valueB = Double.parseDouble(valueB);
     }
 
 }
