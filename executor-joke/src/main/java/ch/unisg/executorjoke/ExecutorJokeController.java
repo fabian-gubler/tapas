@@ -1,6 +1,8 @@
 package ch.unisg.executorjoke;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,13 +11,9 @@ public class ExecutorJokeController {
 
     private final String API_URI = "https://api.chucknorris.io/jokes/random";
 
-    @GetMapping("/executor/joke")
-    public String index() {
-        return getJoke();
-    }
-
-    private String getJoke() {
+    @PostMapping(path = "/executor/joke")
+    private ResponseEntity<String> getJoke() {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(API_URI, String.class);
+        return new ResponseEntity<>(restTemplate.getForObject(API_URI, String.class), HttpStatus.OK);
     }
 }
