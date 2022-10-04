@@ -2,6 +2,7 @@ package ch.unisg.tapasexecutorpool.executorpool.adapter.in.web;
 
 import ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.ExecutorJsonRepresentation;
 import ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.NewTaskJsonRepresentation;
+import ch.unisg.tapasexecutorpool.executorpool.adapter.in.messaging.NoMatchingExecutorException;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolCommand;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolUseCase;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.MatchExecutorToReceivedTaskCommand;
@@ -36,18 +37,21 @@ public class MatchExecutorToReceivedTaskWebController {
         try {
             String taskType = payload.getTaskType();
             String taskLocation = payload.getTaskLocation();
+            String inputData = payload.getInputData();
 
-            MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType, taskLocation);
+            MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType, taskLocation, inputData);
 
             Optional<Executor> matchedExecutor = matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command);
 
             if (matchedExecutor.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "No suitable executor was found!");
+                throw new NoMatchingExecutorException();
             }
 
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        } catch (NoMatchingExecutorException e) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "No suitable executor was found!");
         }
     }
 }

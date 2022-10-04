@@ -26,14 +26,19 @@ public class NewTaskJsonRepresentation {
     @Getter
     private final String tasklist;
 
+    // inputData of the task
+    @Getter
+    private final String inputData;
+
 
     /**
      * Instantiate a task representation with a task name and type.
      *
      */
-    public NewTaskJsonRepresentation(String taskLocation, String taskType, String tasklist) {
+    public NewTaskJsonRepresentation(String taskLocation, String taskType, String tasklist, String inputData) {
         this.taskLocation = taskLocation;
         this.taskType = taskType;
         this.tasklist = tasklist;
+        this.inputData = inputData;
     }
 }

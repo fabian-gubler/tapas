@@ -2,14 +2,14 @@
 
 FROM maven as build
 
-COPY . /app
+COPY . /tapas-executorpool
 
-RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify
+RUN mvn -f tapas-executorpool/pom.xml --batch-mode --update-snapshots verify
 
 FROM openjdk
 
-COPY --from=build /app/target/tapas-tasks-0.0.1.jar ./tapas-tasks-0.0.1.jar
+COPY --from=build /tapas-executorpool/target/tapas-tasks-0.0.1.jar ./tapas-executorpool-0.0.1.jar
 
-COPY --from=build /app/src/main/resources/application-local.properties ./application-local.properties
+COPY --from=build /tapas-executorpool/src/main/resources/application-local.properties ./application-local.properties
 
-CMD java -jar tapas-tasks-0.0.1.jar --spring.config.location=application-local.properties
+CMD java -jar tapas-executorpool-0.0.1.jar --spring.config.location=application-local.properties

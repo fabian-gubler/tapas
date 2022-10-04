@@ -32,6 +32,7 @@ public class ExecutorPool {
         // in a simple hashmap for every tasktype as string there is a matching executor type assigned
         this.taskTypeExecutorTypeMapper.value.put("taskType1", Executor.Type.JOKE);
         this.taskTypeExecutorTypeMapper.value.put("taskType2", Executor.Type.COMPUTE);
+        this.taskTypeExecutorTypeMapper.value.put("compute-add", Executor.Type.COMPUTE_ADD);
     }
 
     @Value

@@ -30,7 +30,8 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
 
         // emit event to execute task if suitable executor is found
         if (matchedExecutor.isPresent()) {
-            NewTaskExecutionEvent newTaskExecution = new NewTaskExecutionEvent(command.getTaskType(), matchedExecutor.get().getTaskExecutionFullURI(), command.getTaskLocation());
+            NewTaskExecutionEvent newTaskExecution = new NewTaskExecutionEvent(command.getTaskType(),
+                matchedExecutor.get().getTaskExecutionFullURI(), command.getTaskLocation(), command.getInputData());
             newTaskExecutionEventPort.publishNewTaskExecutionEvent(newTaskExecution);
         }
 

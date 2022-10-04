@@ -9,7 +9,7 @@ import java.util.UUID;
 /**This is a domain entity**/
 public class Executor {
     public enum Type {
-        JOKE, COMPUTE
+        JOKE, COMPUTE, COMPUTE_ADD, COMPUTE_MULTIPLY, COMPUTE_SUBTRACT, COMPUTE_DIVIDE
     }
 
     @Getter

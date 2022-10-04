@@ -26,6 +26,17 @@ services:
       - "8081:8081"
     networks:
       - tapas-network
+  tapas-executorpool:
+    build:
+      context: ./tapas-executorpool
+      dockerfile: Dockerfile-local
+    # Use environment variables instead of application.properties
+    environment:
+      - KEY=VALUE
+    ports: #Just needed when testing from outside
+      - "8082:8082"
+    networks:
+      - tapas-network
 
 networks:
   tapas-network:

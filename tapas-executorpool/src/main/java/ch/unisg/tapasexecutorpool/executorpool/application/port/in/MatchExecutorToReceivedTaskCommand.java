@@ -14,9 +14,12 @@ public class MatchExecutorToReceivedTaskCommand extends SelfValidating<AddNewExe
     @NotNull
     private final String taskLocation;
 
-    public MatchExecutorToReceivedTaskCommand(String taskType, String taskLocation) {
+    private final String inputData;
+
+    public MatchExecutorToReceivedTaskCommand(String taskType, String taskLocation, String inputData) {
         this.taskType = taskType;
         this.taskLocation = taskLocation;
+        this.inputData = inputData;
 
         this.validateSelf();
     }

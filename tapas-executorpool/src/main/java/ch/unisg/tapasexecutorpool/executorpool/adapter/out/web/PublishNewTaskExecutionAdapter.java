@@ -25,11 +25,10 @@ public class PublishNewTaskExecutionAdapter implements NewTaskExecutionEventPort
 
     @Override
     public void publishNewTaskExecutionEvent(NewTaskExecutionEvent event) {
-        //Here we would need to work with DTOs in case the payload of calls becomes more complex
-
         var values = new HashMap<String, String>() {{
             put("taskLocation", event.taskLocation);
             put("taskType", event.taskType);
+            put("inputData", event.inputData);
         }};
 
         var objectMapper = new ObjectMapper();
