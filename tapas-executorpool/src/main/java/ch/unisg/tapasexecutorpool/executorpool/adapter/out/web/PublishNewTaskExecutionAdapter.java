@@ -49,7 +49,7 @@ public class PublishNewTaskExecutionAdapter implements NewTaskExecutionEventPort
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                System.out.println(response.body());
+                System.out.println("Execution successful, response from executor: " + response.body());
             } else {
                 System.out.println("Request error: " + response.body());
                 System.out.println(response.toString());

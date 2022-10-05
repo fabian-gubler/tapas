@@ -53,6 +53,8 @@ public class PublishNewTaskAddedEventWebAdapter implements NewTaskAddedEventPort
             .header("content-type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(requestBody))
             .build();
+
+        System.out.println("Published new task to roster: " + request);
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.toString());

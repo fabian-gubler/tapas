@@ -39,13 +39,19 @@ public class MatchExecutorToReceivedTaskWebController {
             String taskLocation = payload.getTaskLocation();
             String inputData = payload.getInputData();
 
+            System.out.println("Received new task from tasklist, trying to match executor. taskType: " +
+                taskType + ", inputData: " + inputData);
+
             MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType, taskLocation, inputData);
 
             Optional<Executor> matchedExecutor = matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command);
 
             if (matchedExecutor.isEmpty()) {
+                System.out.println("No matching executor found!");
                 throw new NoMatchingExecutorException();
             }
+
+            System.out.println("Executor found, sending request to executor.");
 
             return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (ConstraintViolationException e) {
