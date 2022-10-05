@@ -60,7 +60,7 @@ services:
     environment:
       - KEY=VALUE
     ports: #Just needed when testing from outside
-      - "8083:8083"
+      - "8084:8084"
     networks:
       - tapas-network
 
