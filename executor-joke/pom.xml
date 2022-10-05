@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ch.unisg</groupId>
 	<artifactId>executor-joke</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>executor-joke</name>
 	<description>Executor Joke microservice</description>
 	<properties>

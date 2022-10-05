@@ -39,6 +39,19 @@ services:
       - tapas-network
 
 
+  executor-compute:
+    build:
+      context: ./executor-compute
+      dockerfile: Dockerfile-local
+    # Use environment variables instead of application.properties
+    environment:
+      - KEY=VALUE
+    ports: #Just needed when testing from outside
+      - "8083:8083"
+    networks:
+      - tapas-network
+
+
   executor-joke:
     build:
       context: ./executor-joke
