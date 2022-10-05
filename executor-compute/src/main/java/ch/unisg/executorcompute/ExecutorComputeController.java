@@ -14,8 +14,9 @@ public class ExecutorComputeController {
 
     @PostMapping(path = "/executor/compute/{computationType}")
     public ResponseEntity<String> compute(@PathVariable("computationType") String computationType, @RequestBody ComputationJsonRepresentation payload) {
-        Double sum = null;
         try {
+            double sum;
+
             if(payload.getInputData() == null || payload.getInputData().equals("")){
                 throw new NumberFormatException("inputData cannot be empty or 'null'");
             }
@@ -28,13 +29,13 @@ public class ExecutorComputeController {
                 case "divide" -> sum = divide(arrOfValues);
                 default -> throw new IllegalArgumentException("computation type not valid") ;
             }
+            return new ResponseEntity<>("The result is " + sum, HttpStatus.OK);
 
         } catch (NumberFormatException e) {
             return new ResponseEntity<>("NumberFormatException - " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (IllegalArgumentException e) {
-            new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("The result is " + sum, HttpStatus.OK);
     }
 
     public double add(String[] arrOfValues) {
