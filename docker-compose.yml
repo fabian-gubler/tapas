@@ -55,3 +55,18 @@ services:
       - "traefik.http.routers.tapas-tasks.tls=true"
       - "traefik.http.routers.tapas-tasks.entryPoints=web,websecure"
       - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
+
+  executor-joke:
+    image: openjdk
+    command: "java -jar /data/executor-joke-0.0.1.jar"
+    restart: unless-stopped
+    volumes:
+      - ./:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.executor-joke.rule=Host(`executor-joke.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.executor-joke.service=executor-joke"
+      - "traefik.http.services.executor-joke.loadbalancer.server.port=8083"
+      - "traefik.http.routers.executor-joke.tls=true"
+      - "traefik.http.routers.executor-joke.entryPoints=web,websecure"
+      - "traefik.http.routers.executor-joke.tls.certresolver=le"
