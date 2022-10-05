@@ -2,14 +2,14 @@
 
 FROM maven as build
 
-COPY . /app
+COPY . /executor-joke
 
-RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify
+RUN mvn -f executor-joke/pom.xml --batch-mode --update-snapshots verify
 
 FROM openjdk
 
-COPY --from=build /app/target/executor-joke-0.0.1.jar ./executor-joke-0.0.1.jar
+COPY --from=build /executor-joke/target/executor-joke-0.0.1.jar ./executor-joke-0.0.1.jar
 
-COPY --from=build /app/src/main/resources/application-local.properties ./application-local.properties
+COPY --from=build /executor-joke/src/main/resources/application-local.properties ./application-local.properties
 
 CMD java -jar executor-joke-0.0.1.jar --spring.config.location=application-local.properties

@@ -32,7 +32,7 @@ public class MatchExecutorToReceivedTaskWebController {
     @Autowired
     private Environment environment;
 
-    @PostMapping(path = "/roster/newtask/")
+    @PostMapping(path = "/roster/newtask/", consumes = "application/json")
     public ResponseEntity<Void> matchExecutorToReceivedTask(@RequestBody NewTaskJsonRepresentation payload) {
         try {
             String taskType = payload.getTaskType();

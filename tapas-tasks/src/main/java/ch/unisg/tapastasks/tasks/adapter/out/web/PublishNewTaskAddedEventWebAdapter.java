@@ -32,9 +32,9 @@ public class PublishNewTaskAddedEventWebAdapter implements NewTaskAddedEventPort
         String server = environment.getProperty("executorpool.baseuri");
 
         var values = new HashMap<String, String>() {{
-            put("taskLocation",environment.getProperty("baseuri")+event.taskId);
-            put("taskType",event.taskType);
-            put("tasklist",event.taskListName);
+            put("taskLocation", environment.getProperty("baseuri") + event.taskId);
+            put("taskType", event.taskType);
+            put("tasklist", event.taskListName);
             put("inputData", event.inputData);
         }};
 
@@ -46,13 +46,16 @@ public class PublishNewTaskAddedEventWebAdapter implements NewTaskAddedEventPort
             e.printStackTrace();
         }
 
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(server+"/roster/newtask/"))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
+            .uri(URI.create(server + "/roster/newtask/"))
+            .header("content-type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+            .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.toString());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

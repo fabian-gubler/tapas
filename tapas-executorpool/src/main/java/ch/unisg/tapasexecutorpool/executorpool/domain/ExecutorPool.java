@@ -30,9 +30,11 @@ public class ExecutorPool {
         // initialize tasktype to executortype mapper -> initial values are added
         // this takes over the function of the roster for the momennt
         // in a simple hashmap for every tasktype as string there is a matching executor type assigned
-        this.taskTypeExecutorTypeMapper.value.put("taskType1", Executor.Type.JOKE);
-        this.taskTypeExecutorTypeMapper.value.put("taskType2", Executor.Type.COMPUTE);
+        this.taskTypeExecutorTypeMapper.value.put("joke", Executor.Type.JOKE);
         this.taskTypeExecutorTypeMapper.value.put("compute-add", Executor.Type.COMPUTE_ADD);
+        this.taskTypeExecutorTypeMapper.value.put("compute-divide", Executor.Type.COMPUTE_DIVIDE);
+        this.taskTypeExecutorTypeMapper.value.put("compute-multiply", Executor.Type.COMPUTE_MULTIPLY);
+        this.taskTypeExecutorTypeMapper.value.put("compute-subtract", Executor.Type.COMPUTE_SUBTRACT);
     }
 
     @Value

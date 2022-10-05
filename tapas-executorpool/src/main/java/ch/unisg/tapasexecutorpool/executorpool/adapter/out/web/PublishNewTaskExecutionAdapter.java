@@ -42,11 +42,18 @@ public class PublishNewTaskExecutionAdapter implements NewTaskExecutionEventPort
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(event.taskExecutionURI))
+            .header("content-type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(requestBody))
             .build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println(response.body());
+            } else {
+                System.out.println("Request error: " + response.body());
+                System.out.println(response.toString());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
