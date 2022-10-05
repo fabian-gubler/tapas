@@ -22,10 +22,12 @@ services:
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
+    hostname: tapas-tasks
     ports: #Just needed when testing from outside
       - "8081:8081"
     networks:
       - tapas-network
+
   tapas-executorpool:
     build:
       context: ./tapas-executorpool
@@ -35,6 +37,7 @@ services:
       - KEY=VALUE
     ports: #Just needed when testing from outside
       - "8082:8082"
+    hostname: tapas-executorpool
     networks:
       - tapas-network
 
