@@ -1,9 +1,8 @@
 package ch.unisg.tapastasks.tasks.application.port.in;
 
 import ch.unisg.tapastasks.tasks.domain.Task;
-
-import java.util.Optional;
+import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 
 public interface RetrieveTaskFromTaskListUseCase {
-    Optional<Task> retrieveTaskFromTaskList(RetrieveTaskFromTaskListQuery query);
+    Task retrieveTaskFromTaskList(RetrieveTaskFromTaskListQuery query) throws TaskNotFoundError;
 }

@@ -1,6 +1,6 @@
 package ch.unisg.tapastasks.tasks.adapter.in.messaging.http;
 
-import ch.unisg.tapastasks.tasks.domain.TaskNotFoundException;
+import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
@@ -16,7 +16,7 @@ public abstract class TaskEventListener {
      *
      * @param taskId the identifier of the task for which an event was received
      * @param payload the JSON Patch payload of the HTTP PATCH request received for this task
-     * @throws TaskNotFoundException
+     * @throws TaskNotFoundError
      */
-    public abstract boolean handleTaskEvent(String taskId, JsonNode payload) throws TaskNotFoundException;
+    public abstract boolean handleTaskEvent(String taskId, JsonNode payload) throws TaskNotFoundError;
 }

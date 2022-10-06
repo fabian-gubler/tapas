@@ -38,17 +38,16 @@ for more details):
 
 A sample HTTP request with `curl`:
 ```shell
-curl -i --location --request POST 'http://localhost:8081/tasks/' \
+curl -i --location --request POST 'https://tapas-tasks.86-119-34-23.asse.scs.unisg.ch/tasks/' \
 --header 'Content-Type: application/task+json' \
 --data-raw '{
   "taskName" : "task1",
   "taskType" : "computation",
-  "originalTaskUri" : "http://example.org",
   "inputData" : "1+1"
 }'
 
 HTTP/1.1 201
-Location: http://localhost:8081/tasks/cef2fa9d-367b-4e7f-bf06-3b1fea35f354
+Location: https://tapas-tasks.86-119-34-23.asse.scs.unisg.ch/tasks/cef2fa9d-367b-4e7f-bf06-3b1fea35f354
 Content-Length: 0
 Date: Sun, 17 Oct 2021 21:03:34 GMT
 
@@ -75,7 +74,6 @@ Date: Sun, 17 Oct 2021 21:07:04 GMT
   "taskName":"task1",
   "taskType":"computation",
   "taskStatus":"OPEN",
-  "originalTaskUri":"http://example.org",
   "inputData":"1+1"
 }
 ```
@@ -113,3 +111,29 @@ Date: Sun, 17 Oct 2021 21:32:25 GMT
 Internally, this request is mapped to a
 [TaskExecutedEvent](src/main/java/ch/unisg/tapastasks/tasks/application/port/in/TaskExecutedEvent.java).
 The HTTP response returns a `200 OK` status code together with location of the resource.
+
+## Working with MongoDB
+The provided TAPAS Tasks service is connected to a MongoDB as a repository for persisting data.
+
+Here are some pointers to start integrating the MongoDB with the other microservices:
+* [application.properties](src/main/resources/application.properties) defines the
+    * URI of the DB server that Spring will connect to (`mongodb`service running in Docker container). Username and password for the server can be found in [docker-compose.yml](../docker-compose.yml).
+    * Name of the database for the microservice (`tapas-tasks`)
+* [docker-compose.yml](../docker-compose.yml) defines
+    * in lines 59-67: the configuration of the mongodb service based on the mongodb container including the root username and password (once deployed this cannot be changed anymore!)
+    * in lines 69-87: the configuration of a web application called `mongo-express` to manage the MongoDB server. The web app can be reached via the URI: [http://dbadmin.${PUB_IP}.asse.scs.unisg.ch]([http://dbadmin.${PUB_IP}.asse.scs.unisg.ch]). Login credentials for  mongo-express can be found in lines 89 and 90.
+    * in lines 89-90: the volume to be used by the mongodb service for writing and storing data (do not forget!).
+* The [pom.xml](./pom.xml) needs to have `spring-boot-starter-data-mongodb` and `spring-data-mongodb` as new dependencies.
+* The [TapasTasksApplication.java](src/main/java/ch/unisg/tapastasks/TapasTasksApplication.java) specifies in line 9 the location of the MongoRepository classes for the microservice.
+* The [persistence.mongodb](src/main/java/ch/unisg/tapastasks/tasks/adapter/out/persistence/mongodb) package has the relevant classes to work with MongoDB:
+    * The [MongoTaskDocument.java](src/main/java/ch/unisg/tapastasks/tasks/adapter/out/persistence/mongodb/MongoTaskDocument.java) class defines the attributes of a Document for storing a task in the collection `tasks`.
+    * The [TaskRepository.java](src/main/java/ch/unisg/tapastasks/tasks/adapter/out/persistence/mongodb/TaskRepository.java) class specifies the MongoRepository.
+    * The [TaskPersistenceAdapter.java](src/main/java/ch/unisg/tapastasks/tasks/adapter/out/persistence/mongodb/TaskPersistenceAdapter.java) implements the two ports to add a new task ([AddTaskPort](src/main/java/ch/unisg/tapastasks/tasks/application/port/out/AddTaskPort.java)) and retrieve a task ([LoadTaskPort](src/main/java/ch/unisg/tapastasks/tasks/application/port/out/LoadTaskPort.java)). These ports are used in the classes [AddNewTaskToTaskListService.java](src/main/java/ch/unisg/tapastasks/tasks/application/service/AddNewTaskToTaskListService.java) and [RetrieveTaskFromTaskListService.java](src/main/java/ch/unisg/tapastasks/tasks/application/service/RetrieveTaskFromTaskListService.java).
+
+#### General hints:
+* To not overload the VMs we recommend to use only one MongoDB server that all microservices connect to. Per microservice you could use one database or one collection (discuss in your ADRs!). To use more than one MongoDB server you have to extend the [docker-compose.yml](../docker-compose.yml) file by basically replicating lines 59-90 and changing the names of the services and volumes to be unique (ask your tutors!).
+* For running everything locally you can use the [docker-compose-local.yml](../docker-compose-local.yml) file or you have to install the MongoDB server locally on your computers and change the `spring.data.mongodb.uri` String in [application-local.properties](./src/main/resources/application-local.properties). MongoExpress can be reached via http://localhost:8089.
+
+### Integration Testing:
+* Be aware that when using [docker-compose-local.yml](../docker-compose-local.yml) or the deplyoment to the SwitchVM, the provided tests are not automatically executed during the Maven build process due to runtime dependencies on the MongoDB container.
+* For integration testing with a live MongoDB system from your IDE we recommend to use the [docker-compose-local-mongo.yml](../docker-compose-local-mongo.yml) file which only starts up a MongoDB container on your machine that can be reached via localhost:27017. You can then run the integration test file with VM parameter ```-Dspring.profiles.active=local-mongo``` which activates the profile defined in [application-local-mongo.properties](./src/main/resources/application-local-mongo.properties).

@@ -4,11 +4,13 @@ The master repository for the TAPAS application to be developed in Fall Semester
 ## Project Structure
 This project is structured as follows:
 * [tapas-tasks](tapas-tasks): standalone project for the Tapas-Tasks micro-service (Spring Boot project)
+    * [tapas-tasks/README.md](tapas-tasks/README.md): README file for the Tapas Tasks service with more details. 
     * [tapas-tasks/src](tapas-tasks/src): source code of the project (following the Hexagonal Architecture)
-    * [tapas-tasks/pom.xml](tapas-tasks\pom.xml): Maven pom-file
+    * [tapas-tasks/pom.xml](tapas-tasks/pom.xml): Maven pom-file
 * [app](app): a very simple web service developed using Spring Boot, based on the tutorial at https://spring.io/guides/gs/spring-boot/
 * [docker-compose.yml](docker-compose.yml): Docker Compose configuration file for all services
 * [docker-compose-local.yml](docker-compose-local.yml): Docker Compose configuration file to run all services on local Docker
+* [docker-compose-local-mongo.yml](docker-compose-local-mongo.yml): Docker Compose configuration file to only run MongoDB on local Docker
 * [.github/workflows/build-and-deploy.yml](.github/workflows/build-and-deploy.yml): GitHub actions script (CI/CD workflow)
 
 ## How to Add a New Service with Spring Boot
@@ -44,7 +46,7 @@ pushed on the `main` branch. You can add your new service to the GitHub Actions 
     * note you will need to update the complete file path (folder structure and JAR name)
 
 ### How to Run the TAPAS Tasks Service Locally
-You can run and test your micro-services on your local machine just like a regular Maven project:
+You can run your micro-services on your local machine just like a regular Maven project:
 * Run from IntelliJ:
     * Reload *pom.xml* if necessary
     * Run the micro-service's main class from IntelliJ for all required projects

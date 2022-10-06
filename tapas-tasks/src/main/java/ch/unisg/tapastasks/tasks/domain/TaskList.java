@@ -47,6 +47,11 @@ public class TaskList {
         return newTask;
     }
 
+    public boolean addExistingTaskToTaskList(Task existingTask) {
+        listOfTasks.value.add(existingTask);
+        return true;
+    }
+
     private void addNewTaskToList(Task newTask) {
         //Here we would also publish a domain event to other entities in the core interested in this event.
         //However, we skip this here as it makes the core even more complex (e.g., we have to implement a light-weight
@@ -56,35 +61,29 @@ public class TaskList {
         System.out.println("Number of tasks: " + listOfTasks.value.size());
     }
 
-    public Optional<Task> retrieveTaskById(Task.TaskId id) {
+    public Task retrieveTaskById(Task.TaskId id)
+        throws TaskNotFoundError {
+
         for (Task task : listOfTasks.value) {
             if (task.getTaskId().getValue().equalsIgnoreCase(id.getValue())) {
-                return Optional.of(task);
+                return task;
             }
         }
-
-        return Optional.empty();
+        throw new TaskNotFoundError();
     }
 
-    public boolean changeTaskStatusToRunning(Task.TaskId id)
-            throws TaskNotFoundException {
+    public boolean changeTaskStatusToRunning(Task.TaskId id) throws TaskNotFoundError {
         return changeTaskStatus(id, new Task.TaskStatus(Task.Status.RUNNING), Optional.empty());
     }
 
     public boolean changeTaskStatusToExecuted(Task.TaskId id,
-            Optional<Task.OutputData> outputData) throws TaskNotFoundException {
+            Optional<Task.OutputData> outputData) throws TaskNotFoundError {
         return changeTaskStatus(id, new Task.TaskStatus(Task.Status.EXECUTED), outputData);
     }
 
     private boolean changeTaskStatus(Task.TaskId id, Task.TaskStatus status,
-            Optional<Task.OutputData> outputData) {
-        Optional<Task> taskOpt = retrieveTaskById(id);
-
-        if (taskOpt.isEmpty()) {
-            throw new TaskNotFoundException();
-        }
-
-        Task task = taskOpt.get();
+            Optional<Task.OutputData> outputData) throws TaskNotFoundError {
+        Task task = retrieveTaskById(id);
         task.setTaskStatus(status);
 
         if (outputData.isPresent()) {

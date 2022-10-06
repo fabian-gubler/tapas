@@ -4,7 +4,7 @@ FROM maven as build
 
 COPY . /app
 
-RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify
+RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify -DskipTests
 
 FROM openjdk
 

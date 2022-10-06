@@ -1,36 +1,17 @@
 # Dockerfile/Docker-Compose file based on an initial version authored by Alexander Lontke (ASSE, Fall Semester 2021)
 
+# This Docker-compose file is used to only spin up the mongodb containers for local testing.
+
 version: "3.7"
 
 services:
-  app:
-    build:
-      context: ./app
-      dockerfile: Dockerfile
-    # Use environment variables instead of application.properties
-    environment:
-     - KEY=VALUE
-    ports: #Just needed when testing from outside the docker network
-     - "8080:8080"    
-    networks:
-      - tapas-network
-
-  tapas-tasks:
-    build:
-      context: ./tapas-tasks
-      dockerfile: Dockerfile-local
-    # Use environment variables instead of application.properties
-    environment:
-      - KEY=VALUE
-    ports: #Just needed when testing from outside
-      - "8081:8081"
-    networks:
-      - tapas-network
 
   mongodb:
     image: mongo
     container_name: mongodb
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 8nP7s0a    # Can not be changed again later on
