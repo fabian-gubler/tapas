@@ -121,7 +121,7 @@ Here are some pointers to start integrating the MongoDB with the other microserv
     * Name of the database for the microservice (`tapas-tasks`)
 * [docker-compose.yml](../docker-compose.yml) defines
     * in lines 59-67: the configuration of the mongodb service based on the mongodb container including the root username and password (once deployed this cannot be changed anymore!)
-    * in lines 69-87: the configuration of a web application called `mongo-express` to manage the MongoDB server. The web app can be reached via the URI: [http://dbadmin.${PUB_IP}.asse.scs.unisg.ch]([http://dbadmin.${PUB_IP}.asse.scs.unisg.ch]). Login credentials for  mongo-express can be found in lines 89 and 90.
+    * in lines 69-87: the configuration of a web application called `mongo-express` to manage the MongoDB server. The web app can be reached via the URI: [https://dbadmin.${PUB_IP}.asse.scs.unisg.ch]([http://dbadmin.${PUB_IP}.asse.scs.unisg.ch]). Login credentials for  mongo-express can be found in lines 89 and 90.
     * in lines 89-90: the volume to be used by the mongodb service for writing and storing data (do not forget!).
 * The [pom.xml](./pom.xml) needs to have `spring-boot-starter-data-mongodb` and `spring-data-mongodb` as new dependencies.
 * The [TapasTasksApplication.java](src/main/java/ch/unisg/tapastasks/TapasTasksApplication.java) specifies in line 9 the location of the MongoRepository classes for the microservice.
