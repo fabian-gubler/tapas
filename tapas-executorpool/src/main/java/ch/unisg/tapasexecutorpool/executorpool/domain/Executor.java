@@ -58,6 +58,7 @@ public class Executor {
     }
 
     // subclass for the Executor class, which provides automatically a Getter and Setter method.
+    // todo: validate endpoint and provided URI that error is thrown if invalid URI is provided
     @Value
     public static class Endpoint {
         String value;
