@@ -32,7 +32,7 @@ public class AddNewTaskToTaskListService implements AddNewTaskToTaskListUseCase 
 
         if (command.getTaskInput().isPresent()) {
             newTask = taskList.addNewTaskWithNameAndTypeAndInput(command.getTaskName(), command.getTaskType(),
-               command.getTaskInput().get());
+                command.getTaskInput().get());
         } else {
             newTask = taskList.addNewTaskWithNameAndType(command.getTaskName(), command.getTaskType());
         }
@@ -41,8 +41,14 @@ public class AddNewTaskToTaskListService implements AddNewTaskToTaskListUseCase 
         //This event should be considered as a light-weight "integration event" to communicate side effects to other services.
 
         if (newTask != null) {
-            NewTaskAddedEvent newTaskAdded = new NewTaskAddedEvent(newTask.getTaskName().getValue(),
-                    taskList.getTaskListName().getValue());
+            NewTaskAddedEvent newTaskAdded;
+            if (newTask.getInputData() == null) {
+                newTaskAdded = new NewTaskAddedEvent(newTask.getTaskName().getValue(),
+                    taskList.getTaskListName().getValue(), newTask.getTaskType().getValue());
+            } else {
+                newTaskAdded = new NewTaskAddedEvent(newTask.getTaskName().getValue(),
+                    taskList.getTaskListName().getValue(), newTask.getTaskType().getValue(), newTask.getInputData().getValue());
+            }
             newTaskAddedEventPort.publishNewTaskAddedEvent(newTaskAdded);
         }
 

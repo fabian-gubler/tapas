@@ -22,7 +22,4 @@ public class TaskExecutedEvent extends SelfValidating<TaskExecutedEvent> {
 
         this.validateSelf();
     }
-
-
-
 }

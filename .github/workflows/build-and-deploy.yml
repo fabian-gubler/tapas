@@ -24,9 +24,21 @@ jobs:
 
     - run: mkdir ./target
 
-    - name: Build Tapas-Tasks with Maven
+    - name: Build tapas-tasks with Maven
       run: mvn -f tapas-tasks/pom.xml --batch-mode --update-snapshots verify
     - run: cp ./tapas-tasks/target/tapas-tasks-0.0.1.jar ./target
+
+    - name: Build executorpool with Maven
+      run: mvn -f tapas-executorpool/pom.xml --batch-mode --update-snapshots verify
+    - run: cp ./tapas-executorpool/target/tapas-executorpool-0.0.1.jar ./target
+
+    - name: Build executor-compute with Maven
+      run: mvn -f executor-compute/pom.xml --batch-mode --update-snapshots verify
+    - run: cp ./executor-compute/target/executor-compute-0.0.1.jar ./target
+
+    - name: Build executor-joke with Maven
+      run: mvn -f executor-joke/pom.xml --batch-mode --update-snapshots verify
+    - run: cp ./executor-joke/target/executor-joke-0.0.1.jar ./target
 
     - name: Build App with Maven
       run: mvn -f app/pom.xml --batch-mode --update-snapshots verify

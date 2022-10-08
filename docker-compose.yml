@@ -55,3 +55,49 @@ services:
       - "traefik.http.routers.tapas-tasks.tls=true"
       - "traefik.http.routers.tapas-tasks.entryPoints=web,websecure"
       - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
+
+  tapas-executorpool:
+    image: openjdk
+    command: "java -jar /data/tapas-executorpool-0.0.1.jar"
+    restart: unless-stopped
+    volumes:
+      - ./:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tapas-executorpool.rule=Host(`tapas-executorpool.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.tapas-executorpool.service=tapas-tasks"
+      - "traefik.http.services.tapas-executorpool.loadbalancer.server.port=8082"
+      - "traefik.http.routers.tapas-executorpool.tls=true"
+      - "traefik.http.routers.tapas-executorpool.entryPoints=web,websecure"
+      - "traefik.http.routers.tapas-executorpool.tls.certresolver=le"
+
+  executor-compute:
+    image: openjdk
+    command: "java -jar /data/executor-compute-0.0.1.jar"
+    restart: unless-stopped
+    volumes:
+      - ./:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.executor-compute.rule=Host(`executor-compute.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.executor-compute.service=tapas-tasks"
+      - "traefik.http.services.executor-compute.loadbalancer.server.port=8083"
+      - "traefik.http.routers.executor-compute.tls=true"
+      - "traefik.http.routers.executor-compute.entryPoints=web,websecure"
+      - "traefik.http.routers.executor-compute.tls.certresolver=le"
+
+
+  executor-joke:
+    image: openjdk
+    command: "java -jar /data/executor-joke-0.0.1.jar"
+    restart: unless-stopped
+    volumes:
+      - ./:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.executor-joke.rule=Host(`executor-joke.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.executor-joke.service=executor-joke"
+      - "traefik.http.services.executor-joke.loadbalancer.server.port=8084"
+      - "traefik.http.routers.executor-joke.tls=true"
+      - "traefik.http.routers.executor-joke.entryPoints=web,websecure"
+      - "traefik.http.routers.executor-joke.tls.certresolver=le"
