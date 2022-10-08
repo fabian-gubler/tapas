@@ -6,7 +6,9 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
-
+/*
+Selfvalidating class to validate the variables.
+ */
 public abstract class SelfValidating<T> {
 
     private Validator validator;

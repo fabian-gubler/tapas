@@ -22,6 +22,10 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
+/**
+ * Controller that handles HTTP requests for matching Executor to a task. This controller implements the
+ * {@link MatchExecutorToReceivedTaskUseCase} use case using the {@link MatchExecutorToReceivedTaskCommand}.
+ */
 @RestController
 @RequiredArgsConstructor
 public class MatchExecutorToReceivedTaskWebController {
@@ -32,6 +36,7 @@ public class MatchExecutorToReceivedTaskWebController {
     @Autowired
     private Environment environment;
 
+    // received task are matched to appropriate executors by getting JSON data and map it as a task object.
     @PostMapping(path = "/roster/newtask/", consumes = "application/json")
     public ResponseEntity<Void> matchExecutorToReceivedTask(@RequestBody NewTaskJsonRepresentation payload) {
         try {

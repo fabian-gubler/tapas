@@ -38,6 +38,12 @@ public class RemoveExecutorFromExecutorPoolWebController {
     @Autowired
     private Environment environment;
 
+    /**
+     * remove existing executor from executorPool by executorID, which is mapped from JSON to an executor object.
+     *
+     * @param executorId
+     * @return
+     */
     @DeleteMapping(path = "/executors/{executorId}", consumes = {ExecutorJsonRepresentation.MEDIA_TYPE})
     public ResponseEntity<Void> addNewExecutorToExecutorPool(@PathVariable("executorId") String executorId) {
         try {
