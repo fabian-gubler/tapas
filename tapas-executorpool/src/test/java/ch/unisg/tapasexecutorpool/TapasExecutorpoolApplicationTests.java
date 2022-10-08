@@ -7,7 +7,6 @@ import ch.unisg.tapasexecutorpool.executorpool.application.service.MatchExecutor
 import ch.unisg.tapasexecutorpool.executorpool.application.service.RemoveExecutorFromExecutorPoolService;
 import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorPool;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
