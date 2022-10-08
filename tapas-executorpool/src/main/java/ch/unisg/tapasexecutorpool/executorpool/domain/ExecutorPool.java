@@ -6,7 +6,9 @@ import lombok.Value;
 import java.util.*;
 
 
-/**This is our aggregate root**/
+/**
+ * This class is an aggregate root, which is the only object that is loaded in the repository of the client code.
+ */
 public class ExecutorPool {
 
     @Getter
@@ -18,8 +20,18 @@ public class ExecutorPool {
     @Getter
     private final TaskTypeExecutorTypeMapper taskTypeExecutorTypeMapper;
 
-    //--> using the Singleton pattern here to make lives easy; we will later load it from a repo
+    /**
+     * The exeutorPool object can not be changed once it is created.
+     * There is only one ExecutorPool in the project to load in the different Executors.
+     */
     private static final ExecutorPool executorPool = new ExecutorPool(new ExecutorPoolName("tapas-executorpool-group3"));
+
+    /**
+     * constructor of the ExecutorPool where the linked list is created in.
+     * The Mapper is created to match the different tasks to the appropriate executor.
+     *
+     * @param executorpoolname
+     */
 
     private ExecutorPool(ExecutorPoolName executorpoolname) {
         this.executorPoolName = executorpoolname;
@@ -28,7 +40,7 @@ public class ExecutorPool {
         this.taskTypeExecutorTypeMapper = new TaskTypeExecutorTypeMapper(new HashMap<String, Executor.Type>());
 
         // initialize tasktype to executortype mapper -> initial values are added
-        // this takes over the function of the roster for the momennt
+        // this takes over the function of the roster for the moment
         // in a simple hashmap for every tasktype as string there is a matching executor type assigned
         this.taskTypeExecutorTypeMapper.value.put("joke", Executor.Type.JOKE);
         this.taskTypeExecutorTypeMapper.value.put("compute-add", Executor.Type.COMPUTE_ADD);
@@ -37,11 +49,18 @@ public class ExecutorPool {
         this.taskTypeExecutorTypeMapper.value.put("compute-subtract", Executor.Type.COMPUTE_SUBTRACT);
     }
 
+    // subclass for the ExecutorPool class, which provides automatically a Getter and Setter method.
     @Value
     public static class ExecutorPoolName {
         private String value;
     }
 
+    /**
+     * method to add a new executor to the executor pool with the appropriate type and endpoint
+     * @param endpoint
+     * @param executorType
+     * @return Executor
+     */
     public Executor addNewExecutorToExecutorPoolWithTypeAndEndpoint(Executor.Endpoint endpoint, Executor.ExecutorType executorType) {
         Executor newExecutor = Executor.createExecutorWithTypeAndEnpoint(executorType, endpoint);
         this.addNewExecutorToPool(newExecutor);
@@ -49,10 +68,16 @@ public class ExecutorPool {
         return newExecutor;
     }
 
+    // method to return the executorPool.
     public static ExecutorPool getExecutorPool() {
         return executorPool;
     }
 
+    /**
+     * method to remove an executor by ID from the executorPool
+     * @param executorId
+     * @return - debug mesage if the method worked
+     */
     public Boolean removeExecutorFromExecutorPoolById(Executor.ExecutorId executorId) {
         Optional<Executor> executor = this.retrieveExecutorById(executorId);
 
@@ -64,6 +89,11 @@ public class ExecutorPool {
         return false;
     }
 
+    /**
+     * retrieve the Executor by ID out of the List of executors.
+     * @param id
+     * @return - returns executor object as an optional class which can be returned empty, that you do not have to check if object is null or not.
+     */
     public Optional<Executor> retrieveExecutorById(Executor.ExecutorId id) {
         for (Executor executor : listOfExecutors.value) {
             if (executor.getExecutorId().getValue().equalsIgnoreCase(id.getValue())) {
@@ -74,6 +104,11 @@ public class ExecutorPool {
         return Optional.empty();
     }
 
+    /**
+     * method to find an Executor by task type
+     * @param taskType
+     * @return - returns executor object as an optional class which can be returned empty, that you do not have to check if object is null or not.
+     */
     public Optional<Executor> findAvailableExecutorFromTaskTypeString(String taskType) {
         for (Executor executor : listOfExecutors.value) {
             if (executor.getExecutorType().getValue() == this.taskTypeExecutorTypeMapper.value.get(taskType)) {
@@ -84,6 +119,10 @@ public class ExecutorPool {
         return Optional.empty();
     }
 
+    /**
+     * method to add new executor to the pool.
+     * @param newExecutor
+     */
     // todo: check uniqueness of executor endpoint
     private void addNewExecutorToPool(Executor newExecutor) {
         this.listOfExecutors.value.add(newExecutor);
@@ -91,10 +130,13 @@ public class ExecutorPool {
         System.out.println("Number of executors: " + listOfExecutors.value.size());
     }
 
+    // subclass for the ExecutorPool class, which provides automatically a Getter and Setter method.
     @Value
     public static class ListOfExecutors {
         private List<Executor> value;
     }
+
+    // subclass for the ExecutorPool class, which provides automatically a Getter and Setter method.
     @Value
     public static class TaskTypeExecutorTypeMapper {
         private HashMap<String, Executor.Type> value;

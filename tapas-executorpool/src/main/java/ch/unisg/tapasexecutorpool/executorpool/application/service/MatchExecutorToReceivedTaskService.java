@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * service to match the executor to the received Task.
+ */
 @RequiredArgsConstructor
 @Component
 @Transactional
@@ -20,6 +23,12 @@ import java.util.Optional;
 public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceivedTaskUseCase {
 
     private final NewTaskExecutionEventPort newTaskExecutionEventPort;
+
+    /**
+     * method to match the executor to the appropriate task, if an executor with a matching task is existing.
+     * @param command - gets the data from the command class.
+     * @return
+     */
     @Override
     public Optional<Executor> matchExecutorToReceivedTask(MatchExecutorToReceivedTaskCommand command) {
 

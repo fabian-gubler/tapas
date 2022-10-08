@@ -20,7 +20,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.Optional;
 
 /**
- * Controller that handles HTTP requests for creating new tasks. This controller implements the
+ * Controller that handles HTTP requests for creating new Executor. This controller implements the
  * {@link AddNewExecutorToExecutorPoolUseCase} use case using the {@link AddNewExecutorToExecutorPoolCommand}.
  *
  * A new executor is created via an HTTP POST request to the /executors/ endpoint.
@@ -40,6 +40,13 @@ public class AddNewExecutorToExecutorPoolWebController {
     @Autowired
     private Environment environment;
 
+    /**
+     * Takes the executor type out of the JSON payload and converts it to an executor object.
+     * After this convertion you can handle the payload as a normal executor object and process it.
+     *
+     * @param payload - the inserted data from the user of the application.
+     * @return - an http status if the mapping has worked.
+     */
     @PostMapping(path = "/executors/", consumes = {ExecutorJsonRepresentation.MEDIA_TYPE})
     public ResponseEntity<Void> addNewExecutorToExecutorPool(@RequestBody ExecutorJsonRepresentation payload) {
         try {
@@ -56,9 +63,6 @@ public class AddNewExecutorToExecutorPoolWebController {
             responseHeaders.add(HttpHeaders.LOCATION, environment.getProperty("baseuri")
                 + "executors/" + executorId);
 
-            // We do not send a body here since we only executed a command to create a new task and not to retrieve it,
-            // which corresponds to the command-query-separation.
-            // https://blog.ploeh.dk/2014/08/11/cqs-versus-server-generated-ids/
             return new ResponseEntity<Void>(responseHeaders,
                 HttpStatus.CREATED);
         } catch (ConstraintViolationException e) {
