@@ -1,8 +1,7 @@
 package ch.unisg.tapastasks.tasks.domain;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -28,7 +27,12 @@ public class TaskListTest {
         Task newTask = taskList.addNewTaskWithNameAndType(new Task.TaskName("My-Test-Task2"),
             new Task.TaskType("My-Test-Type2"));
 
-        Task retrievedTask = taskList.retrieveTaskById(newTask.getTaskId()).get();
+        Task retrievedTask = null;
+        try {
+            retrievedTask = taskList.retrieveTaskById(newTask.getTaskId());
+        } catch (TaskNotFoundError e) {
+            throw new RuntimeException(e);
+        }
 
         assertThat(retrievedTask).isEqualTo(newTask);
 
@@ -42,8 +46,10 @@ public class TaskListTest {
 
         Task.TaskId fakeId = new Task.TaskId("fake-id");
 
-        Optional<Task> retrievedTask = taskList.retrieveTaskById(fakeId);
+        TaskNotFoundError thrown = Assertions.assertThrows(TaskNotFoundError.class, () -> {
+                taskList.retrieveTaskById(fakeId);
+            });
 
-        assertThat(retrievedTask.isPresent()).isFalse();
+
     }
 }

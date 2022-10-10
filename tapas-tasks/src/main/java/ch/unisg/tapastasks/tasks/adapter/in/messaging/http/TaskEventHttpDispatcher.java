@@ -3,7 +3,7 @@ package ch.unisg.tapastasks.tasks.adapter.in.messaging.http;
 import ch.unisg.tapastasks.tasks.adapter.in.formats.TaskJsonPatchRepresentation;
 import ch.unisg.tapastasks.tasks.adapter.in.messaging.UnknownEventException;
 import ch.unisg.tapastasks.tasks.domain.Task;
-import ch.unisg.tapastasks.tasks.domain.TaskNotFoundException;
+import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonpatch.JsonPatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +96,7 @@ public class TaskEventHttpDispatcher {
                 + "tasks/" + taskId);
             return new ResponseEntity<Void>(responseHeaders,
                 HttpStatus.OK);
-        } catch (TaskNotFoundException e) {
+        } catch (TaskNotFoundError e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } catch (IOException | RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

@@ -32,13 +32,21 @@ public class Task {
 
     private Task(TaskName taskName, TaskType taskType, InputData input) {
         this.taskId = new TaskId(UUID.randomUUID().toString());
-
         this.taskName = taskName;
         this.taskType = taskType;
-
-        this.taskStatus = new TaskStatus(Status.OPEN);
-
         this.inputData = input;
+        this.taskStatus = new TaskStatus(Status.OPEN);
+    }
+
+    //Constructor from repo
+    public Task(TaskId taskId, TaskName taskName, TaskType taskType, InputData input, OutputData output,
+                TaskStatus taskStatus) {
+        this.taskId = taskId;
+        this.taskName = taskName;
+        this.taskType = taskType;
+        this.inputData = input;
+        this.outputData = output;
+        this.taskStatus = taskStatus;
     }
 
 
@@ -52,6 +60,13 @@ public class Task {
         //This is a simple debug message to see that the request has reached the right method in the core
         System.out.println("New Task: " + name.getValue() + " " + type.getValue());
         return new Task(name, type, input);
+    }
+
+    //This is for recreating a task from a repository.
+    public static Task createwithIdNameTypeInputOutputStatus(TaskId taskId, TaskName taskName, TaskType taskType,
+                                                             InputData input, OutputData output,
+                                                             TaskStatus taskStatus) {
+        return new Task(taskId, taskName, taskType, input, output, taskStatus);
     }
 
 

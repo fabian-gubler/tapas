@@ -4,14 +4,13 @@ import ch.unisg.tapastasks.tasks.adapter.in.formats.TaskJsonRepresentation;
 import ch.unisg.tapastasks.tasks.application.port.in.RetrieveTaskFromTaskListQuery;
 import ch.unisg.tapastasks.tasks.application.port.in.RetrieveTaskFromTaskListUseCase;
 import ch.unisg.tapastasks.tasks.domain.Task;
+import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 /**
  * Controller that handles HTTP GET requests for retrieving tasks. This controller implements the
@@ -38,22 +37,15 @@ public class RetrieveTaskFromTaskListWebController {
     @GetMapping(path = "/tasks/{taskId}")
     public ResponseEntity<String> retrieveTaskFromTaskList(@PathVariable("taskId") String taskId) {
         RetrieveTaskFromTaskListQuery query = new RetrieveTaskFromTaskListQuery(new Task.TaskId(taskId));
-        Optional<Task> updatedTaskOpt = retrieveTaskFromTaskListUseCase.retrieveTaskFromTaskList(query);
-
-        // Check if the task with the given identifier exists
-        if (updatedTaskOpt.isEmpty()) {
-            // If not, throw a 404 Not Found status code
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-
         try {
-            String taskRepresentation = TaskJsonRepresentation.serialize(updatedTaskOpt.get());
-
+            Task retrievedTask = retrieveTaskFromTaskListUseCase.retrieveTaskFromTaskList(query);
+            String taskRepresentation = TaskJsonRepresentation.serialize(retrievedTask);
             // Add the content type as a response header
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add(HttpHeaders.CONTENT_TYPE, TaskJsonRepresentation.MEDIA_TYPE);
-
             return new ResponseEntity<>(taskRepresentation, responseHeaders, HttpStatus.OK);
+        } catch (TaskNotFoundError te) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } catch (JsonProcessingException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }

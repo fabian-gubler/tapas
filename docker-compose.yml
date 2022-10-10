@@ -25,7 +25,7 @@ services:
       - "traefik.http.routers.http-catchall.entrypoints=web"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-  
+
   app:
     image: openjdk
     command: "java -jar /data/app-0.0.1.jar"
@@ -56,6 +56,7 @@ services:
       - "traefik.http.routers.tapas-tasks.entryPoints=web,websecure"
       - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
 
+<<<<<<< HEAD
   tapas-executorpool:
     image: openjdk
     command: "java -jar /data/tapas-executorpool-0.0.1.jar"
@@ -101,3 +102,37 @@ services:
       - "traefik.http.routers.executor-joke.tls=true"
       - "traefik.http.routers.executor-joke.entryPoints=web,websecure"
       - "traefik.http.routers.executor-joke.tls.certresolver=le"
+=======
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 8nP7s0a    # Can not be changed again later on
+    volumes:
+      - database:/data/db
+
+  dbadmin:
+    image: mongo-express
+    container_name: dbadmin
+    restart: unless-stopped
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: student    # Access to web interface: username
+      ME_CONFIG_BASICAUTH_PASSWORD: studious   # Access to web interface: password
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 8nP7s0a  # must correspond to the db
+      ME_CONFIG_MONGODB_PORT: 27017 # Default 27017
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dbadmin.rule=Host(`dbadmin.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.dbadmin.service=dbadmin"
+      - "traefik.http.services.dbadmin.loadbalancer.server.port=8081"
+      - "traefik.http.routers.dbadmin.tls=true"
+      - "traefik.http.routers.dbadmin.entryPoints=web,websecure"
+      - "traefik.http.routers.dbadmin.tls.certresolver=le"
+
+volumes:
+  database:
+>>>>>>> up/main
