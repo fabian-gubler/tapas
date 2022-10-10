@@ -35,6 +35,7 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
         ExecutorPool executorPool = ExecutorPool.getExecutorPool();
         Optional<Executor> matchedExecutor;
 
+        //TODO refactor matching to work with executors from mongodb
         matchedExecutor = executorPool.findAvailableExecutorFromTaskTypeString(command.getTaskType());
 
         // emit event to execute task if suitable executor is found

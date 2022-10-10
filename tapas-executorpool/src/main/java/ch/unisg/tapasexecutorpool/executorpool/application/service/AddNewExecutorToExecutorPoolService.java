@@ -2,8 +2,8 @@ package ch.unisg.tapasexecutorpool.executorpool.application.service;
 
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolCommand;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolUseCase;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.out.AddExecutorPort;
 import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
-import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorPool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -19,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("AddNewExecutorToExecutorPool")
 public class AddNewExecutorToExecutorPoolService implements AddNewExecutorToExecutorPoolUseCase {
 
+    private final AddExecutorPort addExecutorToRepositoryPort;
+
+
     /**
      * method to add a new executor to the executorPool by command, which uses the endpoint and type of the created executor.
      * @param command
@@ -26,10 +29,9 @@ public class AddNewExecutorToExecutorPoolService implements AddNewExecutorToExec
      */
     @Override
     public String addNewExecutorToExecutorPool(AddNewExecutorToExecutorPoolCommand command) {
-        ExecutorPool executorPool = ExecutorPool.getExecutorPool();
-        Executor newExecutor;
+        Executor newExecutor = Executor.createExecutorWithTypeAndEnpoint(command.getExecutorType(),command.getEndpoint());
 
-        newExecutor = executorPool.addNewExecutorToExecutorPoolWithTypeAndEndpoint(command.getEndpoint(), command.getExecutorType());
+        addExecutorToRepositoryPort.addExecutor(newExecutor);
 
         return newExecutor.getExecutorId().getValue();
     }
