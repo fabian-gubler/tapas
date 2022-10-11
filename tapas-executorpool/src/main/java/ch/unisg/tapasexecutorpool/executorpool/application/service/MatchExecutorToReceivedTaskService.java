@@ -1,17 +1,18 @@
 package ch.unisg.tapasexecutorpool.executorpool.application.service;
 
+import ch.unisg.tapasexecutorpool.executorpool.adapter.in.messaging.NoMatchingExecutorException;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.MatchExecutorToReceivedTaskCommand;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.MatchExecutorToReceivedTaskUseCase;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.out.LoadExecutorPort;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.out.NewTaskExecutionEvent;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.out.NewTaskExecutionEventPort;
 import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
-import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorPool;
+import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorNotFoundError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 /**
  * service to match the executor to the received Task.
@@ -24,26 +25,29 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
 
     private final NewTaskExecutionEventPort newTaskExecutionEventPort;
 
+    private final LoadExecutorPort loadExecutorFromRepositoryPort;
+
     /**
      * method to match the executor to the appropriate task, if an executor with a matching task is existing.
      * @param command - gets the data from the command class.
      * @return
      */
     @Override
-    public Optional<Executor> matchExecutorToReceivedTask(MatchExecutorToReceivedTaskCommand command) {
+    public Executor matchExecutorToReceivedTask(MatchExecutorToReceivedTaskCommand command) {
 
-        ExecutorPool executorPool = ExecutorPool.getExecutorPool();
-        Optional<Executor> matchedExecutor;
+        Executor matchedExecutor;
 
-        //TODO refactor matching to work with executors from mongodb
-        matchedExecutor = executorPool.findAvailableExecutorFromTaskTypeString(command.getTaskType());
+        try {
+            matchedExecutor = loadExecutorFromRepositoryPort.loadExecutorByType(command.getTaskType());
 
-        // emit event to execute task if suitable executor is found
-        if (matchedExecutor.isPresent()) {
-            NewTaskExecutionEvent newTaskExecution = new NewTaskExecutionEvent(command.getTaskType(),
-                matchedExecutor.get().getTaskExecutionFullURI(), command.getTaskLocation(), command.getInputData());
-            newTaskExecutionEventPort.publishNewTaskExecutionEvent(newTaskExecution);
+        } catch (ExecutorNotFoundError e) {
+            throw new NoMatchingExecutorException("No executor found for type " + command.getTaskType());
         }
+
+        NewTaskExecutionEvent newTaskExecution = new NewTaskExecutionEvent(command.getTaskType(),
+            matchedExecutor.getTaskExecutionFullURI(), command.getTaskLocation(), command.getInputData());
+        newTaskExecutionEventPort.publishNewTaskExecutionEvent(newTaskExecution);
+
 
         return matchedExecutor;
     }

@@ -8,10 +8,6 @@ import java.util.UUID;
 /**This is a domain entity
  * **/
 public class Executor {
-    // The enum Type defines the different states an Executor can have.
-    public enum Type {
-        JOKE, COMPUTE, COMPUTE_ADD, COMPUTE_MULTIPLY, COMPUTE_SUBTRACT, COMPUTE_DIVIDE
-    }
 
     @Getter
     private final ExecutorId executorId;
@@ -66,7 +62,7 @@ public class Executor {
     // subclass for the Executor class, which provides automatically a Getter and Setter method.
     @Value
     public static class ExecutorType {
-        Type value;
+        String value;
     }
 
 }

@@ -27,7 +27,7 @@ final public class ExecutorJsonRepresentation {
 
     // A string that represents the task's name
     @Getter
-    private final Executor.Type executorType;
+    private final String executorType;
 
     // A string that identifies the task's type. This string could also be a URI, but it's not constrained to be a URI.
     // The task's type can be used to assign executors to tasks, to decide what tasks to bid for, etc.
@@ -41,7 +41,7 @@ final public class ExecutorJsonRepresentation {
      * @param executorType string that represents the executor type, i.e. the type of tasks the executor can execute, allowed values: JOKE, COMPUTE
      * @param endpoint     string that represents the location where the executor service can be reached
      */
-    public ExecutorJsonRepresentation(Executor.Type executorType, String endpoint) {
+    public ExecutorJsonRepresentation(String executorType, String endpoint) {
         this.executorType = executorType;
         this.endpoint = endpoint;
     }

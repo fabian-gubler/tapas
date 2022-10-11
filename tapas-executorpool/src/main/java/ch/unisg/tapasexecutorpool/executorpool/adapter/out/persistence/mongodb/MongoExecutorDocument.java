@@ -1,6 +1,5 @@
 package ch.unisg.tapasexecutorpool.executorpool.adapter.out.persistence.mongodb;
 
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,9 +13,9 @@ public class MongoExecutorDocument {
 
     public String endpoint;
 
-    public Executor.Type executorType;
+    public String executorType;
 
-    public MongoExecutorDocument(String executorId, String endpoint, Executor.Type executorType) {
+    public MongoExecutorDocument(String executorId, String endpoint, String executorType) {
 
         this.executorId = executorId;
         this.endpoint = endpoint;

@@ -7,5 +7,5 @@ public interface LoadExecutorPort {
 
     Executor loadExecutor(Executor.ExecutorId executorId) throws ExecutorNotFoundError;
 
-    Executor loadExecutorByType(Executor.ExecutorType executorType) throws ExecutorNotFoundError;
+    Executor loadExecutorByType(String executorType) throws ExecutorNotFoundError;
 }

@@ -32,14 +32,12 @@ public class ExecutorPersistenceAdapter implements
         if(mongoExecutorDocument == null){
             throw new ExecutorNotFoundError();
         }
-        Executor executor = executorMapper.mapToDomainEntity(mongoExecutorDocument);
-
-        return executor;
+        return executorMapper.mapToDomainEntity(mongoExecutorDocument);
     }
 
     @Override
-    public Executor loadExecutorByType(Executor.ExecutorType executorType) throws ExecutorNotFoundError {
-        MongoExecutorDocument mongoExecutorDocument = executorRepository.findByExecutorType(executorType.getValue());
+    public Executor loadExecutorByType(String executorType) throws ExecutorNotFoundError {
+        MongoExecutorDocument mongoExecutorDocument = executorRepository.findByExecutorType(executorType);
 
         if(mongoExecutorDocument == null){
             throw new ExecutorNotFoundError();
