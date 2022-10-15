@@ -37,16 +37,16 @@ public class ExecutorPool {
         this.executorPoolName = executorpoolname;
         this.listOfExecutors = new ListOfExecutors(new LinkedList<Executor>());
 
-        this.taskTypeExecutorTypeMapper = new TaskTypeExecutorTypeMapper(new HashMap<String, Executor.Type>());
+        this.taskTypeExecutorTypeMapper = new TaskTypeExecutorTypeMapper(new HashMap<String, Executor.ExecutorType>());
 
         // initialize tasktype to executortype mapper -> initial values are added
         // this takes over the function of the roster for the moment
         // in a simple hashmap for every tasktype as string there is a matching executor type assigned
-        this.taskTypeExecutorTypeMapper.value.put("joke", Executor.Type.JOKE);
+        /*this.taskTypeExecutorTypeMapper.value.put("joke", Executor.E.JOKE);
         this.taskTypeExecutorTypeMapper.value.put("compute-add", Executor.Type.COMPUTE_ADD);
         this.taskTypeExecutorTypeMapper.value.put("compute-divide", Executor.Type.COMPUTE_DIVIDE);
         this.taskTypeExecutorTypeMapper.value.put("compute-multiply", Executor.Type.COMPUTE_MULTIPLY);
-        this.taskTypeExecutorTypeMapper.value.put("compute-subtract", Executor.Type.COMPUTE_SUBTRACT);
+        this.taskTypeExecutorTypeMapper.value.put("compute-subtract", Executor.Type.COMPUTE_SUBTRACT);*/
     }
 
     // subclass for the ExecutorPool class, which provides automatically a Getter and Setter method.
@@ -111,7 +111,7 @@ public class ExecutorPool {
      */
     public Optional<Executor> findAvailableExecutorFromTaskTypeString(String taskType) {
         for (Executor executor : listOfExecutors.value) {
-            if (executor.getExecutorType().getValue() == this.taskTypeExecutorTypeMapper.value.get(taskType)) {
+            if (executor.getExecutorType().getValue().equals(this.taskTypeExecutorTypeMapper.value.get(taskType))) {
                 return Optional.of(executor);
             }
         }
@@ -139,6 +139,6 @@ public class ExecutorPool {
     // subclass for the ExecutorPool class, which provides automatically a Getter and Setter method.
     @Value
     public static class TaskTypeExecutorTypeMapper {
-        private HashMap<String, Executor.Type> value;
+        private HashMap<String, Executor.ExecutorType> value;
     }
 }
