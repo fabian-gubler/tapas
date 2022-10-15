@@ -59,9 +59,9 @@ public class AddNewExecutorToExecutorPoolWebControllerTest {
 
 		then(addNewExecutorToExecutorPoolUseCase).should()
 			.addNewExecutorToExecutorPool(eq(new AddNewExecutorToExecutorPoolCommand(
-							new Executor.Endpoint(endpoint),
-							new Executor.ExecutorType(executorType)
-							)));
+			new Executor.Endpoint(endpoint),
+			new Executor.ExecutorType(executorType)
+			)));
 	}
 
 }

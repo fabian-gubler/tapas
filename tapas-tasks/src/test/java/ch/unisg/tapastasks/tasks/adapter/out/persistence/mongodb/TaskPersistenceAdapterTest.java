@@ -1,4 +1,4 @@
-package ch.unisg.tapastasks.tasks.adapter.out.persistence.mongodb;
+ackage ch.unisg.tapastasks.tasks.adapter.out.persistence.mongodb;
 
 import ch.unisg.tapastasks.tasks.domain.Task;
 import ch.unisg.tapastasks.tasks.domain.TaskList;

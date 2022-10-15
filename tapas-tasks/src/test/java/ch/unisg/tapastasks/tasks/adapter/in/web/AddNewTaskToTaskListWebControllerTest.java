@@ -1,7 +1,6 @@
 package ch.unisg.tapastasks.tasks.adapter.in.web;
 
 import ch.unisg.tapastasks.tasks.adapter.in.formats.TaskJsonRepresentation;
-import ch.unisg.tapastasks.tasks.adapter.in.formats.askJsonRepresentation;
 import ch.unisg.tapastasks.tasks.adapter.out.persistence.mongodb.TaskRepository;
 import ch.unisg.tapastasks.tasks.application.port.in.AddNewTaskToTaskListCommand;
 import ch.unisg.tapastasks.tasks.application.port.in.AddNewTaskToTaskListUseCase;
