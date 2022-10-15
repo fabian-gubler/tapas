@@ -2,14 +2,20 @@ package ch.unisg.tapasexecutorpool.executorpool.adapter.out.persistence.mongodb;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolCommand;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolUseCase;
+import ch.unisg.tapasexecutorpool.executorpool.application.service.AddNewExecutorToExecutorPoolService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
 import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureDataMongo
 @Import({ ExecutorPersistenceAdapter.class, ExecutorMapper.class })
 public class ExecutorRepositoryTest {
@@ -20,7 +26,10 @@ public class ExecutorRepositoryTest {
 	@Autowired
 	ExecutorRepository executorRepository;
 
-	@Before
+    @Autowired
+    AddNewExecutorToExecutorPoolService addNewExecutorToExecutorPoolService;
+
+	/*@Before
 	public void setUp() throws Exception {
 
 		String executorType = "TEST_TYPE";
@@ -30,9 +39,24 @@ public class ExecutorRepositoryTest {
                 new Executor.Endpoint(endpoint));
 
         executorPersistenceAdapter.addExecutor(executorStub);
-	}
+	}*/
 
-	@Test
+    /*@Test
+    void addsNewExecutor(){
+        Executor.ExecutorType executorType = new Executor.ExecutorType("EXECUTOR_TYPE");
+        Executor.Endpoint endpoint = new Executor.Endpoint("EXECUTOR_ENDPOINT");
+
+        AddNewExecutorToExecutorPoolCommand command = new AddNewExecutorToExecutorPoolCommand(endpoint, executorType);
+
+        addNewExecutorToExecutorPoolService.addNewExecutorToExecutorPool(command);
+
+
+        MongoExecutorDocument retrieveDoc = executorRepository.findByExecutorType(executorType.getValue());
+
+        assertThat(retrieveDoc.executorType).isEqualTo(executorType);
+    }*/
+
+	/*@Test
 	public void retrieveItems() {
 
 		String executorType = "TEST_TYPE";
@@ -51,6 +75,6 @@ public class ExecutorRepositoryTest {
 	@Test
 	public void shouldBeNotEmpty() {
 		assertThat(executorRepository.findAll()).isNotEmpty();
-	}
+	}*/
 
 }
