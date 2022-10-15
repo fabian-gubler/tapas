@@ -17,6 +17,7 @@ public class ExecutorPersistenceAdapter implements
     @Autowired
     private final ExecutorRepository executorRepository;
 
+    @Autowired
     private final ExecutorMapper executorMapper;
 
     @Override

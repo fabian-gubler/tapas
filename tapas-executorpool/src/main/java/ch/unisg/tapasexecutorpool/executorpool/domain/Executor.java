@@ -20,10 +20,18 @@ public class Executor {
 
     // constructor of the Executor class
     public Executor(ExecutorType executorType, Endpoint endpoint) {
-        this.executorId = new ExecutorId(UUID.randomUUID().toString());
         this.executorType = executorType;
         this.endpoint = endpoint;
+        this.executorId = new ExecutorId(UUID.randomUUID().toString());
     }
+
+	// optional: pass executorId to constructor
+    public Executor(ExecutorType executorType, Endpoint endpoint, ExecutorId executorId) {
+        this.executorType = executorType;
+        this.endpoint = endpoint;
+        this.executorId = executorId;
+    }
+
 
     /**
      * This method creates an executor with a type and an
