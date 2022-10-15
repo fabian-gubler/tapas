@@ -43,14 +43,15 @@ public class AddNewExecutorToExecutorPoolWebControllerTest {
 			.toString();
 
 		// ERROR: This must return object of String type
-        // Executor executorStub = Executor.createExecutorWithTypeAndEnpoint(new Executor.ExecutorType(executorType),
-        //         new Executor.Endpoint(endpoint));
+        Executor executorStub = Executor.createExecutorWithTypeAndEnpoint(new Executor.ExecutorType(executorType),
+                new Executor.Endpoint(endpoint));
 
         AddNewExecutorToExecutorPoolCommand command = new AddNewExecutorToExecutorPoolCommand(
                 new Executor.Endpoint(endpoint), new Executor.ExecutorType(executorType));
 
 		// ERROR: Here executorStub must be the argument of .thenReturn
-        Mockito.when(addNewExecutorToExecutorPoolUseCase.addNewExecutorToExecutorPool(command)).thenReturn("string");
+        Mockito.when(addNewExecutorToExecutorPoolUseCase.addNewExecutorToExecutorPool(command)).thenReturn("");
+        // Mockito.when(addNewExecutorToExecutorPoolUseCase.addNewExecutorToExecutorPool(command)).thenReturn(executorStub);
 
 		mvc.perform(post("/executors/")
 		.contentType(ExecutorJsonRepresentation.MEDIA_TYPE)
