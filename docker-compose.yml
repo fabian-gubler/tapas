@@ -56,7 +56,6 @@ services:
       - "traefik.http.routers.tapas-tasks.entryPoints=web,websecure"
       - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
 
-<<<<<<< HEAD
   tapas-executorpool:
     image: openjdk
     command: "java -jar /data/tapas-executorpool-0.0.1.jar"
@@ -102,7 +101,7 @@ services:
       - "traefik.http.routers.executor-joke.tls=true"
       - "traefik.http.routers.executor-joke.entryPoints=web,websecure"
       - "traefik.http.routers.executor-joke.tls.certresolver=le"
-=======
+
   mongodb:
     image: mongo
     container_name: mongodb
@@ -135,4 +134,3 @@ services:
 
 volumes:
   database:
->>>>>>> up/main
