@@ -134,6 +134,29 @@ Here are some pointers to start integrating the MongoDB with the other microserv
 * To not overload the VMs we recommend to use only one MongoDB server that all microservices connect to. Per microservice you could use one database or one collection (discuss in your ADRs!). To use more than one MongoDB server you have to extend the [docker-compose.yml](../docker-compose.yml) file by basically replicating lines 59-90 and changing the names of the services and volumes to be unique (ask your tutors!).
 * For running everything locally you can use the [docker-compose-local.yml](../docker-compose-local.yml) file or you have to install the MongoDB server locally on your computers and change the `spring.data.mongodb.uri` String in [application-local.properties](./src/main/resources/application-local.properties). MongoExpress can be reached via http://localhost:8089.
 
-### Integration Testing:
+### Integration and System Testing:
 * Be aware that when using [docker-compose-local.yml](../docker-compose-local.yml) or the deplyoment to the SwitchVM, the provided tests are not automatically executed during the Maven build process due to runtime dependencies on the MongoDB container.
-* For integration testing with a live MongoDB system from your IDE we recommend to use the [docker-compose-local-mongo.yml](../docker-compose-local-mongo.yml) file which only starts up a MongoDB container on your machine that can be reached via localhost:27017. You can then run the integration test file with VM parameter ```-Dspring.profiles.active=local-mongo``` which activates the profile defined in [application-local-mongo.properties](./src/main/resources/application-local-mongo.properties).
+* For integration and system testing with a live MongoDB system from your IDE we recommend to use the [docker-compose-local-mongo.yml](../docker-compose-local-mongo.yml) file which only starts up a MongoDB container on your machine that can be reached via localhost:27017. You can then run the integration and system test file with VM parameter ```-Dspring.profiles.active=local-mongo``` which activates the profile defined in [application-local-mongo.properties](./src/main/resources/application-local-mongo.properties).
+
+### Chaos Tests
+* As introduced in the lecture, we are using Chaos Monkey to test the resilience of our application.
+* The application*-.properties files contain the configurations of Chaos Monkey that you can adjust to activate different types of assaults as documented, e.g., here https://www.baeldung.com/spring-boot-chaos-monkey.
+* Be aware that if you want to run Chaos Monkey using the [docker-compose-local-mongo.yml](../docker-compose-local-mongo.yml) file which just spins up the database containers, you need to activate the "chaos-monkey" Spring profile when starting the application from IntelliJ or the terminal, e.g., by providing ```-ea -Dspring.profiles.active=local-mongo,chaos-monkey``` as VM parameters to start the main class with.
+* You can also activate the different types of assaults at runtime via the Chaos Monkey REST API as described, e.g., here: https://softwarehut.com/blog/tech/chaos-monkey or https://codecentric.github.io/chaos-monkey-spring-boot/latest/
+* An example request would look as follows:
+
+```shell
+curl --location --request POST 'http://127.0.0.1:8081/actuator/chaosmonkey/assaults' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "killApplicationActive": true,
+    "runtimeAssaultCronExpression": "*/1 * * * * ?",
+    "latencyActive": false,
+    "exceptionsActive": false,
+    "memoryActive": true
+}'
+```
+### Performance Tests with JMeter
+* We are using Apache JMeter to perform some load and performance tests for our applications.
+* You can download the Java-based application here: https://jmeter.apache.org/download_jmeter.cgi and either use it via its GUI or CLI.
+* Note that if you are using JMeter later on in the course to perform some load tests, you may run into limitations regarding the request rates of e.g., the MongoDB, MQTT or WebSub.
