@@ -1,6 +1,7 @@
 package ch.unisg.tapasexecutorpool.executorpool;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
@@ -30,15 +31,9 @@ import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 
 /**
  * AddNewExecutorToExecutorPoolSystemTest
- * GROUP1:
- * /home/fabian/tapas_g1/executor-pool/src/test/java/ch/unisg/executorpool/executorpool/AddNewExecutorToExecutorPoolSystemTest.java
- * /home/fabian/tapas_g1/roster/src/test/java/ch/unisg/roster/roster/AddNewAssignmentToRosterServiceSystemTest.java
- * GROUP2:
- * /home/fabian/tapas_g2/tapas-roster/src/test/java/ch/unisg/tapasroster/roster/AddExecutorToExecutorPoolSystemTest.java
- * /home/fabian/tapas_g2/tapas-roster/src/test/java/ch/unisg/tapasroster/roster/AssignTaskToExecutorSystemTest.java
- * RONNY:
- * /home/fabian/tapas_up/tapas-tasks/src/test/java/ch/unisg/tapastasks/tasks/AddNewTaskToTaskListSystemTest.java
  */
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AddNewExecutorToExecutorPoolSystemTest {
 
 	@Autowired
@@ -55,10 +50,6 @@ public class AddNewExecutorToExecutorPoolSystemTest {
 
 		Executor.ExecutorType executorType = new Executor.ExecutorType("Joke");
 		Executor.Endpoint executorEndpoint = new Executor.Endpoint("Endpoint");
-
-		// Executor executor = Executor.createExecutorWithTypeAndEnpoint(new
-		// Executor.ExecutorType(executorType),
-		// new Executor.Endpoint(executorEndpoint));
 
 		ResponseEntity response = whenAddNewExecutorToEmptyPool(executorType, executorEndpoint);
 
@@ -82,7 +73,7 @@ public class AddNewExecutorToExecutorPoolSystemTest {
 
 		HttpEntity<String> request = new HttpEntity<>(jsonPayLoad, headers);
 
-		return restTemplate.exchange("/executor-pool/executors", HttpMethod.POST, request, Object.class);
+		return restTemplate.exchange("/executors/", HttpMethod.POST, request, Object.class);
 	}
 
 }
