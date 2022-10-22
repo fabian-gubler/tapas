@@ -11,4 +11,4 @@ Our application does not have a lot of shared code at the moment. Should the amo
 We will use a shared library to implement common logic that is needed in multiple services. A shared library gives us the security of compile time errors while reducing runtime errors. This will strengthen the overall stability of our application.
 
 ## Consequences
-The shared library adds a dependencies to our project wich we will have to manage. We will have to pay special attention to the versioning of our shared library.
+The shared library adds a dependencies to our project which we will have to manage. We will have to pay special attention to the versioning of our shared library.
