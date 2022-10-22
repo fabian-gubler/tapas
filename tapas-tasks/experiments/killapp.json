@@ -1,6 +1,6 @@
 {
   "title": "Kill app",
-  "description": "N/A",
+  "description": "kills the tasklist service and subsequently disables chaosmonkey",
   "method": [
 	  {
     "name": "enable_chaosmonkey",
