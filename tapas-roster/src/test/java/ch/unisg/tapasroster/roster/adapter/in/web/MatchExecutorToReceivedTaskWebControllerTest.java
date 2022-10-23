@@ -1,9 +1,9 @@
-package ch.unisg.tapasexecutorpool.executorpool.adapter.in.web;
+package ch.unisg.tapasroster.roster.adapter.in.web;
 
-import ch.unisg.tapasexecutorpool.executorpool.adapter.out.persistence.mongodb.ExecutorRepository;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.MatchExecutorToReceivedTaskCommand;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.MatchExecutorToReceivedTaskUseCase;
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
+import ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb.RosterRepository;
+import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskCommand;
+import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskUseCase;
+import ch.unisg.tapasroster.roster.domain.Executor;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,7 +24,7 @@ class MatchExecutorToReceivedTaskWebControllerTest {
     private MatchExecutorToReceivedTaskUseCase matchExecutorToReceivedTaskUseCase;
 
     @MockBean
-    private ExecutorRepository executorRepository;
+    private RosterRepository executorRepository;
     @Autowired
     private MockMvc mvc;
 

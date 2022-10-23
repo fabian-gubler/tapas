@@ -1,9 +1,7 @@
-package ch.unisg.tapasexecutorpool.executorpool.application.port.out;
+package ch.unisg.tapasroster.roster.application.port.out;
 
 
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
-
-public class NewTaskExecutionEvent {
+public class NewTaskExecutionCommand {
 
     public String taskType;
 
@@ -12,7 +10,7 @@ public class NewTaskExecutionEvent {
 
     public String inputData;
 
-    public NewTaskExecutionEvent(String taskType, String taskExecutionURI, String taskLocation, String inputData) {
+    public NewTaskExecutionCommand(String taskType, String taskExecutionURI, String taskLocation, String inputData) {
         this.taskType = taskType;
         this.taskLocation = taskLocation;
         this.taskExecutionURI = taskExecutionURI;

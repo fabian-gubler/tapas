@@ -17,7 +17,6 @@ Accepted
 Some services need access to the same data.
 
 
-
 ## Decision
 
 

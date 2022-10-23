@@ -1,7 +1,7 @@
-package ch.unisg.tapasexecutorpool.executorpool.adapter.out.web;
+package ch.unisg.tapasroster.roster.adapter.out.web;
 
-import ch.unisg.tapasexecutorpool.executorpool.application.port.out.NewTaskExecutionEvent;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.out.NewTaskExecutionEventPort;
+import ch.unisg.tapasroster.roster.application.port.out.NewTaskExecutionCommand;
+import ch.unisg.tapasroster.roster.application.port.out.NewTaskExecutionUseCase;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import java.util.HashMap;
 
 @Component
 @Primary
-public class PublishNewTaskExecutionAdapter implements NewTaskExecutionEventPort {
+public class PublishNewTaskExecutionAdapter implements NewTaskExecutionUseCase {
 
     @Autowired
     private Environment environment;
 
     @Override
-    public void publishNewTaskExecutionEvent(NewTaskExecutionEvent event) {
+    public void newTaskExecutionUseCase(NewTaskExecutionCommand event) {
         var values = new HashMap<String, String>() {{
             put("taskLocation", event.taskLocation);
             put("taskType", event.taskType);
@@ -54,10 +54,8 @@ public class PublishNewTaskExecutionAdapter implements NewTaskExecutionEventPort
                 System.out.println("Request error: " + response.body());
                 System.out.println(response.toString());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException e) {
+            System.out.println("Executor endpoint not available, setting status to pending");
         }
     }
 }

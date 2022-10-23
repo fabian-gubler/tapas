@@ -9,4 +9,5 @@ public interface ExecutorRepository extends MongoRepository<MongoExecutorDocumen
     MongoExecutorDocument findByExecutorId(String executorId);
 
     MongoExecutorDocument findByExecutorType(String executorType);
+    MongoExecutorDocument findFirstByExecutorType(String executorType);
 }

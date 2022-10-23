@@ -3,10 +3,12 @@ package ch.unisg.tapastasks;
 import ch.unisg.tapastasks.tasks.adapter.out.persistence.mongodb.TaskRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackageClasses = TaskRepository.class)
+@ComponentScan(basePackages = "ch.unisg.tapastasks.*")
 public class TapasTasksApplication {
 
     // The following Bean would be needed to activate MongoDB's transaction manager for the @Transactional annotation.
