@@ -32,6 +32,20 @@ public class Executor {
         this.executorId = executorId;
     }
 
+    /**
+     * This method creates an executor with a type and an
+     * endpoint with a debuf message to see that the request
+     * has reached the right method in the core.
+     * @param executorType
+     * @param endpoint
+     * @return Executor - returns an object of the Executor class
+     */
+    public static Executor createExecutorWithTypeAndEnpoint(ExecutorType executorType, Endpoint endpoint) {
+        //This is a simple debug message to see that the request has reached the right method in the core
+        System.out.println("New Executor: " + executorType.getValue() + " " + endpoint.getValue());
+        return new Executor(executorType, endpoint);
+    }
+
 
     /**
      * @return - Returns the String URI of an Executor object.

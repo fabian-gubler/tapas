@@ -4,6 +4,7 @@ import ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb.RosterReposit
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskCommand;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskUseCase;
 import ch.unisg.tapasroster.roster.domain.Executor;
+import ch.unisg.tapasroster.roster.domain.Roster;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -47,7 +48,7 @@ class MatchExecutorToReceivedTaskWebControllerTest {
 
         MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType,taskLocation,inputData);
 
-        Mockito.when(matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command)).thenReturn(executorStub);
+        Mockito.when(matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command)).thenReturn(new Roster.ExecutorEndpoint(executorStub.getEndpoint().getValue()));
 
         mvc.perform(post("/roster/newtask/")
                 .contentType("application/json")

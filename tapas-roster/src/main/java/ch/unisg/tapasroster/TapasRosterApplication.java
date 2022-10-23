@@ -14,7 +14,7 @@ Starting point of the Spring application
 @EnableMongoRepositories(basePackageClasses = RosterRepository.class)
 public class TapasRosterApplication {
 
-    // main method of the executor pool microservice to run the application
+    // main method of the roster microservice to run the application
 	public static void main(String[] args) {
 		SpringApplication tapasRosterApp = new SpringApplication(TapasRosterApplication.class);
         tapasRosterApp.run(args);

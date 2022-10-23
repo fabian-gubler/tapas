@@ -29,7 +29,7 @@ public class PublishNewTaskAddedEventWebAdapter implements NewTaskAddedEventPort
 
         //Here we would need to work with DTOs in case the payload of calls becomes more complex
 
-        String server = environment.getProperty("executorpool.baseuri");
+        String server = environment.getProperty("roster.baseuri");
 
         var values = new HashMap<String, String>() {{
             put("taskLocation", environment.getProperty("baseuri") + event.taskId);

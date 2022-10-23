@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceivedTaskUseCase {
 
     private final NewTaskExecutionUseCase newTaskExecutionUseCase;
+    private final UpdateTaskStatusUseCase updateTaskStatusUseCase;
+    private final UpdateTaskOutputUseCase updateTaskOutputUseCase;
 
     private final RetrieveExecutorUseCase retrieveExecutorUseCase;
 
@@ -51,9 +53,32 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
         if (matchedExecutorEndpoint != null) {
             System.out.println("Executor found, executing task");
 
+            // updating task status to ASSIGNED
+            UpdateTaskStatusCommand updateTaskStatusAssignedCommand =
+                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.ASSIGNED, new Roster.TaskLocation(command.getTaskLocation()));
+            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusAssignedCommand);
+
+            // updating task as RUNNING
+            UpdateTaskStatusCommand updateTaskStatusRunningCommand =
+                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.RUNNING, new Roster.TaskLocation(command.getTaskLocation()));
+            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusRunningCommand);
+
+            // executing task on given executor
             NewTaskExecutionCommand newTaskExecution = new NewTaskExecutionCommand(command.getTaskType(),
                 matchedExecutorEndpoint.getValue(), command.getTaskLocation(), command.getInputData());
-            newTaskExecutionUseCase.newTaskExecutionUseCase(newTaskExecution);
+            String taskOutput = newTaskExecutionUseCase.newTaskExecutionUseCase(newTaskExecution);
+
+            // update task outputdata in tasklist
+            if (taskOutput != null) {
+                // executor provided outputdata, outputdata is updated on task in tasklist
+                UpdateTaskOutputCommand updateTaskOutputCommand = new UpdateTaskOutputCommand(taskOutput, new Roster.TaskLocation(command.getTaskLocation()));
+                updateTaskOutputUseCase.updateTaskOutputUseCase(updateTaskOutputCommand);
+            }
+
+            // updating task as EXECUTED
+            UpdateTaskStatusCommand updateTaskStatusExecutedCommand =
+                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.EXECUTED, new Roster.TaskLocation(command.getTaskLocation()));
+            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusExecutedCommand);
 
             // create roster entry
             Roster roster = Roster.createRoster(new Roster.ExecutorEndpoint(matchedExecutorEndpoint.getValue()), new Roster.TaskLocation(command.getTaskLocation()));

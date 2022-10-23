@@ -1,7 +1,6 @@
 package ch.unisg.tapasroster.roster.adapter.out.web;
 
-import ch.unisg.tapasroster.roster.application.port.out.NewTaskExecutionCommand;
-import ch.unisg.tapasroster.roster.application.port.out.NewTaskExecutionUseCase;
+import ch.unisg.tapasroster.roster.application.port.out.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +17,15 @@ import java.util.HashMap;
 
 @Component
 @Primary
-public class PublishNewTaskExecutionAdapter implements NewTaskExecutionUseCase {
+public class UpdateTaskStatusAdapter implements UpdateTaskStatusUseCase {
 
     @Autowired
     private Environment environment;
 
     @Override
-    public String newTaskExecutionUseCase(NewTaskExecutionCommand event) {
+    public Boolean updateTaskStatusUseCase(UpdateTaskStatusCommand command) {
         var values = new HashMap<String, String>() {{
-            put("taskLocation", event.taskLocation);
-            put("taskType", event.taskType);
-            put("inputData", event.inputData);
+            put("taskStatus", command.taskStatus.toString());
         }};
 
         var objectMapper = new ObjectMapper();
@@ -41,7 +38,7 @@ public class PublishNewTaskExecutionAdapter implements NewTaskExecutionUseCase {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(event.taskExecutionURI))
+            .uri(URI.create(String.valueOf(command.taskLocation)))
             .header("content-type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(requestBody))
             .build();
@@ -49,15 +46,16 @@ public class PublishNewTaskExecutionAdapter implements NewTaskExecutionUseCase {
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                System.out.println("Execution successful, response from executor: " + response.body());
-                return response.body();
+                System.out.println("Status updated for task in tasklist, new Status: "+ command.taskStatus.toString() +" " + response.body());
+                return true;
             } else {
-                System.out.println("Request error, could not send request to executor: " + response.body());
+                // todo: save status in roster so task status can be updated again if tasklist is unavailable
+                System.out.println("Request error, status was not updated: " + response.body());
                 System.out.println(response.toString());
             }
         } catch (IOException | InterruptedException e) {
             System.out.println("Executor endpoint not available, setting status to pending");
         }
-        return null;
+        return false;
     }
 }

@@ -66,6 +66,18 @@ services:
       - "8084:8084"
     networks:
       - tapas-network
+
+  roster:
+    build:
+      context: ./tapas-roster
+      dockerfile: Dockerfile-local
+    # Use environment variables instead of application.properties
+    environment:
+      - KEY=VALUE
+    ports: #Just needed when testing from outside
+      - "8085:8085"
+    networks:
+      - tapas-network
   mongodb:
     image: mongo
     container_name: mongodb

@@ -45,10 +45,7 @@ public class MatchExecutorToReceivedTaskWebController {
 
             MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType, taskLocation, inputData);
 
-
-
             Roster.ExecutorEndpoint matchedExecutorEndpoint = matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command);
-
 
             return new ResponseEntity<>(matchedExecutorEndpoint, HttpStatus.OK);
         } catch (ConstraintViolationException e) {
