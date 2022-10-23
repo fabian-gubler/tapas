@@ -8,5 +8,5 @@ import ch.unisg.tapasroster.roster.domain.Roster;
  * Interface which informs the command class which return type and parameter is required to use.
  */
 public interface MatchExecutorToReceivedTaskUseCase {
-    Roster.ExecutorEndpoint matchExecutorToReceivedTask(MatchExecutorToReceivedTaskCommand command);
+    void matchExecutorToReceivedTask(MatchExecutorToReceivedTaskCommand command);
 }

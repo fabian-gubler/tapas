@@ -67,7 +67,8 @@ services:
     networks:
       - tapas-network
 
-  roster:
+  tapas-roster:
+    hostname: tapas-roster
     build:
       context: ./tapas-roster
       dockerfile: Dockerfile-local
@@ -82,6 +83,8 @@ services:
     image: mongo
     container_name: mongodb
     restart: unless-stopped
+    ports:
+      - "27018:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 8nP7s0a    # Can not be changed again later on

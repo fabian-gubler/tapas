@@ -32,8 +32,13 @@ public class TaskPersistenceAdapter implements
     public void updateTask(Task task) {
         MongoTaskDocument mongoTaskDocument = taskRepository.findByTaskId(task.getTaskId().getValue(),TaskList.getTapasTaskList().getTaskListName().getValue());
 
-        mongoTaskDocument.taskStatus = task.getTaskStatus().getValue().toString();
-        mongoTaskDocument.outputData = task.getOutputData().getValue();
+        if (task.getOutputData() != null) {
+            mongoTaskDocument.outputData = task.getOutputData().getValue();
+        }
+
+        if (task.getTaskStatus() != null) {
+            mongoTaskDocument.taskStatus = task.getTaskStatus().getValue().toString();
+        }
 
         taskRepository.save(mongoTaskDocument);
     }

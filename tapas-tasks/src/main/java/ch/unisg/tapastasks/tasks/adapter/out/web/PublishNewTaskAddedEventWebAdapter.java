@@ -32,7 +32,7 @@ public class PublishNewTaskAddedEventWebAdapter implements NewTaskAddedEventPort
         String server = environment.getProperty("roster.baseuri");
 
         var values = new HashMap<String, String>() {{
-            put("taskLocation", environment.getProperty("baseuri") + event.taskId);
+            put("taskLocation", environment.getProperty("baseuri") + "tasks/" +  event.taskId);
             put("taskType", event.taskType);
             put("tasklist", event.taskListName);
             put("inputData", event.inputData);

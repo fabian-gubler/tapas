@@ -48,7 +48,7 @@ class MatchExecutorToReceivedTaskWebControllerTest {
 
         MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType,taskLocation,inputData);
 
-        Mockito.when(matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command)).thenReturn(new Roster.ExecutorEndpoint(executorStub.getEndpoint().getValue()));
+        //Mockito.when(matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command)).thenReturn(new Roster.ExecutorEndpoint(executorStub.getEndpoint().getValue()));
 
         mvc.perform(post("/roster/newtask/")
                 .contentType("application/json")

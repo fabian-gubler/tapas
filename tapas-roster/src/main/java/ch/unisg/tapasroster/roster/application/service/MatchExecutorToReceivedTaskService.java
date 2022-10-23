@@ -7,6 +7,7 @@ import ch.unisg.tapasroster.roster.application.port.out.*;
 import ch.unisg.tapasroster.roster.domain.Executor;
 import ch.unisg.tapasroster.roster.domain.Roster;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,8 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
      * @return
      */
     @Override
-    public Roster.ExecutorEndpoint matchExecutorToReceivedTask(MatchExecutorToReceivedTaskCommand command) {
+    @Async
+    public void matchExecutorToReceivedTask(MatchExecutorToReceivedTaskCommand command) {
 
         Executor.Endpoint matchedExecutorEndpoint;
 
@@ -83,11 +85,9 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
             // create roster entry
             Roster roster = Roster.createRoster(new Roster.ExecutorEndpoint(matchedExecutorEndpoint.getValue()), new Roster.TaskLocation(command.getTaskLocation()));
             addRosterPort.addRoster(roster);
-            return roster.getExecutorEndpoint();
         } else {
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
             // todo: set roster state to pending/looking for executor, send task to AuctionHouse
-            return null;
         }
     }
 }

@@ -26,7 +26,7 @@ public class UpdateTaskWebController {
     //@Autowired
     //private Environment environment;
 
-    @PatchMapping(path = "/tasks/{taskId}", consumes = {TaskJsonRepresentation.MEDIA_TYPE})
+    @PutMapping(path = "/tasks/{taskId}", consumes = "application/json")
     public ResponseEntity<Void> updateTask(@RequestBody TaskJsonRepresentation payload, @PathVariable("taskId") String taskId) {
         try {
 

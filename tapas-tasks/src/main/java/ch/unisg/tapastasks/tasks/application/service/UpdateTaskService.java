@@ -26,6 +26,13 @@ public class UpdateTaskService implements UpdateTaskUseCase {
     public Boolean updateTask(UpdateTaskCommand command) {
         TaskList taskList = TaskList.getTapasTaskList();
 
+        if (command.getStatus().isPresent()) {
+            System.out.println("Updating task, new Status: " + command.getStatus().get().getValue());
+        }
+        if (command.getTaskOutput().isPresent()) {
+            System.out.println("Updating task, new OutputData: " + command.getTaskOutput().get().getValue());
+        }
+
         try {
             Task task = taskList.retrieveTaskById(command.getTaskId());
 
@@ -41,6 +48,7 @@ public class UpdateTaskService implements UpdateTaskUseCase {
             return true;
         } catch (TaskNotFoundError e) {
             // Check if it is in the repo instead (not loaded) and add to current task list
+            System.out.println("Task not updated: " + e.toString());
             return false;
         } catch (Exception e) {
             System.out.println("Task not updated: " + e.toString());

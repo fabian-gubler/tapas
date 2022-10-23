@@ -38,14 +38,14 @@ public class UpdateTaskStatusAdapter implements UpdateTaskStatusUseCase {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(String.valueOf(command.taskLocation)))
+            .uri(URI.create(command.taskLocation.getValue()))
             .header("content-type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+            .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
             .build();
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
+            if (response.statusCode() == 204) {
                 System.out.println("Status updated for task in tasklist, new Status: "+ command.taskStatus.toString() +" " + response.body());
                 return true;
             } else {
