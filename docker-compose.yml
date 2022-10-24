@@ -42,6 +42,7 @@ services:
       - "traefik.http.routers.app.tls.certresolver=le"
 
   tapas-tasks:
+    hostname: tapas-tasks
     image: openjdk
     command: "java -jar /data/tapas-tasks-0.0.3.jar"
     restart: unless-stopped
@@ -57,6 +58,7 @@ services:
       - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
 
   tapas-executorpool:
+    hostname: tapas-executorpool
     image: openjdk
     command: "java -jar /data/tapas-executorpool-0.0.3.jar"
     restart: unless-stopped
@@ -72,6 +74,7 @@ services:
       - "traefik.http.routers.tapas-executorpool.tls.certresolver=le"
 
   tapas-roster:
+    hostname: tapas-roster
     image: openjdk
     command: "java -jar /data/tapas-roster-0.0.1.jar"
     restart: unless-stopped
@@ -87,6 +90,7 @@ services:
       - "traefik.http.routers.tapas-roster.tls.certresolver=le"
 
   executor-compute:
+    hostname: executor-compute
     image: openjdk
     command: "java -jar /data/executor-compute-0.0.1.jar"
     restart: unless-stopped
@@ -103,6 +107,7 @@ services:
 
 
   executor-joke:
+    hostname: executor-joke
     image: openjdk
     command: "java -jar /data/executor-joke-0.0.1.jar"
     restart: unless-stopped
