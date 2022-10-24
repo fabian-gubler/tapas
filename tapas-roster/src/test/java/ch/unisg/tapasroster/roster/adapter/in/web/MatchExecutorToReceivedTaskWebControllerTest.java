@@ -48,7 +48,8 @@ class MatchExecutorToReceivedTaskWebControllerTest {
 
         MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType,taskLocation,inputData);
 
-        //Mockito.when(matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command)).thenReturn(new Roster.ExecutorEndpoint(executorStub.getEndpoint().getValue()));
+        // fixme: test does not work anymore, as the match executor is now an async function and does not return the found executor directly
+        // Mockito.when(matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command)).thenReturn(new Roster.ExecutorEndpoint(executorStub.getEndpoint().getValue()));
 
         mvc.perform(post("/roster/newtask/")
                 .contentType("application/json")
