@@ -51,7 +51,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.tapas-tasks.rule=Host(`tapas-tasks.${PUB_IP}.asse.scs.unisg.ch`)"
       - "traefik.http.routers.tapas-tasks.service=tapas-tasks"
-      - "traefik.http.services.tapas-tasks.loadbalancer.server.port=8081"
+      - "traefik.http.services.tapas-tasks.loadbalancer.server.port=8086"
       - "traefik.http.routers.tapas-tasks.tls=true"
       - "traefik.http.routers.tapas-tasks.entryPoints=web,websecure"
       - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
