@@ -8,6 +8,6 @@ RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify -DskipTests
 
 FROM openjdk
 
-COPY --from=build /app/target/tapas-tasks-0.0.1.jar ./tapas-tasks-0.0.1.jar
+COPY --from=build /app/target/tapas-tasks-0.0.3.jar ./tapas-tasks-0.0.3.jar
 
-CMD java -jar tapas-tasks-0.0.1.jar
+CMD java -jar tapas-tasks-0.0.3.jar

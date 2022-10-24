@@ -1,7 +1,7 @@
-package ch.unisg.tapasexecutorpool.executorpool.application.port.in;
+package ch.unisg.tapasroster.roster.application.port.in;
 
-import ch.unisg.tapasexecutorpool.common.SelfValidating;
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
+import ch.unisg.tapasroster.common.SelfValidating;
+import ch.unisg.tapasroster.roster.domain.Executor;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * Command where the task is initialised and validated.
  */
 @Value
-public class MatchExecutorToReceivedTaskCommand extends SelfValidating<AddNewExecutorToExecutorPoolCommand> {
+public class MatchExecutorToReceivedTaskCommand {
     @NotNull
     private final String taskType;
 
@@ -30,6 +30,5 @@ public class MatchExecutorToReceivedTaskCommand extends SelfValidating<AddNewExe
         this.taskLocation = taskLocation;
         this.inputData = inputData;
 
-        this.validateSelf();
     }
 }

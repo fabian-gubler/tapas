@@ -8,8 +8,8 @@ RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify
 
 FROM openjdk
 
-COPY --from=build /app/target/tapas-executorpool-0.0.1.jar ./tapas-executorpool-0.0.1.jar
+COPY --from=build /app/target/tapas-executorpool-0.0.3.jar ./tapas-executorpool-0.0.3.jar
 
 COPY --from=build /app/src/main/resources/application-dockerlocal.properties ./application-dockerlocal.properties
 
-CMD java -jar tapas-executorpool-0.0.1.jar --spring.config.location=application-dockerlocal.properties
+CMD java -jar tapas-executorpool-0.0.3.jar --spring.config.location=application-dockerlocal.properties

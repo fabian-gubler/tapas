@@ -2,6 +2,10 @@ package ch.unisg.tapasexecutorpool.executorpool.adapter.in.web;
 
 import javax.validation.ConstraintViolationException;
 
+import ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.ExecutorJsonRepresentation;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.in.RemoveExecutorFromExecutorPoolCommand;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.in.RemoveExecutorFromExecutorPoolUseCase;
+import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -11,11 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.ExecutorJsonRepresentation;
 import ch.unisg.tapasexecutorpool.executorpool.adapter.in.messaging.UnknownExecutorException;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.RemoveExecutorFromExecutorPoolCommand;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.RemoveExecutorFromExecutorPoolUseCase;
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 import lombok.RequiredArgsConstructor;
 
 /**

@@ -1,10 +1,11 @@
-package ch.unisg.tapasexecutorpool.executorpool.adapter.in.web;
+package ch.unisg.tapasroster.roster.adapter.in.web;
 
-import ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.NewTaskJsonRepresentation;
-import ch.unisg.tapasexecutorpool.executorpool.adapter.in.messaging.NoMatchingExecutorException;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.MatchExecutorToReceivedTaskCommand;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.MatchExecutorToReceivedTaskUseCase;
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
+import ch.unisg.tapasroster.roster.adapter.in.formats.NewTaskJsonRepresentation;
+import ch.unisg.tapasroster.roster.adapter.in.messaging.NoMatchingExecutorException;
+import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskCommand;
+import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskUseCase;
+import ch.unisg.tapasroster.roster.domain.Executor;
+import ch.unisg.tapasroster.roster.domain.Roster;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -33,7 +34,7 @@ public class MatchExecutorToReceivedTaskWebController {
 
     // received task are matched to appropriate executors by getting JSON data and map it as a task object.
     @PostMapping(path = "/roster/newtask/", consumes = "application/json")
-    public ResponseEntity<Executor> matchExecutorToReceivedTask(@RequestBody NewTaskJsonRepresentation payload) {
+    public ResponseEntity<Roster.ExecutorEndpoint> matchExecutorToReceivedTask(@RequestBody NewTaskJsonRepresentation payload) {
         try {
             String taskType = payload.getTaskType();
             String taskLocation = payload.getTaskLocation();
@@ -44,11 +45,9 @@ public class MatchExecutorToReceivedTaskWebController {
 
             MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType, taskLocation, inputData);
 
-            Executor matchedExecutor = matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command);
+            matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command);
 
-            System.out.println("Executor found, sending request to executor.");
-
-            return new ResponseEntity<>(matchedExecutor, HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         } catch (NoMatchingExecutorException e) {

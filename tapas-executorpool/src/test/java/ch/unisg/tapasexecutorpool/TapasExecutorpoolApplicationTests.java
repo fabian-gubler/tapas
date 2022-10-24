@@ -1,18 +1,6 @@
 package ch.unisg.tapasexecutorpool;
 
-import ch.unisg.tapasexecutorpool.executorpool.adapter.out.web.PublishNewTaskExecutionAdapter;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.*;
-import ch.unisg.tapasexecutorpool.executorpool.application.service.AddNewExecutorToExecutorPoolService;
-import ch.unisg.tapasexecutorpool.executorpool.application.service.MatchExecutorToReceivedTaskService;
-import ch.unisg.tapasexecutorpool.executorpool.application.service.RemoveExecutorFromExecutorPoolService;
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
-import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorPool;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class TapasExecutorpoolApplicationTests {
