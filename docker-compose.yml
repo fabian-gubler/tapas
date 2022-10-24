@@ -79,12 +79,12 @@ services:
       - ./:/data/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.tapas-executorpool.rule=Host(`tapas-roster.${PUB_IP}.asse.scs.unisg.ch`)"
-      - "traefik.http.routers.tapas-executorpool.service=tapas-roster"
-      - "traefik.http.services.tapas-executorpool.loadbalancer.server.port=8085"
-      - "traefik.http.routers.tapas-executorpool.tls=true"
-      - "traefik.http.routers.tapas-executorpool.entryPoints=web,websecure"
-      - "traefik.http.routers.tapas-executorpool.tls.certresolver=le"
+      - "traefik.http.routers.tapas-roster.rule=Host(`tapas-roster.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.tapas-roster.service=tapas-roster"
+      - "traefik.http.services.tapas-roster.loadbalancer.server.port=8085"
+      - "traefik.http.routers.tapas-roster.tls=true"
+      - "traefik.http.routers.tapas-roster.entryPoints=web,websecure"
+      - "traefik.http.routers.tapas-roster.tls.certresolver=le"
 
   executor-compute:
     image: openjdk
