@@ -1,0 +1,53 @@
+{
+    "title": "Kill app",
+    "description": "kills the tasklist service and subsequently disables chaosmonkey",
+    "method": [
+        {
+            "name": "enable_chaosmonkey",
+            "provider": {
+                "arguments": {
+                    "base_url": "http://localhost:8081/actuator"
+                },
+                "func": "enable_chaosmonkey",
+                "module": "chaosspring.actions",
+                "type": "python"
+            },
+            "type": "action"
+        },
+        {
+            "name": "configure_assaults",
+            "provider": {
+                "arguments": {
+                    "base_url": "http://localhost:8081/actuator",
+                    "assaults_configuration": {
+                        "level": 5,
+                        "latencyRangeStart": 2000,
+                        "latencyRangeEnd": 5000,
+                        "latencyActive": false,
+                        "exceptionsActive": false,
+                        "killApplicationActive": true,
+                        "restartApplicationActive": false
+                    }
+                },
+                "func": "change_assaults_configuration",
+                "module": "chaosspring.actions",
+                "type": "python"
+            },
+            "type": "action"
+        }
+    ],
+    "rollbacks": [
+        {
+            "name": "disable_chaosmonkey",
+            "provider": {
+                "arguments": {
+                    "base_url": "http://localhost:8081/actuator"
+                },
+                "func": "disable_chaosmonkey",
+                "module": "chaosspring.actions",
+                "type": "python"
+            },
+            "type": "action"
+        }
+    ]
+}
