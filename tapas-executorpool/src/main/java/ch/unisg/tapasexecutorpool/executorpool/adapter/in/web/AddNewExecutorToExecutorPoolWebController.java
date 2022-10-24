@@ -3,8 +3,8 @@ package ch.unisg.tapasexecutorpool.executorpool.adapter.in.web;
 import ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.ExecutorJsonRepresentation;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolCommand;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolUseCase;
-
 import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
-import java.util.Optional;
 
 /**
  * Controller that handles HTTP requests for creating new Executor. This controller implements the

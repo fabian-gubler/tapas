@@ -2,18 +2,11 @@ package ch.unisg.tapasexecutorpool.executorpool.adapter.out.persistence.mongodb;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolCommand;
-import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolUseCase;
 import ch.unisg.tapasexecutorpool.executorpool.application.service.AddNewExecutorToExecutorPoolService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-
-import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureDataMongo

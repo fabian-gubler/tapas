@@ -8,6 +8,6 @@ RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify
 
 FROM openjdk
 
-COPY --from=build /app/target/tapas-executorpool-0.0.1.jar ./tapas-executorpool-0.0.1.jar
+COPY --from=build /app/target/tapas-executorpool-0.0.3.jar ./tapas-executorpool-0.0.3.jar
 
-CMD java -jar tapas-executorpool-0.0.1.jar
+CMD java -jar tapas-executorpool-0.0.3.jar

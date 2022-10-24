@@ -57,10 +57,10 @@ public class AddNewTaskToTaskListService implements AddNewTaskToTaskListUseCase 
         if (newTask != null) {
             NewTaskAddedEvent newTaskAdded;
             if (newTask.getInputData() == null) {
-                newTaskAdded = new NewTaskAddedEvent(newTask.getTaskName().getValue(),
+                newTaskAdded = new NewTaskAddedEvent(newTask.getTaskId().getValue(),
                     taskList.getTaskListName().getValue(), newTask.getTaskType().getValue());
             } else {
-                newTaskAdded = new NewTaskAddedEvent(newTask.getTaskName().getValue(),
+                newTaskAdded = new NewTaskAddedEvent(newTask.getTaskId().getValue(),
                     taskList.getTaskListName().getValue(), newTask.getTaskType().getValue(), newTask.getInputData().getValue());
             }
             newTaskAddedEventPort.publishNewTaskAddedEvent(newTaskAdded);

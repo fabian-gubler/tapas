@@ -6,6 +6,7 @@ import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorNotFoundError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,8 +38,9 @@ public class ExecutorPersistenceAdapter implements
     }
 
     @Override
+    @Query()
     public Executor loadExecutorByType(String executorType) throws ExecutorNotFoundError {
-        MongoExecutorDocument mongoExecutorDocument = executorRepository.findByExecutorType(executorType);
+        MongoExecutorDocument mongoExecutorDocument = executorRepository.findFirstByExecutorType(executorType);
 
         if(mongoExecutorDocument == null){
             throw new ExecutorNotFoundError();
