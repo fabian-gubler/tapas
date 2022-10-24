@@ -147,7 +147,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.dbadmin.rule=Host(`dbadmin.${PUB_IP}.asse.scs.unisg.ch`)"
       - "traefik.http.routers.dbadmin.service=dbadmin"
-      - "traefik.http.services.dbadmin.loadbalancer.server.port=8081"
+      - "traefik.http.services.dbadmin.loadbalancer.server.port=8086"
       - "traefik.http.routers.dbadmin.tls=true"
       - "traefik.http.routers.dbadmin.entryPoints=web,websecure"
       - "traefik.http.routers.dbadmin.tls.certresolver=le"
