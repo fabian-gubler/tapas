@@ -56,7 +56,6 @@ public class AddNewExecutorToExecutorPoolSystemTest {
 		URI location = response.getHeaders().getLocation();
 
 		then(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-
 	}
 
 	private ResponseEntity whenAddNewExecutorToEmptyPool(ExecutorType executorType,

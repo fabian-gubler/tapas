@@ -7,11 +7,12 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
+    image: tapas-fs22-group3-app
     # Use environment variables instead of application.properties
     environment:
      - KEY=VALUE
     ports: #Just needed when testing from outside the docker network
-     - "8080:8080"    
+     - "8080:8080"
     networks:
       - tapas-network
 
@@ -19,10 +20,13 @@ services:
     build:
       context: ./tapas-tasks
       dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-tapas-tasks
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
     hostname: tapas-tasks
+    depends_on:
+      - mongodb
     ports: #Just needed when testing from outside
       - "8081:8081"
     networks:
@@ -32,11 +36,14 @@ services:
     build:
       context: ./tapas-executorpool
       dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-tapas-executorpool
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
     ports: #Just needed when testing from outside
       - "8082:8082"
+    depends_on:
+      - mongodb
     hostname: tapas-executorpool
     networks:
       - tapas-network
@@ -46,6 +53,7 @@ services:
     build:
       context: ./executor-compute
       dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-executor-compute
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
@@ -59,6 +67,7 @@ services:
     build:
       context: ./executor-joke
       dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-executor-joke
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
@@ -72,15 +81,20 @@ services:
     build:
       context: ./tapas-roster
       dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-tapas-roster
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
     ports: #Just needed when testing from outside
       - "8085:8085"
+    depends_on:
+      - mongodb
     networks:
       - tapas-network
+
   mongodb:
     image: mongo
+    hostname: mongodb
     container_name: mongodb
     restart: unless-stopped
     ports:
