@@ -11,7 +11,9 @@ The roster keeps track of the internal task executions. The roster receives task
 
 ## Decision
 
-We’ll create two separate services as this will improve our system’s fault tolerance.
+We’ll create two separate services as this will improve our system’s fault tolerance. 
+Tasks and executors can still be added and removed by users even if the roster is not available.
+The roster contains most of the workflow logic and will be subject to most code changes.
 
 ## Consequences
 
