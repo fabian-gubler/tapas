@@ -1,17 +1,17 @@
 package ch.unisg.tapasroster.roster.application.service;
 
-import ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb.RosterAssignmentRepository;
 import ch.unisg.tapasroster.roster.application.port.in.UpdateRosterAssignmentCommand;
 import ch.unisg.tapasroster.roster.application.port.in.UpdateRosterAssignmentUseCase;
-import ch.unisg.tapasroster.roster.application.port.out.LoadRosterAssignmentPort;
-import ch.unisg.tapasroster.roster.application.port.out.UpdateRosterAssignmentPort;
+import ch.unisg.tapasroster.roster.application.port.out.*;
 import ch.unisg.tapasroster.roster.domain.RosterAssignment;
 import ch.unisg.tapasroster.roster.domain.RosterNotFoundError;
+import ch.unisg.tapasroster.roster.domain.RosterNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -21,29 +21,38 @@ public class UpdateRosterAssignmentService implements UpdateRosterAssignmentUseC
 
     private final UpdateRosterAssignmentPort updateRosterAssignmentPort;
 
-    private final LoadRosterAssignmentPort loadRosterAssignmentPort;
+    private final UpdateTaskStatusUseCase updateTaskStatusUseCase;
+
+    private final UpdateTaskOutputUseCase updateTaskOutputUseCase;
 
     @Override
-    @Async
-    public Boolean updateTask(UpdateRosterAssignmentCommand command) {
+    public Boolean updateAssignment(UpdateRosterAssignmentCommand command) {
         try {
-            RosterAssignment rosterAssignment = loadRosterAssignmentPort.loadRoster(new RosterAssignment.RosterId(command.getAssignmentId()));
 
-            if(command.getNewStatus().isPresent()) {
-                rosterAssignment.setAssignmentStatus(command.getNewStatus().get());
+            RosterAssignment updatedRosterAssignment = updateRosterAssignmentPort.updateAssignment(command.getAssignmentId(), command.getNewStatus(), command.getOutputData());
+
+            // update task outputdata in tasklist
+            if (command.getOutputData().isPresent()) {
+                // executor provided outputdata, outputdata is updated on task in tasklist
+                UpdateTaskOutputCommand updateTaskOutputCommand = new UpdateTaskOutputCommand(
+                    command.getOutputData().get(),
+                    new RosterAssignment.TaskLocation(updatedRosterAssignment.getTaskLocation().getValue()));
+                updateTaskOutputUseCase.updateTaskOutputUseCase(updateTaskOutputCommand);
             }
 
-            if(command.getOutputData().isPresent()){
-                rosterAssignment.setOutputData(command.getOutputData().get());
-            }
+            // updating task as EXECUTED
+            UpdateTaskStatusCommand updateTaskStatusExecutedCommand =
+                new UpdateTaskStatusCommand(
+                    UpdateTaskStatusCommand.Status.EXECUTED,
+                    new RosterAssignment.TaskLocation(updatedRosterAssignment.getTaskLocation().getValue()));
+            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusExecutedCommand);
 
-            updateRosterAssignmentPort.updateAssignment(rosterAssignment);
             return true;
         } catch (RosterNotFoundError e){
             System.out.println("RosterAssignment not updated: " + e);
             return false;
         } catch (Exception e) {
-            System.out.println("RosterAssignment not updated: " + e.toString());
+            System.out.println("RosterAssignment not updated: " + e);
             return false;
         }
     }

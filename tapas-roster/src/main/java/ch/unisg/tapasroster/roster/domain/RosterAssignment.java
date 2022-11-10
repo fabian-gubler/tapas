@@ -17,7 +17,7 @@ public class RosterAssignment {
     private final TaskLocation taskLocation;
 
     @Getter
-    private final RosterId rosterId;
+    private final AssignmentId assignmentId;
 
     @Getter @Setter
     private String outputData;
@@ -25,16 +25,16 @@ public class RosterAssignment {
     @Getter @Setter
     private AssignmentStatus assignmentStatus;
 
-    public RosterAssignment(ExecutorEndpoint executorEndpoint, TaskLocation taskLocation, RosterId rosterId) {
+    public RosterAssignment(ExecutorEndpoint executorEndpoint, TaskLocation taskLocation, AssignmentId assignmentId) {
         this.executorEndpoint = executorEndpoint;
         this.taskLocation = taskLocation;
-        this.rosterId = rosterId;
+        this.assignmentId = assignmentId;
     }
 
-    public RosterAssignment(ExecutorEndpoint executorEndpoint, TaskLocation taskLocation, RosterId rosterId, String outputData, AssignmentStatus status) {
+    public RosterAssignment(ExecutorEndpoint executorEndpoint, TaskLocation taskLocation, AssignmentId assignmentId, String outputData, AssignmentStatus status) {
         this.executorEndpoint = executorEndpoint;
         this.taskLocation = taskLocation;
-        this.rosterId = rosterId;
+        this.assignmentId = assignmentId;
         this.outputData = outputData;
         this.assignmentStatus = status;
     }
@@ -56,12 +56,15 @@ public class RosterAssignment {
     }
 
     @Value
-    public static class RosterId {
+    public static class AssignmentId {
         String value;
     }
 
 
     public static RosterAssignment createRoster(ExecutorEndpoint executorEndpoint, TaskLocation taskLocation) {
-        return new RosterAssignment(executorEndpoint, taskLocation, new RosterId(UUID.randomUUID().toString()));
+        return new RosterAssignment(executorEndpoint, taskLocation, new AssignmentId(UUID.randomUUID().toString()), "", new AssignmentStatus("UNASSIGNED"));
+    }
+    public static RosterAssignment createRoster(ExecutorEndpoint executorEndpoint, TaskLocation taskLocation, AssignmentStatus status) {
+        return new RosterAssignment(executorEndpoint, taskLocation, new AssignmentId(UUID.randomUUID().toString()), "", status);
     }
 }

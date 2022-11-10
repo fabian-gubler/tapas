@@ -4,8 +4,7 @@ import ch.unisg.tapasroster.roster.adapter.in.formats.NewTaskJsonRepresentation;
 import ch.unisg.tapasroster.roster.adapter.in.messaging.NoMatchingExecutorException;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskCommand;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskUseCase;
-import ch.unisg.tapasroster.roster.domain.Executor;
-import ch.unisg.tapasroster.roster.domain.Roster;
+import ch.unisg.tapasroster.roster.domain.RosterAssignment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -34,7 +33,7 @@ public class MatchExecutorToReceivedTaskWebController {
 
     // received task are matched to appropriate executors by getting JSON data and map it as a task object.
     @PostMapping(path = "/roster/newtask/", consumes = "application/json")
-    public ResponseEntity<Roster.ExecutorEndpoint> matchExecutorToReceivedTask(@RequestBody NewTaskJsonRepresentation payload) {
+    public ResponseEntity<RosterAssignment.ExecutorEndpoint> matchExecutorToReceivedTask(@RequestBody NewTaskJsonRepresentation payload) {
         try {
             String taskType = payload.getTaskType();
             String taskLocation = payload.getTaskLocation();

@@ -5,6 +5,6 @@ import ch.unisg.tapasroster.roster.domain.RosterNotFoundError;
 
 public interface LoadRosterAssignmentPort {
 
-    RosterAssignment loadRoster(RosterAssignment.RosterId rosterId) throws RosterNotFoundError;
+    RosterAssignment loadRosterAssignment(RosterAssignment.AssignmentId rosterId) throws RosterNotFoundError;
 
 }

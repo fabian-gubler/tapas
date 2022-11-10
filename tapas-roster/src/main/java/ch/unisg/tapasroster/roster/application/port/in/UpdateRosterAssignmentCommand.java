@@ -9,7 +9,7 @@ import java.util.Optional;
 @Value
 public class UpdateRosterAssignmentCommand {
     @NotNull
-    private final String assignmentId;
+    private final RosterAssignment.AssignmentId assignmentId;
 
     @NotNull
     private final Optional<RosterAssignment.AssignmentStatus> newStatus;
@@ -18,12 +18,12 @@ public class UpdateRosterAssignmentCommand {
 
     /**
      * Constructor where the values of the data field are initialised and validated.
-     * @param taskId
+     * @param assignmentId
      * @param newStatus
      * @param outputData
      */
-    public UpdateRosterAssignmentCommand(String taskId, Optional<RosterAssignment.AssignmentStatus> newStatus, Optional<String> outputData) {
-        this.assignmentId = taskId;
+    public UpdateRosterAssignmentCommand(RosterAssignment.AssignmentId assignmentId, Optional<RosterAssignment.AssignmentStatus> newStatus, Optional<String> outputData) {
+        this.assignmentId = assignmentId;
         this.newStatus = newStatus;
         this.outputData = outputData;
 

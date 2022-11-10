@@ -43,6 +43,7 @@ public class PublishNewTaskExecutionAdapter implements NewTaskExecutionUseCase {
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(event.taskExecutionURI))
             .header("content-type", "application/json")
+            .header("location", event.returnLocation)
             .POST(HttpRequest.BodyPublishers.ofString(requestBody))
             .build();
 

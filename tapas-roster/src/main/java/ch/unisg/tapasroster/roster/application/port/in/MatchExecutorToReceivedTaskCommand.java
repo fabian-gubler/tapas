@@ -29,6 +29,5 @@ public class MatchExecutorToReceivedTaskCommand {
         this.taskType = taskType;
         this.taskLocation = taskLocation;
         this.inputData = inputData;
-
     }
 }

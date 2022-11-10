@@ -6,9 +6,12 @@ import ch.unisg.tapasroster.roster.application.port.out.LoadRosterAssignmentPort
 import ch.unisg.tapasroster.roster.application.port.out.UpdateRosterAssignmentPort;
 import ch.unisg.tapasroster.roster.domain.RosterNotFoundError;
 import ch.unisg.tapasroster.roster.domain.RosterAssignment;
+import ch.unisg.tapasroster.roster.domain.RosterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -21,37 +24,42 @@ public class RosterAssignmentPersistenceAdapter implements
     private final RosterAssignmentRepository rosterAssignmentRepository;
 
     @Autowired
-    private final RosterAssignmentMapper rosterAssignmentMapperMapper;
+    private final RosterAssignmentMapper rosterAssignmentMapper;
 
 
     @Override
-    public void addRoster(RosterAssignment rosterAssignment) {
-        MongoRosterAssignmentDocument mongoRosterAssignmentDocument = rosterAssignmentMapperMapper.mapToMongoDocument(rosterAssignment);
+    public void addRosterAssignment(RosterAssignment rosterAssignment) {
+        MongoRosterAssignmentDocument mongoRosterAssignmentDocument = rosterAssignmentMapper.mapToMongoDocument(rosterAssignment);
         rosterAssignmentRepository.save(mongoRosterAssignmentDocument);
     }
 
     @Override
-    public RosterAssignment loadRoster(RosterAssignment.RosterId rosterId) throws RosterNotFoundError {
-        MongoRosterAssignmentDocument mongoRosterAssignmentDocument = rosterAssignmentRepository.findByRosterId(rosterId.getValue());
+    public RosterAssignment loadRosterAssignment(RosterAssignment.AssignmentId assignmentId) throws RosterNotFoundError {
+        MongoRosterAssignmentDocument mongoRosterAssignmentDocument = rosterAssignmentRepository.findByRosterId(assignmentId.getValue());
 
         if(mongoRosterAssignmentDocument == null){
             throw new RosterNotFoundError();
         }
-        return rosterAssignmentMapperMapper.mapToDomainEntity(mongoRosterAssignmentDocument);
+        return rosterAssignmentMapper.mapToDomainEntity(mongoRosterAssignmentDocument);
     }
 
     @Override
-    public void updateAssignment(RosterAssignment rosterAssignment) throws RosterNotFoundError {
-       MongoRosterAssignmentDocument mongoRosterAssignmentDocument = rosterAssignmentRepository.findByRosterId(rosterAssignment.getRosterId().getValue());
+    public RosterAssignment updateAssignment(RosterAssignment.AssignmentId assignmentId, Optional<RosterAssignment.AssignmentStatus> newStatus, Optional<String> outputData) throws RosterNotFoundError {
+       MongoRosterAssignmentDocument mongoRosterAssignmentDocument = rosterAssignmentRepository.findByRosterId(assignmentId.getValue());
 
-       if(rosterAssignment.getAssignmentStatus() != null){
-           mongoRosterAssignmentDocument.assignmentStatus = rosterAssignment.getAssignmentStatus().getValue();
+        if(mongoRosterAssignmentDocument == null){
+            throw new RosterNotFoundError();
+        }
+
+       if(newStatus.isPresent()){
+           mongoRosterAssignmentDocument.assignmentStatus = newStatus.get().getValue();
        }
 
-       if(rosterAssignment.getOutputData() != null){
-           mongoRosterAssignmentDocument.outputData = rosterAssignment.getOutputData();
+       if(outputData.isPresent()){
+           mongoRosterAssignmentDocument.outputData = outputData.get();
        }
 
         rosterAssignmentRepository.save(mongoRosterAssignmentDocument);
+       return rosterAssignmentMapper.mapToDomainEntity(mongoRosterAssignmentDocument);
     }
 }

@@ -5,5 +5,5 @@ import ch.unisg.tapasroster.roster.domain.RosterAssignment;
 
 public interface AddRosterAssignmentPort {
 
-    void addRoster(RosterAssignment rosterAssignment);
+    void addRosterAssignment(RosterAssignment rosterAssignment);
 }

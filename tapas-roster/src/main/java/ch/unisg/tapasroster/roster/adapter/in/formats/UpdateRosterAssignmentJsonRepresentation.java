@@ -1,7 +1,6 @@
 package ch.unisg.tapasroster.roster.adapter.in.formats;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class UpdateRosterAssignmentJsonRepresentation {
 
@@ -12,7 +11,6 @@ public class UpdateRosterAssignmentJsonRepresentation {
     @Getter
     private final boolean success;
 
-    // the name of the tasklist
     @Getter
     private final String outputData;
 

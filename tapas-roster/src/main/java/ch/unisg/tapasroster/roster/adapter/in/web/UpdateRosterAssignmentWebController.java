@@ -20,25 +20,29 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UpdateRosterAssignmentWebController {
 
-    private final UpdateRosterAssignmentUseCase updateTaskStatusUseCase;
+    private final UpdateRosterAssignmentUseCase updateRosterAssignmentUseCase;
 
     // Used to retrieve properties from application.properties
     @Autowired
     private Environment environment;
 
-    @PostMapping(path = "/roster/updatetask/{assignmentId}", consumes = "application/json")
-    public ResponseEntity<HttpStatus> updateTaskStatus(@PathVariable String assignmentId, @RequestBody UpdateRosterAssignmentJsonRepresentation payload) {
-
+    @PostMapping(path = "/roster/updatetask/{id}", consumes = "application/json")
+    public ResponseEntity<HttpStatus> updateTaskStatus(@PathVariable String id, @RequestBody UpdateRosterAssignmentJsonRepresentation payload) {
         try {
+            RosterAssignment.AssignmentId assignmentId = new RosterAssignment.AssignmentId(id);
             RosterAssignment.AssignmentStatus newAssignmentStatus = new RosterAssignment.AssignmentStatus(payload.isSuccess() ? "SUCCESS" : "FAILED");
             Optional<RosterAssignment.AssignmentStatus> newStatus = Optional.of(newAssignmentStatus);
             Optional<String> outputData = Optional.ofNullable(payload.getOutputData());
 
+
             UpdateRosterAssignmentCommand command = new UpdateRosterAssignmentCommand(assignmentId, newStatus, outputData);
 
-            updateTaskStatusUseCase.updateTask(command);
+            if(updateRosterAssignmentUseCase.updateAssignment(command)){
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            }
 
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
 
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());

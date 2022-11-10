@@ -1,13 +1,11 @@
 package ch.unisg.tapasroster.roster.adapter.in.web;
 
-import ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb.RosterRepository;
+import ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb.RosterAssignmentRepository;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskCommand;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskUseCase;
 import ch.unisg.tapasroster.roster.domain.Executor;
-import ch.unisg.tapasroster.roster.domain.Roster;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,7 +23,7 @@ class MatchExecutorToReceivedTaskWebControllerTest {
     private MatchExecutorToReceivedTaskUseCase matchExecutorToReceivedTaskUseCase;
 
     @MockBean
-    private RosterRepository executorRepository;
+    private RosterAssignmentRepository executorRepository;
     @Autowired
     private MockMvc mvc;
 

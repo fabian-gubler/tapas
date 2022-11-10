@@ -1,14 +1,14 @@
 package ch.unisg.tapasroster.roster.application.port.out;
 
 
-import ch.unisg.tapasroster.roster.domain.Roster;
+import ch.unisg.tapasroster.roster.domain.RosterAssignment;
 
 public class UpdateTaskOutputCommand {
     public String output;
 
-    public Roster.TaskLocation taskLocation;
+    public RosterAssignment.TaskLocation taskLocation;
 
-    public UpdateTaskOutputCommand(String output, Roster.TaskLocation taskLocation) {
+    public UpdateTaskOutputCommand(String output, RosterAssignment.TaskLocation taskLocation) {
         this.output = output;
         this.taskLocation = taskLocation;
     }

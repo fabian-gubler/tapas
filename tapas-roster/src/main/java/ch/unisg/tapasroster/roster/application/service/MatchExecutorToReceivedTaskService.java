@@ -1,12 +1,15 @@
 package ch.unisg.tapasroster.roster.application.service;
 
+import ch.qos.logback.core.Context;
 import ch.unisg.tapasroster.roster.adapter.in.messaging.NoMatchingExecutorException;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskCommand;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskUseCase;
 import ch.unisg.tapasroster.roster.application.port.out.*;
 import ch.unisg.tapasroster.roster.domain.Executor;
-import ch.unisg.tapasroster.roster.domain.Roster;
+import ch.unisg.tapasroster.roster.domain.RosterAssignment;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -28,7 +31,10 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
 
     private final RetrieveExecutorUseCase retrieveExecutorUseCase;
 
-    private final AddRosterPort addRosterPort;
+    private final AddRosterAssignmentPort addRosterAssignmentPort;
+
+    @Autowired
+    private Environment environment;
 
 
     /**
@@ -55,39 +61,39 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
         if (matchedExecutorEndpoint != null) {
             System.out.println("Executor found, executing task");
 
-            // updating task status to ASSIGNED
+            // create roster entry
+            RosterAssignment rosterAssignment = RosterAssignment.createRoster(
+                new RosterAssignment.ExecutorEndpoint(matchedExecutorEndpoint.getValue()),
+                new RosterAssignment.TaskLocation(command.getTaskLocation()),
+                new RosterAssignment.AssignmentStatus("ASSIGNED"));
+            System.out.println(rosterAssignment);
+            addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
+
+           // updating task status to ASSIGNED
             UpdateTaskStatusCommand updateTaskStatusAssignedCommand =
-                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.ASSIGNED, new Roster.TaskLocation(command.getTaskLocation()));
+                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.ASSIGNED, new RosterAssignment.TaskLocation(command.getTaskLocation()));
             updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusAssignedCommand);
 
-            // updating task as RUNNING
-            UpdateTaskStatusCommand updateTaskStatusRunningCommand =
-                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.RUNNING, new Roster.TaskLocation(command.getTaskLocation()));
-            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusRunningCommand);
+            System.out.println(environment.getProperty("baseuri") + "roster/updatetask/" + rosterAssignment.getAssignmentId().getValue());
 
             // executing task on given executor
             NewTaskExecutionCommand newTaskExecution = new NewTaskExecutionCommand(command.getTaskType(),
-                matchedExecutorEndpoint.getValue(), command.getTaskLocation(), command.getInputData());
+                matchedExecutorEndpoint.getValue(), command.getTaskLocation(), command.getInputData(), environment.getProperty("baseuri") + "roster/updatetask/" + rosterAssignment.getAssignmentId().getValue());
             String taskOutput = newTaskExecutionUseCase.newTaskExecutionUseCase(newTaskExecution);
 
-            // update task outputdata in tasklist
-            if (taskOutput != null) {
-                // executor provided outputdata, outputdata is updated on task in tasklist
-                UpdateTaskOutputCommand updateTaskOutputCommand = new UpdateTaskOutputCommand(taskOutput, new Roster.TaskLocation(command.getTaskLocation()));
-                updateTaskOutputUseCase.updateTaskOutputUseCase(updateTaskOutputCommand);
-            }
+            // updating task as RUNNING
+            UpdateTaskStatusCommand updateTaskStatusRunningCommand =
+                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.RUNNING, new RosterAssignment.TaskLocation(command.getTaskLocation()));
+            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusRunningCommand);
 
-            // updating task as EXECUTED
-            UpdateTaskStatusCommand updateTaskStatusExecutedCommand =
-                new UpdateTaskStatusCommand(UpdateTaskStatusCommand.Status.EXECUTED, new Roster.TaskLocation(command.getTaskLocation()));
-            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusExecutedCommand);
-
-            // create roster entry
-            Roster roster = Roster.createRoster(new Roster.ExecutorEndpoint(matchedExecutorEndpoint.getValue()), new Roster.TaskLocation(command.getTaskLocation()));
-            addRosterPort.addRoster(roster);
         } else {
+            RosterAssignment rosterAssignment = RosterAssignment.createRoster(
+                new RosterAssignment.ExecutorEndpoint(""),
+                new RosterAssignment.TaskLocation(command.getTaskLocation()),
+                new RosterAssignment.AssignmentStatus("PENDING"));
+            addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
-            // todo: set roster state to pending/looking for executor, send task to AuctionHouse
+            // todo: send task to AuctionHouse
         }
     }
 }

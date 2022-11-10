@@ -14,11 +14,12 @@ class RosterAssignmentMapper {
     }
 
     MongoRosterAssignmentDocument mapToMongoDocument(RosterAssignment rosterAssignment) {
+
         return new MongoRosterAssignmentDocument(
-            rosterAssignment.getRosterId().getValue(),
-            rosterAssignment.getTaskLocation().getValue(),
+            rosterAssignment.getAssignmentId().getValue(),
             rosterAssignment.getExecutorEndpoint().getValue(),
-            rosterAssignment.getAssignmentStatus().getValue(),
+            rosterAssignment.getTaskLocation().getValue(),
+            rosterAssignment.getAssignmentStatus() != null ? rosterAssignment.getAssignmentStatus().getValue() : "",
             rosterAssignment.getOutputData()
         );
     }

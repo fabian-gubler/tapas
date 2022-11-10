@@ -1,10 +1,11 @@
-package ch.unisg.executorcompute.adapters;
+package ch.unisg.executorcompute;
 
-import org.springframework.http.ResponseEntity;
+import ch.unisg.executorcompute.adapters.ComputationJsonRepresentation;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,14 +34,14 @@ public class ExecuteComputationService {
                 case "divide" -> sum = divide(arrOfValues);
                 default -> throw new IllegalArgumentException("computation type not valid") ;
             }
-            System.out.println(returnLocation);
             RestTemplate restTemplate = new RestTemplate();
 
             Map<String, String> map = new HashMap<>();
             map.put("success", "true");
             map.put("outputData", "The result is: " + sum);
 
-            ResponseEntity<Void> response = restTemplate.postForEntity(returnLocation, map, Void.class);
+            // todo handle case if retrun location is not available
+            restTemplate.postForEntity(URI.create(returnLocation), map, Void.class);
 
         } catch (IllegalArgumentException e ){
             RestTemplate restTemplate = new RestTemplate();
@@ -49,7 +50,8 @@ public class ExecuteComputationService {
             map.put("success", "false");
             map.put("outputData", "Input Data not valid");
 
-            ResponseEntity<Void> response = restTemplate.postForEntity(returnLocation, map, Void.class);
+            // todo handle case if retrun location is not available
+            restTemplate.postForEntity(URI.create(returnLocation), map, Void.class);
         }
     }
 
