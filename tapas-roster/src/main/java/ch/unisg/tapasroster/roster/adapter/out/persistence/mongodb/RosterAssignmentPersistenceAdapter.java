@@ -1,12 +1,10 @@
 package ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb;
 
-// import ch.unisg.tapasroster.roster.application.port.out.AddExecutorPort;
 import ch.unisg.tapasroster.roster.application.port.out.AddRosterAssignmentPort;
 import ch.unisg.tapasroster.roster.application.port.out.LoadRosterAssignmentPort;
 import ch.unisg.tapasroster.roster.application.port.out.UpdateRosterAssignmentPort;
 import ch.unisg.tapasroster.roster.domain.RosterNotFoundError;
 import ch.unisg.tapasroster.roster.domain.RosterAssignment;
-import ch.unisg.tapasroster.roster.domain.RosterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -5,13 +5,11 @@ import ch.unisg.tapasroster.roster.application.port.in.UpdateRosterAssignmentUse
 import ch.unisg.tapasroster.roster.application.port.out.*;
 import ch.unisg.tapasroster.roster.domain.RosterAssignment;
 import ch.unisg.tapasroster.roster.domain.RosterNotFoundError;
-import ch.unisg.tapasroster.roster.domain.RosterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component

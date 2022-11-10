@@ -1,6 +1,5 @@
 package ch.unisg.tapasroster.roster.application.service;
 
-import ch.qos.logback.core.Context;
 import ch.unisg.tapasroster.roster.adapter.in.messaging.NoMatchingExecutorException;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskCommand;
 import ch.unisg.tapasroster.roster.application.port.in.MatchExecutorToReceivedTaskUseCase;
