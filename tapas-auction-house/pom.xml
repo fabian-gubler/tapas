@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ch.unisg</groupId>
 	<artifactId>tapas-auction-house</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>tapas-auction-house</name>
 	<description>TAPAS Auction House</description>
 	<properties>
