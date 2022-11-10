@@ -35,12 +35,7 @@ public class ExecuteTaskService {
         try {
             var values = new HashMap<String, String>();
 
-            if (isSuccessful == true) {
-                values.put("status", "success");
-            } else {
-                values.put("status", "failed");
-            }
-
+            values.put("success", isSuccessful.toString());
             values.put("outputData", outputData);
 
             var objectMapper = new ObjectMapper();
