@@ -48,6 +48,22 @@ public class TaskJsonPatchRepresentation {
     }
 
     /**
+     * Extracts the first service provider added or replaced in this patch.
+     *
+     * @return the first service provider changed in this patch or an empty {@link Optional} if none
+     * is found
+     */
+    public Optional<Task.ServiceProvider> extractFirstServiceProviderChange() {
+        Optional<JsonNode> serviceProvider = extractFirst(node ->
+            (isPatchReplaceOperation(node) || isPatchAddOperation(node))
+                && hasPath(node, "/serviceProvider")
+        );
+
+        return (serviceProvider.isEmpty()) ? Optional.empty()
+            : Optional.of(new Task.ServiceProvider(serviceProvider.get().get("value").asText()));
+    }
+
+    /**
      * Extracts the first output data addition in this patch.
      *
      * @return the output data added in this patch or an empty {@link Optional} if none is found

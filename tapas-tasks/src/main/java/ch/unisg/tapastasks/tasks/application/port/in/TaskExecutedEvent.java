@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 @Value
 public class TaskExecutedEvent extends SelfValidating<TaskExecutedEvent> {
@@ -14,10 +13,14 @@ public class TaskExecutedEvent extends SelfValidating<TaskExecutedEvent> {
     private final TaskId taskId;
 
     @Getter
-    private final Optional<OutputData> outputData;
+    private final ServiceProvider serviceProvider;
 
-    public TaskExecutedEvent(TaskId taskId, Optional<OutputData> outputData) {
+    @Getter
+    private final OutputData outputData;
+
+    public TaskExecutedEvent(TaskId taskId, ServiceProvider serviceProvider, OutputData outputData) {
         this.taskId = taskId;
+        this.serviceProvider = serviceProvider;
         this.outputData = outputData;
 
         this.validateSelf();

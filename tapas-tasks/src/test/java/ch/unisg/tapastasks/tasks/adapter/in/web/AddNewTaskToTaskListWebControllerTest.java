@@ -13,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
-
 import static org.mockito.BDDMockito.eq;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,18 +35,19 @@ public class AddNewTaskToTaskListWebControllerTest {
     void testAddNewTaskToTaskList() throws Exception {
 
         String taskName = "test-request";
+        String originalTaskUri = "test-request-original-task-uri";
         String taskType = "test-request-type";
         String jsonPayLoad = new JSONObject()
             .put("taskName", taskName )
             .put("taskType", taskType)
+            .put("originalTaskUri", originalTaskUri)
             .toString();
 
         Task taskStub = Task.createTaskWithNameAndType(new Task.TaskName(taskName),
             new Task.TaskType(taskType));
 
         AddNewTaskToTaskListCommand addNewTaskToTaskListCommand = new AddNewTaskToTaskListCommand(
-            new Task.TaskName(taskName), new Task.TaskType(taskType),
-            Optional.empty()
+            new Task.TaskName(taskName), new Task.OriginalTaskUri(originalTaskUri), new Task.TaskType(taskType), null
         );
 
         Mockito.when(addNewTaskToTaskListUseCase.addNewTaskToTaskList(addNewTaskToTaskListCommand))
@@ -61,7 +60,7 @@ public class AddNewTaskToTaskListWebControllerTest {
 
         then(addNewTaskToTaskListUseCase).should()
             .addNewTaskToTaskList(eq(new AddNewTaskToTaskListCommand(
-                new Task.TaskName(taskName), new Task.TaskType(taskType), Optional.empty())
+                new Task.TaskName(taskName), new Task.OriginalTaskUri(originalTaskUri), new Task.TaskType(taskType), null)
             ));
 
     }

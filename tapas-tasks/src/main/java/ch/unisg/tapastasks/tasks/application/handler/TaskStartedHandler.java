@@ -10,12 +10,9 @@ import org.springframework.stereotype.Component;
 public class TaskStartedHandler implements TaskStartedEventHandler {
 
     @Override
-    public boolean handleTaskStarted(TaskStartedEvent taskStartedEvent)  {
+    public boolean handleTaskStarted(TaskStartedEvent taskStartedEvent) throws TaskNotFoundError {
         TaskList taskList = TaskList.getTapasTaskList();
-        try {
-            return taskList.changeTaskStatusToRunning(taskStartedEvent.getTaskId());
-        } catch (TaskNotFoundError e) {
-            throw new RuntimeException(e);
-        }
+        return taskList.changeTaskStatusToRunning(taskStartedEvent.getTaskId(),
+            taskStartedEvent.getServiceProvider());
     }
 }

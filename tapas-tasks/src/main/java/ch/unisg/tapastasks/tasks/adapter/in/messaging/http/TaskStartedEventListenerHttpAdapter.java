@@ -6,7 +6,10 @@ import ch.unisg.tapastasks.tasks.application.port.in.TaskStartedEvent;
 import ch.unisg.tapastasks.tasks.application.port.in.TaskStartedEventHandler;
 import ch.unisg.tapastasks.tasks.domain.Task;
 import ch.unisg.tapastasks.tasks.domain.Task.TaskId;
+import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.Optional;
 
 /**
  * Listener for task started events. A task started event corresponds to a JSON Patch that attempts
@@ -16,10 +19,18 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class TaskStartedEventListenerHttpAdapter extends TaskEventListener {
 
-    public boolean handleTaskEvent(String taskId, JsonNode payload) {
+    /**
+     * Handles the task started event.
+     *
+     * @param taskId the identifier of the task for which an event was received
+     * @param payload the JSON Patch payload of the HTTP PATCH request received for this task
+     * @return true if the task started event was handled successfully, false otherwise
+     */
+    public boolean handleTaskEvent(String taskId, JsonNode payload) throws TaskNotFoundError {
         TaskJsonPatchRepresentation representation = new TaskJsonPatchRepresentation(payload);
+        Optional<Task.ServiceProvider> serviceProvider = representation.extractFirstServiceProviderChange();
 
-        TaskStartedEvent taskStartedEvent = new TaskStartedEvent(new TaskId(taskId));
+        TaskStartedEvent taskStartedEvent = new TaskStartedEvent(new TaskId(taskId), serviceProvider.orElse(null));
         TaskStartedEventHandler taskStartedEventHandler = new TaskStartedHandler();
 
         return taskStartedEventHandler.handleTaskStarted(taskStartedEvent);

@@ -6,6 +6,7 @@ import ch.unisg.tapastasks.tasks.domain.Task;
 import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonpatch.JsonPatch;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -37,11 +38,15 @@ import java.util.Optional;
  * For some sample HTTP requests, see the README.
  */
 @RestController
+@RequiredArgsConstructor
 public class TaskEventHttpDispatcher {
-
     // Used to retrieve properties from application.properties
     @Autowired
     private Environment environment;
+
+    private final TaskAssignedEventListenerHttpAdapter taskAssignedEventListenerHttpAdapter;
+    private final TaskStartedEventListenerHttpAdapter taskStartedEventListenerHttpAdapter;
+    private final TaskExecutedEventListenerHttpAdapter taskExecutedEventListenerHttpAdapter;
 
     // The standard media type for JSON Patch registered with IANA
     // See: https://www.iana.org/assignments/media-types/application/json-patch+json
@@ -75,12 +80,9 @@ public class TaskEventHttpDispatcher {
             // Route events related to task status changes
             if (status.isPresent()) {
                 switch (status.get()) {
-                    case RUNNING:
-                        listener = new TaskStartedEventListenerHttpAdapter();
-                        break;
-                    case EXECUTED:
-                        listener = new TaskExecutedEventListenerHttpAdapter();
-                        break;
+                    case ASSIGNED -> listener = taskAssignedEventListenerHttpAdapter;
+                    case RUNNING -> listener = taskStartedEventListenerHttpAdapter;
+                    case EXECUTED -> listener = taskExecutedEventListenerHttpAdapter;
                 }
             }
 
@@ -94,8 +96,7 @@ public class TaskEventHttpDispatcher {
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add(HttpHeaders.LOCATION, environment.getProperty("baseuri")
                 + "tasks/" + taskId);
-            return new ResponseEntity<Void>(responseHeaders,
-                HttpStatus.OK);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.OK);
         } catch (TaskNotFoundError e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } catch (IOException | RuntimeException e) {
