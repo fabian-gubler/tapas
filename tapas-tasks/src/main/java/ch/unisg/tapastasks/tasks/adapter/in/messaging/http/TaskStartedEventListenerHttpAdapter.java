@@ -8,6 +8,7 @@ import ch.unisg.tapastasks.tasks.domain.Task;
 import ch.unisg.tapastasks.tasks.domain.Task.TaskId;
 import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
  *
  * See also {@link TaskStartedEvent}, {@link Task}, and {@link TaskEventHttpDispatcher}.
  */
+@Component
 public class TaskStartedEventListenerHttpAdapter extends TaskEventListener {
 
     /**

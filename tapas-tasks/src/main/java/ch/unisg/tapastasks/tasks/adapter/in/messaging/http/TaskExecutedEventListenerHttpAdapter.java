@@ -7,6 +7,7 @@ import ch.unisg.tapastasks.tasks.application.port.in.TaskExecutedEventHandler;
 import ch.unisg.tapastasks.tasks.domain.Task;
 import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
  *
  * See also {@link TaskExecutedEvent}, {@link Task}, and {@link TaskEventHttpDispatcher}.
  */
+@Component
 public class TaskExecutedEventListenerHttpAdapter extends TaskEventListener {
 
     /**
