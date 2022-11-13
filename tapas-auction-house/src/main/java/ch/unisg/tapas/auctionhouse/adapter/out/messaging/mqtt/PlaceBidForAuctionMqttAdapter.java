@@ -1,4 +1,4 @@
-package ch.unisg.tapas.auctionhouse.adapter.out.web;
+package ch.unisg.tapas.auctionhouse.adapter.out.messaging.mqtt;
 
 import ch.unisg.tapas.auctionhouse.application.port.out.bids.PlaceBidForAuctionPort;
 import ch.unisg.tapas.auctionhouse.domain.Auction;
@@ -9,15 +9,16 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 /**
- * This class is a template for implementing an HTTP adapter that places bid.
+ * This class is a template for implementing an MQTT adapter that places bid.
  */
 @Component
-@Profile("http-websub")
-public class PlaceBidForAuctionHttpAdapter implements PlaceBidForAuctionPort {
-    private static final Logger LOGGER = LogManager.getLogger(PlaceBidForAuctionHttpAdapter.class);
+@Profile("mqtt")
+public class PlaceBidForAuctionMqttAdapter implements PlaceBidForAuctionPort {
+    private static final Logger LOGGER = LogManager.getLogger(PlaceBidForAuctionMqttAdapter.class);
 
     @Override
     public void placeBid(Auction auction, Bid bid) {
-        // TODO: send HTTP request to place bid
+        LOGGER.info("Sending bid via MQTT");
+        // TODO: send MQTT request to place bid
     }
 }

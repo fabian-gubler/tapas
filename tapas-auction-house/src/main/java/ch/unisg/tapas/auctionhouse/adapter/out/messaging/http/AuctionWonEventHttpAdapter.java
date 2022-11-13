@@ -1,7 +1,8 @@
-package ch.unisg.tapas.auctionhouse.adapter.out.web;
+package ch.unisg.tapas.auctionhouse.adapter.out.messaging.http;
 
 import ch.unisg.tapas.auctionhouse.application.port.out.auctions.AuctionWonEventPort;
 import ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
  * here only as a placeholder, it is up to you to decide how such events should be sent.
  */
 @Component
+@Profile("http-websub")
 public class AuctionWonEventHttpAdapter implements AuctionWonEventPort {
     @Override
     public void publishAuctionWonEvent(AuctionWonEvent event) {

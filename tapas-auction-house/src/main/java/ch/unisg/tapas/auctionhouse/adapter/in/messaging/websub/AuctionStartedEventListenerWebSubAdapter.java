@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * This class is a template for handling auction started events received via WebSub
  */
 @RestController
-@Profile("websub")
+@Profile("http-websub")
 @RequiredArgsConstructor
 public class AuctionStartedEventListenerWebSubAdapter {
     private static final Logger LOGGER = LogManager.getLogger(AuctionStartedEventListenerWebSubAdapter.class);

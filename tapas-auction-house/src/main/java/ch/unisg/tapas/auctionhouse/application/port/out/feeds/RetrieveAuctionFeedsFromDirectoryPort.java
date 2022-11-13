@@ -1,5 +1,6 @@
 package ch.unisg.tapas.auctionhouse.application.port.out.feeds;
 
+import ch.unisg.tapas.auctionhouse.application.port.out.OutputPortError;
 import ch.unisg.tapas.auctionhouse.domain.Auction;
 
 import java.net.URI;
@@ -10,5 +11,5 @@ import java.util.List;
  */
 public interface RetrieveAuctionFeedsFromDirectoryPort {
 
-    List<Auction.AuctionFeedId> retrieveFeedsFromDirectory(URI directoryUri);
+    List<Auction.AuctionFeedId> retrieveFeedsFromDirectory(URI directoryUri) throws OutputPortError;
 }

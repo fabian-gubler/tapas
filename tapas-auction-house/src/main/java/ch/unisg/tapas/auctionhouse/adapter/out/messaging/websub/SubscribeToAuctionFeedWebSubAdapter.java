@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("websub")
+@Profile("http-websub")
 public class SubscribeToAuctionFeedWebSubAdapter implements SubscribeToAuctionFeedPort {
     private static final Logger LOGGER = LogManager.getLogger(SubscribeToAuctionFeedWebSubAdapter.class);
 

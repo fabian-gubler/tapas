@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * Verifies the intent to subscribe/unsubscribe to a topic (cf. WebSub protocol).
  */
 @RestController
-@Profile("websub")
+@Profile("http-websub")
 public class WebSubIntentVerificationListener {
     private static final Logger LOGGER = LogManager.getLogger(WebSubIntentVerificationListener.class);
 

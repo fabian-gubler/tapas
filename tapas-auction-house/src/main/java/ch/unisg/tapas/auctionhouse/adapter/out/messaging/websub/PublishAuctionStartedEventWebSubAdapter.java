@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * This class is a template for notifying a WebSub Hub that a new auction was started.
  */
 @Component
-@Profile("websub")
+@Profile("http-websub")
 public class PublishAuctionStartedEventWebSubAdapter implements AuctionStartedEventPort {
     private static final Logger LOGGER = LogManager.getLogger(PublishAuctionStartedEventWebSubAdapter.class);
 

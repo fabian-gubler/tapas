@@ -30,12 +30,13 @@ public class SubscribeToAuctionFeedWebController {
      * @param payload the identifier of the auction feed to be subscribed to
      * @return a 200 OK status code if the subscription is successful
      */
-    @PostMapping(path = "/subscription/")
-    public ResponseEntity<Void> launchAuction(@RequestBody String payload) {
+    @PostMapping(path = "/subscribeToFeed/")
+    public ResponseEntity<Void> subscribeToFeed(@RequestBody String payload) {
         LOGGER.info("Received request to subscribe to auction feed: " + payload);
 
         SubscribeToAuctionFeedCommand command = new SubscribeToAuctionFeedCommand(new Auction.AuctionFeedId(payload));
         subscribeToAuctionFeedUseCase.subscribeToFeed(command);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
