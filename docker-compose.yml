@@ -102,20 +102,20 @@ services:
       - "traefik.http.routers.executor-compute.tls.certresolver=le"
 
 
-  executor-joke:
+  executor-api:
     image: openjdk
-    command: "java -jar /data/executor-joke-0.0.1.jar"
+    command: "java -jar /data/executor-api-0.0.1.jar"
     restart: unless-stopped
     volumes:
       - ./:/data/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.executor-joke.rule=Host(`executor-joke.${PUB_IP}.asse.scs.unisg.ch`)"
-      - "traefik.http.routers.executor-joke.service=executor-joke"
-      - "traefik.http.services.executor-joke.loadbalancer.server.port=8084"
-      - "traefik.http.routers.executor-joke.tls=true"
-      - "traefik.http.routers.executor-joke.entryPoints=web,websecure"
-      - "traefik.http.routers.executor-joke.tls.certresolver=le"
+      - "traefik.http.routers.executor-api.rule=Host(`executor-api.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.executor-api.service=executor-api"
+      - "traefik.http.services.executor-api.loadbalancer.server.port=8084"
+      - "traefik.http.routers.executor-api.tls=true"
+      - "traefik.http.routers.executor-api.entryPoints=web,websecure"
+      - "traefik.http.routers.executor-api.tls.certresolver=le"
 
   mongodb:
     image: mongo

@@ -1,4 +1,4 @@
-package ch.unisg.executorjoke.formats;
+package ch.unisg.executorapi.formats;
 
 import lombok.Getter;
 

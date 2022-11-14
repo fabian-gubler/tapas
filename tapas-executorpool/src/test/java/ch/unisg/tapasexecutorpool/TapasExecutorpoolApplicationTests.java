@@ -10,8 +10,8 @@ class TapasExecutorpoolApplicationTests {
     private final MatchExecutorToReceivedTaskService matchExecutorToReceivedTask = new MatchExecutorToReceivedTaskService(new PublishNewTaskExecutionAdapter());
     private final RemoveExecutorFromExecutorPoolService removeExecutorFromExecutorPool = new RemoveExecutorFromExecutorPoolService();
 
-    private final Executor.Endpoint endpoint = new Executor.Endpoint("http://localhost:8084/excutors/joke");
-    private final Executor.ExecutorType executorType = new Executor.ExecutorType(Executor.Type.JOKE);
+    private final Executor.Endpoint endpoint = new Executor.Endpoint("http://localhost:8084/excutors/api");
+    private final Executor.ExecutorType executorType = new Executor.ExecutorType(Executor.Type.api);
 
     private final ExecutorPool executorPool = ExecutorPool.getExecutorPool();
     AddNewExecutorToExecutorPoolCommand command = new AddNewExecutorToExecutorPoolCommand(endpoint, executorType);
@@ -36,7 +36,7 @@ class TapasExecutorpoolApplicationTests {
 
     @Test
     void testExecutorMatching() {
-        String taskType = "joke";
+        String taskType = "api";
         String taskLocation = "testLocation";
         String inputData = null;
 

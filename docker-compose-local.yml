@@ -28,7 +28,7 @@ services:
     depends_on:
       - mongodb
     ports: #Just needed when testing from outside
-      - "8081:8081"
+      - "8086:8086"
     networks:
       - tapas-network
 
@@ -63,11 +63,11 @@ services:
       - tapas-network
 
 
-  executor-joke:
+  executor-api:
     build:
-      context: ./executor-joke
+      context: ./executor-api
       dockerfile: Dockerfile-local
-    image: tapas-fs22-group3-executor-joke
+    image: tapas-fs22-group3-executor-api
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE

@@ -31,7 +31,7 @@ class MatchExecutorToReceivedTaskWebControllerTest {
     public void matchExecutorToReceivedTask() throws Exception {
 
         String taskLocation = "TEST_LOCATION";
-        String taskType = "JOKETEST";
+        String taskType = "apiTEST";
         String taskList = "TEST_TASKLIST";
         String inputData = "TEST_INPUTDATA";
 
@@ -42,7 +42,7 @@ class MatchExecutorToReceivedTaskWebControllerTest {
             .put("inputData", inputData)
             .toString();
 
-        Executor executorStub = Executor.createExecutorWithTypeAndEnpoint(new Executor.ExecutorType(taskType), new Executor.Endpoint("/executor/joke"));
+        Executor executorStub = Executor.createExecutorWithTypeAndEnpoint(new Executor.ExecutorType(taskType), new Executor.Endpoint("/executor/api"));
 
         MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType,taskLocation,inputData);
 

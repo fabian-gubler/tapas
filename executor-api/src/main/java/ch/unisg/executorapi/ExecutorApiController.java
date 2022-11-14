@@ -1,6 +1,6 @@
-package ch.unisg.executorjoke;
+package ch.unisg.executorapi;
 
-import ch.unisg.executorjoke.formats.TaskInputRepresentation;
+import ch.unisg.executorapi.formats.TaskInputRepresentation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,16 +9,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequiredArgsConstructor
-public class ExecutorJokeController {
+public class ExecutorApiController {
 
     private final ExecuteTaskService executeTaskService;
 
-    @PostMapping(path = "/executor/joke")
-    private ResponseEntity<String> getJoke(@RequestBody TaskInputRepresentation payload, @RequestHeader(HttpHeaders.LOCATION) String taskLocation) {
+    @PostMapping(path = "/executor/api")
+    private ResponseEntity<String> getData(@RequestBody TaskInputRepresentation payload, @RequestHeader(HttpHeaders.LOCATION) String taskLocation) {
         try {
             executeTaskService.execute(payload.getInputData(), taskLocation);
 

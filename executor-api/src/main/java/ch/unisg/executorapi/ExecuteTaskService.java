@@ -1,4 +1,4 @@
-package ch.unisg.executorjoke;
+package ch.unisg.executorapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +23,7 @@ public class ExecuteTaskService {
         try {
             RestTemplate restTemplate = new RestTemplate();
 
-            String apiResponse = restTemplate.getForObject(API_URI + "inputData", String.class);
-            Thread.sleep(5000);
+            String apiResponse = restTemplate.getForObject(API_URI + inputData, String.class);
             sendResponse(true, apiResponse, taskLocation);
         } catch (Exception e) {
             sendResponse(false, "", taskLocation);
