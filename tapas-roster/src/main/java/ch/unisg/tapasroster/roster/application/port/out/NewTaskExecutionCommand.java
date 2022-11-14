@@ -10,10 +10,14 @@ public class NewTaskExecutionCommand {
 
     public String inputData;
 
-    public NewTaskExecutionCommand(String taskType, String taskExecutionURI, String taskLocation, String inputData) {
+    public String returnLocation;
+
+
+    public NewTaskExecutionCommand(String taskType, String taskExecutionURI, String taskLocation, String inputData, String returnLocation) {
         this.taskType = taskType;
         this.taskLocation = taskLocation;
         this.taskExecutionURI = taskExecutionURI;
         this.inputData = inputData;
+        this.returnLocation = returnLocation;
     }
 }

@@ -38,7 +38,7 @@ final public class ExecutorJsonRepresentation {
     /**
      * Instantiate a task representation with a task name and type.
      *
-     * @param executorType string that represents the executor type, i.e. the type of tasks the executor can execute, allowed values: JOKE, COMPUTE
+     * @param executorType string that represents the executor type, i.e. the type of tasks the executor can execute, allowed values: API, COMPUTE
      * @param endpoint     string that represents the location where the executor service can be reached
      */
     public ExecutorJsonRepresentation(String executorType, String endpoint) {

@@ -8,6 +8,6 @@ RUN mvn -f app/pom.xml --batch-mode --update-snapshots verify
 
 FROM openjdk
 
-COPY --from=build /app/target/executor-joke-0.0.1.jar ./executor-joke-0.0.1.jar
+COPY --from=build /app/target/executor-api-0.0.1.jar ./executor-api-0.0.1.jar
 
-CMD java -jar executor-joke-0.0.1.jar
+CMD java -jar executor-api-0.0.1.jar

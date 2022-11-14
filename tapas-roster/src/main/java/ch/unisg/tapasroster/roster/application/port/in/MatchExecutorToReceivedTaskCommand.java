@@ -1,7 +1,5 @@
 package ch.unisg.tapasroster.roster.application.port.in;
 
-import ch.unisg.tapasroster.common.SelfValidating;
-import ch.unisg.tapasroster.roster.domain.Executor;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
@@ -29,6 +27,5 @@ public class MatchExecutorToReceivedTaskCommand {
         this.taskType = taskType;
         this.taskLocation = taskLocation;
         this.inputData = inputData;
-
     }
 }

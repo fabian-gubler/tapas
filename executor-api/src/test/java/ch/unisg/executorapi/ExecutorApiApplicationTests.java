@@ -1,10 +1,10 @@
-package ch.unisg.executorjoke;
+package ch.unisg.executorapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ExecutorJokeApplicationTests {
+class ExecutorApiApplicationTests {
 
 	@Test
 	void contextLoads() {

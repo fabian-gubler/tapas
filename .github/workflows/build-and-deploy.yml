@@ -40,9 +40,9 @@ jobs:
       run: mvn -f tapas-roster/pom.xml --batch-mode --update-snapshots verify
     - run: cp ./tapas-roster/target/tapas-roster-0.0.1.jar ./target
 
-    - name: Build executor-joke with Maven
-      run: mvn -f executor-joke/pom.xml --batch-mode --update-snapshots verify
-    - run: cp ./executor-joke/target/executor-joke-0.0.1.jar ./target
+    - name: Build executor-api with Maven
+      run: mvn -f executor-api/pom.xml --batch-mode --update-snapshots verify
+    - run: cp ./executor-api/target/executor-api-0.0.1.jar ./target
 
     - name: Build Tapas-Auction-House with Maven
       run: mvn -f tapas-auction-house/pom.xml --batch-mode --update-snapshots verify -DskipTests

@@ -7,11 +7,12 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
+    image: tapas-fs22-group3-app
     # Use environment variables instead of application.properties
     environment:
      - KEY=VALUE
     ports: #Just needed when testing from outside the docker network
-     - "8080:8080"    
+     - "8080:8080"
     networks:
       - tapas-network
 
@@ -19,29 +20,81 @@ services:
     build:
       context: ./tapas-tasks
       dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-tapas-tasks
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
     hostname: tapas-tasks
+    depends_on:
+      - mongodb
     ports: #Just needed when testing from outside
-      - "8081:8081"
+      - "8086:8086"
     networks:
       - tapas-network
 
-  tapas-auction-house:
+  tapas-executorpool:
     build:
-      context: ./tapas-auction-house
+      context: ./tapas-executorpool
       dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-tapas-executorpool
     # Use environment variables instead of application.properties
     environment:
       - KEY=VALUE
     ports: #Just needed when testing from outside
-      - "8090:8090"
+      - "8082:8082"
+    depends_on:
+      - mongodb
+    hostname: tapas-executorpool
+    networks:
+      - tapas-network
+
+
+  executor-compute:
+    build:
+      context: ./executor-compute
+      dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-executor-compute
+    # Use environment variables instead of application.properties
+    environment:
+      - KEY=VALUE
+    ports: #Just needed when testing from outside
+      - "8083:8083"
+    networks:
+      - tapas-network
+
+
+  executor-api:
+    build:
+      context: ./executor-api
+      dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-executor-api
+    # Use environment variables instead of application.properties
+    environment:
+      - KEY=VALUE
+    ports: #Just needed when testing from outside
+      - "8084:8084"
+    networks:
+      - tapas-network
+
+  tapas-roster:
+    hostname: tapas-roster
+    build:
+      context: ./tapas-roster
+      dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-tapas-roster
+    # Use environment variables instead of application.properties
+    environment:
+      - KEY=VALUE
+    ports: #Just needed when testing from outside
+      - "8085:8085"
+    depends_on:
+      - mongodb
     networks:
       - tapas-network
 
   mongodb:
     image: mongo
+    hostname: mongodb
     container_name: mongodb
     restart: unless-stopped
     ports:

@@ -1,6 +1,6 @@
 package ch.unisg.tapasroster.roster.application.port.out;
 
-import ch.unisg.tapasroster.roster.domain.Roster;
+import ch.unisg.tapasroster.roster.domain.RosterAssignment;
 
 public class UpdateTaskStatusCommand {
 
@@ -10,9 +10,9 @@ public class UpdateTaskStatusCommand {
 
     public Status taskStatus;
 
-    public Roster.TaskLocation taskLocation;
+    public RosterAssignment.TaskLocation taskLocation;
 
-    public UpdateTaskStatusCommand(Status taskStatus, Roster.TaskLocation taskLocation) {
+    public UpdateTaskStatusCommand(Status taskStatus, RosterAssignment.TaskLocation taskLocation) {
         this.taskStatus = taskStatus;
         this.taskLocation = taskLocation;
     }

@@ -1,6 +1,6 @@
 package ch.unisg.tapasroster;
 
-import ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb.RosterRepository;
+import ch.unisg.tapasroster.roster.adapter.out.persistence.mongodb.RosterAssignmentRepository;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +12,7 @@ Starting point of the Spring application
  */
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackageClasses = RosterRepository.class)
+@EnableMongoRepositories(basePackageClasses = RosterAssignmentRepository.class)
 @EnableAsync
 public class TapasRosterApplication {
 

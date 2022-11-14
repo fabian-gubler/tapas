@@ -35,8 +35,8 @@ public class AddNewExecutorToExecutorPoolWebControllerTest {
 	@Test
 	public void addNewExecutorToExecutorPool() throws Exception {
 
-		String executorType = "JOKE";
-		String endpoint = "http://executor-joke:8083/executor/joke";
+		String executorType = "API";
+		String endpoint = "http://executor-api:8083/executor/api";
 
 		String jsonPayLoad = new JSONObject()
 			.put("executorType", executorType)

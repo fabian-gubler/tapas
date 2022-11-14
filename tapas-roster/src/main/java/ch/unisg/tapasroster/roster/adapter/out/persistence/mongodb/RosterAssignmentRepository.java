@@ -4,8 +4,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RosterRepository extends MongoRepository<MongoRosterDocument, String> {
+public interface RosterAssignmentRepository extends MongoRepository<MongoRosterAssignmentDocument, String> {
 
-    MongoRosterDocument findByRosterId(String rosterId);
+    MongoRosterAssignmentDocument findByRosterId(String rosterId);
 
 }

@@ -5,8 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "rosters")
-public class MongoRosterDocument {
+@Document(collection = "rosters-assignments")
+public class MongoRosterAssignmentDocument {
 
     @Id
     public String rosterId;
@@ -15,9 +15,15 @@ public class MongoRosterDocument {
 
     public String taskLocation;
 
-    public MongoRosterDocument(String rosterId, String executorEndpoint, String taskLocation) {
+    public String assignmentStatus;
+
+    public String outputData;
+
+    public MongoRosterAssignmentDocument(String rosterId, String executorEndpoint, String taskLocation, String assignmentStatus, String outputData) {
         this.rosterId = rosterId;
         this.executorEndpoint = executorEndpoint;
         this.taskLocation = taskLocation;
+        this.assignmentStatus = assignmentStatus;
+        this.outputData = outputData;
     }
 }

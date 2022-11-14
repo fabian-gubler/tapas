@@ -48,7 +48,7 @@ public class AddNewExecutorToExecutorPoolSystemTest {
 	@Test
 	void addNewExecutorToExecutorPoolSystemTest() throws JSONException {
 
-		Executor.ExecutorType executorType = new Executor.ExecutorType("Joke");
+		Executor.ExecutorType executorType = new Executor.ExecutorType("Api");
 		Executor.Endpoint executorEndpoint = new Executor.Endpoint("Endpoint");
 
 		ResponseEntity response = whenAddNewExecutorToEmptyPool(executorType, executorEndpoint);
@@ -56,7 +56,6 @@ public class AddNewExecutorToExecutorPoolSystemTest {
 		URI location = response.getHeaders().getLocation();
 
 		then(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-
 	}
 
 	private ResponseEntity whenAddNewExecutorToEmptyPool(ExecutorType executorType,
