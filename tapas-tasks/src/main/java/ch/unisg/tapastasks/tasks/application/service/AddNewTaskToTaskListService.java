@@ -39,11 +39,15 @@ public class AddNewTaskToTaskListService implements AddNewTaskToTaskListUseCase 
         // of the service that implements the use case. For our implementation of the task list there is no immediate
         // reason to lock the list during the adding of a new task.
 
-        if (command.getTaskInput().isPresent()) {
+        if (command.getTaskInput() != null) {
             newTask = taskList.addNewTaskWithNameAndTypeAndInput(command.getTaskName(), command.getTaskType(),
                 command.getTaskInput().get());
         } else {
             newTask = taskList.addNewTaskWithNameAndType(command.getTaskName(), command.getTaskType());
+        }
+
+        if (command.getOriginalTaskUri() != null) {
+            newTask.setOriginalTaskUri(command.getOriginalTaskUri());
         }
 
         addTaskToRepositoryPort.addTask(newTask);

@@ -29,19 +29,23 @@ public class TaskPersistenceAdapterTest {
 
         String testTaskId = UUID.randomUUID().toString();
         String testTaskName = "adds-persistence-task-name";
+        String testTaskOriginalUri = null;
         String testTaskType = "adds-persistence-task-type";
         String testTaskInput = "bla";
         String testTaskOutput = "blub";
         String testTaskStatus = Task.Status.OPEN.toString();
+        String testTaskServiceProvider = null;
         String testTaskListName = "tapas-tasks-tutors";
 
         Task testTask = new Task(
             new Task.TaskId(testTaskId),
                 new Task.TaskName(testTaskName),
+                new Task.OriginalTaskUri(testTaskOriginalUri),
                 new Task.TaskType(testTaskType),
                 new Task.InputData(testTaskInput),
                 new Task.OutputData(testTaskOutput),
-                new Task.TaskStatus(Task.Status.valueOf(testTaskStatus))
+                new Task.TaskStatus(Task.Status.valueOf(testTaskStatus)),
+                new Task.ServiceProvider(testTaskServiceProvider)
             );
         adapterUnderTest.addTask(testTask);
 
@@ -58,14 +62,16 @@ public class TaskPersistenceAdapterTest {
 
         String testTaskId = UUID.randomUUID().toString();
         String testTaskName = "reads-persistence-task-name";
+        String testTaskOriginalUri = null;
         String testTaskType = "reads-persistence-task-type";
         String testTaskInput = null;
         String testTaskOutput = null;
         String testTaskStatus = Task.Status.OPEN.toString();
+        String testTaskServiceProvider = null;
         String testTaskListName = "tapas-tasks-tutors";
 
-        MongoTaskDocument mongoTask = new MongoTaskDocument(testTaskId, testTaskName, testTaskType,
-           testTaskInput, testTaskOutput, testTaskStatus, testTaskListName);
+        MongoTaskDocument mongoTask = new MongoTaskDocument(testTaskId, testTaskName, testTaskOriginalUri,
+            testTaskType, testTaskInput, testTaskOutput, testTaskStatus, testTaskServiceProvider, testTaskListName);
         taskRepository.insert(mongoTask);
 
         try {

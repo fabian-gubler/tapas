@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
-import java.util.Optional;
 
 /**
  * Controller that handles HTTP requests for creating new tasks. This controller implements the
@@ -45,13 +44,17 @@ public class AddNewTaskToTaskListWebController {
             Task.TaskName taskName = new Task.TaskName(payload.getTaskName());
             Task.TaskType taskType = new Task.TaskType(payload.getTaskType());
 
-            // When creating a task, the task's representation may include optional input data
-            Optional<Task.InputData> taskInputData =
-                (payload.getInputData() == null) ? Optional.empty()
-                    : Optional.of(new Task.InputData(payload.getInputData()));
+            // If the created task is a delegated task, the representation contains a URI reference
+            // to the original task
+            Task.OriginalTaskUri originalTaskUri =
+                (payload.getOriginalTaskUri() == null) ? null : new Task.OriginalTaskUri(payload.getOriginalTaskUri());
 
-            AddNewTaskToTaskListCommand command = new AddNewTaskToTaskListCommand(taskName, taskType,
-                taskInputData);
+            // When creating a task, the task's representation may include optional input data
+            Task.InputData taskInputData =
+                (payload.getInputData() == null) ? null : new Task.InputData(payload.getInputData());
+
+            AddNewTaskToTaskListCommand command = new AddNewTaskToTaskListCommand(taskName, originalTaskUri,
+                taskType, taskInputData);
 
             String taskId = addNewTaskToTaskListUseCase.addNewTaskToTaskList(command);
 
@@ -64,8 +67,7 @@ public class AddNewTaskToTaskListWebController {
             // We do not send a body here since we only executed a command to create a new task and not to retrieve it,
             // which corresponds to the command-query-separation.
             // https://blog.ploeh.dk/2014/08/11/cqs-versus-server-generated-ids/
-            return new ResponseEntity<Void>(responseHeaders,
-                HttpStatus.CREATED);
+            return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
         } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

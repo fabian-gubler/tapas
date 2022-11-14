@@ -3,6 +3,7 @@ package ch.unisg.tapastasks.tasks.adapter.in.formats;
 import ch.unisg.tapastasks.tasks.domain.Task;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -86,6 +87,10 @@ final public class TaskJsonRepresentation {
         this.taskId = task.getTaskId().getValue();
         this.taskStatus = task.getTaskStatus().getValue().name();
 
+        this.originalTaskUri = (task.getOriginalTaskUri() == null) ?
+            null : task.getOriginalTaskUri().getValue();
+
+        this.serviceProvider = (task.getServiceProvider() == null) ? null : task.getServiceProvider().getValue();
         this.inputData = (task.getInputData() == null) ? null : task.getInputData().getValue();
         this.outputData = (task.getOutputData() == null) ? null : task.getOutputData().getValue();
     }
@@ -105,5 +110,30 @@ final public class TaskJsonRepresentation {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         return mapper.writeValueAsString(representation);
+    }
+
+    /**
+     * Convenience method used to deserialize a representation in the format exposed through the
+     * uniform HTTP API into a task provided as a domain concept.
+     *
+     * @param taskString a string that encode the representation of the task
+     * @return the task as defined in the domain
+     * @throws JsonProcessingException if a runtime exception occurs during object serialization
+     */
+    public static Task deserialize(String taskString) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode data = mapper.readTree(taskString);
+
+        TaskJsonRepresentation representation = mapper.treeToValue(data, TaskJsonRepresentation.class);
+
+        return new Task(new Task.TaskId(representation.getTaskId()),
+                new Task.TaskName(representation.getTaskName()),
+                new Task.OriginalTaskUri(representation.getOriginalTaskUri()),
+                new Task.TaskType(representation.getTaskType()),
+                new Task.InputData(representation.getInputData()),
+                new Task.OutputData(representation.getOutputData()),
+                new Task.TaskStatus(Task.Status.valueOf(representation.getTaskStatus())),
+                new Task.ServiceProvider(representation.getServiceProvider())
+            );
     }
 }

@@ -22,7 +22,13 @@ public class Task {
     private final TaskType taskType;
 
     @Getter @Setter
+    private OriginalTaskUri originalTaskUri;
+
+    @Getter @Setter
     private TaskStatus taskStatus;
+
+    @Getter @Setter
+    private ServiceProvider serviceProvider;
 
     @Getter @Setter
     private InputData inputData;
@@ -39,14 +45,16 @@ public class Task {
     }
 
     //Constructor from repo
-    public Task(TaskId taskId, TaskName taskName, TaskType taskType, InputData input, OutputData output,
-                TaskStatus taskStatus) {
+    public Task(TaskId taskId, TaskName taskName, OriginalTaskUri originalTaskUri, TaskType taskType,
+                InputData input, OutputData output, TaskStatus taskStatus, ServiceProvider serviceProvider) {
         this.taskId = taskId;
         this.taskName = taskName;
+        this.originalTaskUri = originalTaskUri;
         this.taskType = taskType;
         this.inputData = input;
         this.outputData = output;
         this.taskStatus = taskStatus;
+        this.serviceProvider = serviceProvider;
     }
 
 
@@ -63,10 +71,10 @@ public class Task {
     }
 
     //This is for recreating a task from a repository.
-    public static Task createwithIdNameTypeInputOutputStatus(TaskId taskId, TaskName taskName, TaskType taskType,
-                                                             InputData input, OutputData output,
-                                                             TaskStatus taskStatus) {
-        return new Task(taskId, taskName, taskType, input, output, taskStatus);
+    public static Task createwithIdNameUriTypeInputOutputStatusProvider(TaskId taskId,
+            TaskName taskName, OriginalTaskUri taskUri, TaskType taskType, InputData input,
+            OutputData output, TaskStatus taskStatus, ServiceProvider provider) {
+        return new Task(taskId, taskName, taskUri, taskType, input, output, taskStatus, provider);
     }
 
 
@@ -86,8 +94,18 @@ public class Task {
     }
 
     @Value
+    public static class OriginalTaskUri {
+        String value;
+    }
+
+    @Value
     public static class TaskStatus {
         Status value;
+    }
+
+    @Value
+    public static class ServiceProvider {
+        String value;
     }
 
     @Value
