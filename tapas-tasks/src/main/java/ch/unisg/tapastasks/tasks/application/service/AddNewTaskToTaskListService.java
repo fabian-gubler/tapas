@@ -41,7 +41,7 @@ public class AddNewTaskToTaskListService implements AddNewTaskToTaskListUseCase 
 
         if (command.getTaskInput() != null) {
             newTask = taskList.addNewTaskWithNameAndTypeAndInput(command.getTaskName(), command.getTaskType(),
-                command.getTaskInput().get());
+                command.getTaskInput());
         } else {
             newTask = taskList.addNewTaskWithNameAndType(command.getTaskName(), command.getTaskType());
         }
