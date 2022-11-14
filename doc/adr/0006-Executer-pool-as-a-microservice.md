@@ -13,6 +13,8 @@ The purpose of the executer pool is to keep track of which executors are availab
 ## Decision
 
 Executor pool is implemented as a separate microservice.
+We need to be able to add exeutors even if other services are down.
+The executor pool will experience less load compared to the tasklist and therefore scale differently. Due to that it makes sense to separate them into different services.
 
 ## Consequences
 

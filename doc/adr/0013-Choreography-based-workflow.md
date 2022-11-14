@@ -11,7 +11,8 @@ To manage communication either a central orchestrated workflow or a distribute c
 
 To manage our Workflow we choose and choreography based approach.
 This helps us achieve a high decoupling of the services and improves scalability and fault tolerance.
+A distributed workflow allows us to achieve good scaling and high fault tolerance since the services function independently.
 
 ## Consequences
 
-Workflow based choreography needs to be managed in a distributed workflow.
+Workflow based choreography needs to be managed in a distributed workflow and complicates error handling and state management.

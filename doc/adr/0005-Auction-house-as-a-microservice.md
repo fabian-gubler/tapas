@@ -14,7 +14,8 @@ an external executor in the auction house. Executors can bid for tasks they want
 
 ## Decision
 
-The auction house will be implemented as a separate microservice.
+The auction house will be implemented as a separate microservice. 
+The requirements for the auction house are not specified yet.
 
 ## Consequences
 
