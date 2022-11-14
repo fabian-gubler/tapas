@@ -6,6 +6,7 @@ import ch.unisg.tapastasks.tasks.application.port.in.RetrieveTaskFromTaskListUse
 import ch.unisg.tapastasks.tasks.domain.Task;
 import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
  * query.
  */
 @RestController
+@RequiredArgsConstructor
 public class RetrieveTaskFromTaskListWebController {
     private final RetrieveTaskFromTaskListUseCase retrieveTaskFromTaskListUseCase;
-
-    public RetrieveTaskFromTaskListWebController(RetrieveTaskFromTaskListUseCase retrieveTaskFromTaskListUseCase) {
-        this.retrieveTaskFromTaskListUseCase = retrieveTaskFromTaskListUseCase;
-    }
 
     /**
      * Retrieves a representation of task. Returns HTTP 200 OK if the request is successful. The body of the request
@@ -40,9 +38,11 @@ public class RetrieveTaskFromTaskListWebController {
         try {
             Task retrievedTask = retrieveTaskFromTaskListUseCase.retrieveTaskFromTaskList(query);
             String taskRepresentation = TaskJsonRepresentation.serialize(retrievedTask);
+
             // Add the content type as a response header
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add(HttpHeaders.CONTENT_TYPE, TaskJsonRepresentation.MEDIA_TYPE);
+
             return new ResponseEntity<>(taskRepresentation, responseHeaders, HttpStatus.OK);
         } catch (TaskNotFoundError te) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

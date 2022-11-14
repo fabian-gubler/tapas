@@ -5,8 +5,6 @@ import lombok.Value;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-
 
 /**This is our aggregate root**/
 public class TaskList {
@@ -24,7 +22,7 @@ public class TaskList {
 
     private TaskList(TaskListName taskListName) {
         this.taskListName = taskListName;
-        this.listOfTasks = new ListOfTasks(new LinkedList<Task>());
+        this.listOfTasks = new ListOfTasks(new LinkedList<>());
     }
 
     public static TaskList getTapasTaskList() {
@@ -72,22 +70,29 @@ public class TaskList {
         throw new TaskNotFoundError();
     }
 
-    public boolean changeTaskStatusToRunning(Task.TaskId id) throws TaskNotFoundError {
-        return changeTaskStatus(id, new Task.TaskStatus(Task.Status.RUNNING), Optional.empty());
+    public boolean changeTaskStatusToAssigned(Task.TaskId id, Task.ServiceProvider serviceProvider)
+            throws TaskNotFoundError {
+        return changeTaskStatus(id, new Task.TaskStatus(Task.Status.ASSIGNED), serviceProvider, null);
     }
 
-    public boolean changeTaskStatusToExecuted(Task.TaskId id,
-            Optional<Task.OutputData> outputData) throws TaskNotFoundError {
-        return changeTaskStatus(id, new Task.TaskStatus(Task.Status.EXECUTED), outputData);
+    public boolean changeTaskStatusToRunning(Task.TaskId id, Task.ServiceProvider serviceProvider)
+            throws TaskNotFoundError {
+        return changeTaskStatus(id, new Task.TaskStatus(Task.Status.RUNNING), serviceProvider, null);
     }
 
-    private boolean changeTaskStatus(Task.TaskId id, Task.TaskStatus status,
-            Optional<Task.OutputData> outputData) throws TaskNotFoundError {
+    public boolean changeTaskStatusToExecuted(Task.TaskId id, Task.ServiceProvider serviceProvider,
+            Task.OutputData outputData) throws TaskNotFoundError {
+        return changeTaskStatus(id, new Task.TaskStatus(Task.Status.EXECUTED), serviceProvider, outputData);
+    }
+
+    private boolean changeTaskStatus(Task.TaskId id, Task.TaskStatus status, Task.ServiceProvider serviceProvider,
+            Task.OutputData outputData) throws TaskNotFoundError {
         Task task = retrieveTaskById(id);
         task.setTaskStatus(status);
+        task.setOutputData(outputData);
 
-        if (outputData.isPresent()) {
-            task.setOutputData(outputData.get());
+        if (serviceProvider != null) {
+            task.setServiceProvider(serviceProvider);
         }
 
         return true;

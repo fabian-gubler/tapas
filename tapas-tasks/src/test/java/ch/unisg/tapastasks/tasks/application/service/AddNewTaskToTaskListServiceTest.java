@@ -10,8 +10,6 @@ import ch.unisg.tapastasks.tasks.domain.TaskList;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 
@@ -28,12 +26,12 @@ public class AddNewTaskToTaskListServiceTest {
     void addingSucceeds() {
 
         Task newTask = givenATaskWithNameAndTypeAndInput(new Task.TaskName("test-task"),
-            new Task.TaskType("test-type"), Optional.of(new Task.InputData("1+1")));
+            new Task.TaskType("test-type"), new Task.InputData("1+1"));
 
         TaskList taskList = givenAnEmptyTaskList(TaskList.getTapasTaskList());
 
         AddNewTaskToTaskListCommand addNewTaskToTaskListCommand = new AddNewTaskToTaskListCommand(newTask.getTaskName(),
-            newTask.getTaskType(), Optional.ofNullable(newTask.getInputData()));
+            null, newTask.getTaskType(), newTask.getInputData());
 
         String addedTaskId = addNewTaskToTaskListService.addNewTaskToTaskList(addNewTaskToTaskListCommand);
 
@@ -52,11 +50,11 @@ public class AddNewTaskToTaskListServiceTest {
     }
 
     private Task givenATaskWithNameAndTypeAndInput(Task.TaskName taskName, Task.TaskType taskType,
-                                                   Optional<Task.InputData> inputData) {
+            Task.InputData inputData) {
         Task task = Mockito.mock(Task.class);
         given(task.getTaskName()).willReturn(taskName);
         given(task.getTaskType()).willReturn(taskType);
-        given(task.getInputData()).willReturn(inputData.get());
+        given(task.getInputData()).willReturn(inputData);
         return task;
     }
 
