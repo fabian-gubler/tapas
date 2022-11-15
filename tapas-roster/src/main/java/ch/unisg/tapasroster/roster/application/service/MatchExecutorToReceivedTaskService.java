@@ -26,7 +26,8 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
 
     private final NewTaskExecutionUseCase newTaskExecutionUseCase;
     private final UpdateTaskStatusUseCase updateTaskStatusUseCase;
-    private final UpdateTaskOutputUseCase updateTaskOutputUseCase;
+
+    private final LaunchAuctionUseCase launchAuctionUseCase;
 
     private final RetrieveExecutorUseCase retrieveExecutorUseCase;
 
@@ -39,7 +40,6 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
     /**
      * method to match the executor to the appropriate task, if an executor with a matching task is existing.
      * @param command - gets the data from the command class.
-     * @return
      */
     @Override
     @Async
@@ -92,7 +92,12 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
                 new RosterAssignment.AssignmentStatus("PENDING"));
             addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
-            // todo: send task to AuctionHouse
+            int deadline = 60000;
+            LaunchAuctionCommand launchAuctionCommand = new LaunchAuctionCommand(
+                rosterAssignment.getTaskLocation().getValue(),
+                command.getTaskType(),
+                deadline);
+            launchAuctionUseCase.launchAuction(launchAuctionCommand);
         }
     }
 }
