@@ -31,6 +31,7 @@ jobs:
     - name: Build Tapas-Auction-House with Maven
       run: mvn -f tapas-auction-house/pom.xml --batch-mode --update-snapshots verify -DskipTests
     - run: cp ./tapas-auction-house/target/tapas-auction-house-0.0.1.jar ./target
+    - run: cp ./tapas-auction-house/src/main/resources/application.properties ./target/auction-house.properties
 
     - name: Build App with Maven
       run: mvn -f app/pom.xml --batch-mode --update-snapshots verify

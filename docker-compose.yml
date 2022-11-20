@@ -58,7 +58,7 @@ services:
 
   tapas-auction-house:
     image: openjdk
-    command: "java -jar /data/tapas-auction-house-0.0.1.jar"
+    command: "java -jar /data/tapas-auction-house-0.0.1.jar --spring.config.location=auction-house.properties"
     restart: unless-stopped
     volumes:
       - ./:/data/
