@@ -7,6 +7,11 @@ public class LaunchAuctionCommand {
 
     public static final String MEDIA_TYPE = "application/json";
 
+    @Getter @Setter
+    private String auctionID;
+
+    @Getter @Setter
+    private String auctionHouseUri;
 
     @Getter @Setter
     private String taskUri;
@@ -17,10 +22,16 @@ public class LaunchAuctionCommand {
     @Getter @Setter
     private Integer deadline;
 
-    public LaunchAuctionCommand(String taskUri, String taskType, Integer deadline) {
+    @Getter @Setter
+    private String auctionStatus;
+
+    public LaunchAuctionCommand(String auctionID, String auctionHouseUri, String taskUri, String taskType, Integer deadline, String auctionStatus ) {
+        this.auctionID = auctionID;
+        this.auctionHouseUri = auctionHouseUri;
         this.taskUri = taskUri;
         this.taskType = taskType;
         this.deadline = deadline;
+        this.auctionStatus = auctionStatus;
     }
 
 }

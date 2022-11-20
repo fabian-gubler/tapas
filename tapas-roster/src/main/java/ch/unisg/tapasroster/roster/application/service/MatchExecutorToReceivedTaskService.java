@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 
 /**
  * service to match the executor to the received Task.
@@ -94,9 +96,12 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
             int deadline = 60000;
             LaunchAuctionCommand launchAuctionCommand = new LaunchAuctionCommand(
+                "",
+                "uri",
                 rosterAssignment.getTaskLocation().getValue(),
                 command.getTaskType(),
-                deadline);
+                deadline,
+                "OPEN");
             launchAuctionUseCase.launchAuction(launchAuctionCommand);
         }
     }
