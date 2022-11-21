@@ -1,6 +1,7 @@
 package ch.unisg.tapas.auctionhouse.adapter.out.messaging.mqtt;
 
 import ch.unisg.tapas.auctionhouse.application.port.out.auctions.AuctionWonEventPort;
+import ch.unisg.tapas.auctionhouse.domain.Auction;
 import ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Profile("mqtt")
 public class AuctionWonEventMqttAdapter implements AuctionWonEventPort {
     @Override
-    public void publishAuctionWonEvent(AuctionWonEvent event) {
+    public void publishAuctionWonEvent(AuctionWonEvent event, Auction.AuctionedTaskUri auctionedTaskUri) {
         // TODO: publish auction won event via MQTT
     }
 }
