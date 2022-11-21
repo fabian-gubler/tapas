@@ -20,6 +20,13 @@ public class ExecutorRegistry {
 
     private ExecutorRegistry() {
         this.executors = new Hashtable<>();
+
+        // hardcode available executors for testing purposes
+        // todo: change to dynamic executor list
+        Set<ExecutorIdentifier> taskTypeExecs = executors.getOrDefault(new Auction.AuctionedTaskType("joke-9000"),
+            Collections.synchronizedSet(new HashSet<>()));
+
+        this.executors.put(new Auction.AuctionedTaskType("joke-9000"), taskTypeExecs);
     }
 
     public static synchronized ExecutorRegistry getInstance() {

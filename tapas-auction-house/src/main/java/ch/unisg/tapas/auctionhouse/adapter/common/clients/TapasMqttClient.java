@@ -56,6 +56,10 @@ public class TapasMqttClient {
         return tapasClient;
     }
 
+    public static synchronized TapasMqttClient getInstance() {
+        return tapasClient;
+    }
+
     /**
      * Connects to the MQTT broker. This method need to be called before publishing messages or
      * subscribing to topics.

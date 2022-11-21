@@ -1,7 +1,11 @@
 package ch.unisg.tapas.auctionhouse.adapter.out.messaging.mqtt;
 
+import ch.unisg.tapas.auctionhouse.adapter.common.clients.TapasMqttClient;
+import ch.unisg.tapas.auctionhouse.adapter.common.formats.BidJsonRepresentation;
 import ch.unisg.tapas.auctionhouse.application.port.out.auctions.AuctionWonEventPort;
 import ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +18,12 @@ import org.springframework.stereotype.Component;
 public class AuctionWonEventMqttAdapter implements AuctionWonEventPort {
     @Override
     public void publishAuctionWonEvent(AuctionWonEvent event) {
-        // TODO: publish auction won event via MQTT
+        TapasMqttClient mqttClient = TapasMqttClient.getInstance();
+
+        try {
+            mqttClient.publish("ch/unisg/tapas/auctionwon", "");
+        } catch (MqttException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
