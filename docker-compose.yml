@@ -56,6 +56,21 @@ services:
       - "traefik.http.routers.tapas-tasks.entryPoints=web,websecure"
       - "traefik.http.routers.tapas-tasks.tls.certresolver=le"
 
+  tapas-auction-house:
+    image: openjdk
+    command: "java -jar /data/tapas-auction-house-0.0.1.jar --spring.config.location=/data/auction-house.properties"
+    restart: unless-stopped
+    volumes:
+      - ./:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tapas-auction-house.rule=Host(`tapas-auction-house.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.tapas-auction-house.service=tapas-auction-house"
+      - "traefik.http.services.tapas-auction-house.loadbalancer.server.port=8090"
+      - "traefik.http.routers.tapas-auction-house.tls=true"
+      - "traefik.http.routers.tapas-auction-house.entryPoints=web,websecure"
+      - "traefik.http.routers.tapas-auction-house.tls.certresolver=le"
+
   tapas-executorpool:
     image: openjdk
     command: "java -jar /data/tapas-executorpool-0.0.3.jar"
