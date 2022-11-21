@@ -1,6 +1,6 @@
 package ch.unisg.tapas.auctionhouse.adapter.in.messaging.mqtt;
 
-import ch.unisg.tapas.auctionhouse.application.port.in.auctions.AuctionStartedEventHandler;
+import ch.unisg.tapas.auctionhouse.application.port.in.auctions.AuctionStartedEvent;
 import org.eclipse.paho.client.mqttv3.*;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -26,10 +26,18 @@ public class AuctionHouseEventMqttDispatcher {
     private final Map<String, AuctionHouseEventMqttListener> router;
     private final ExecutorAddedEventListenerMqttAdapter executorAddedEventListenerMqttAdapter;
 
-    public AuctionHouseEventMqttDispatcher(AuctionStartedEventHandler auctionStartedEventHandler,
-                                           AuctionStartedEventListenerMqttAdapter auctionStartedEventListenerMqttAdapter, ExecutorAddedEventListenerMqttAdapter executorAddedEventListenerMqttAdapter) {
+    private final AuctionStartedEventListenerMqttAdapter auctionStartedEventListenerMqttAdapter;
+
+    private final BidReceivedEventListenerMqttAdapter bidReceivedEventListenerMqttAdapter;
+
+    public AuctionHouseEventMqttDispatcher(ExecutorAddedEventListenerMqttAdapter executorAddedEventListenerMqttAdapter,
+                                           AuctionStartedEventListenerMqttAdapter auctionStartedEventListenerMqttAdapter,
+                                           BidReceivedEventListenerMqttAdapter bidReceivedEventListenerMqttAdapter
+                                           ) {
         this.router = new Hashtable<>();
         this.executorAddedEventListenerMqttAdapter = executorAddedEventListenerMqttAdapter;
+        this.bidReceivedEventListenerMqttAdapter = bidReceivedEventListenerMqttAdapter;
+        this.auctionStartedEventListenerMqttAdapter = auctionStartedEventListenerMqttAdapter;
 
         initRouter();
     }
@@ -41,6 +49,8 @@ public class AuctionHouseEventMqttDispatcher {
     private void initRouter() {
         // TODO: The topic and the event listener listed below are just to provide an example
         router.put("ch/unisg/tapas-group-tutors/executors", executorAddedEventListenerMqttAdapter);
+        router.put("ch/unisg/tapas/bids", bidReceivedEventListenerMqttAdapter);
+        router.put("ch/unisg/tapas/auctions", auctionStartedEventListenerMqttAdapter);
     }
 
     /**

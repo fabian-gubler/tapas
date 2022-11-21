@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.UUID;
 
 
@@ -94,7 +95,9 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
                 new RosterAssignment.AssignmentStatus("PENDING"));
             addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
-            int deadline = 60000;
+
+            int deadline = (int) Instant.now().getEpochSecond();
+
             LaunchAuctionCommand launchAuctionCommand = new LaunchAuctionCommand(
                 "",
                 "uri",
