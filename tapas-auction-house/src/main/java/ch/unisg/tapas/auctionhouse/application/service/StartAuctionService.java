@@ -101,7 +101,7 @@ public class StartAuctionService implements LaunchAuctionUseCase {
                             + auction.getTaskUri().getValue() + " won by " + bidderName.getValue());
 
                     // Send an auction won event for the winning bid
-                    auctionWonEventPort.publishAuctionWonEvent(new AuctionWonEvent(bid.get()));
+                    auctionWonEventPort.publishAuctionWonEvent(new AuctionWonEvent(bid.get()), auction.getTaskUri());
                 } else {
                     LOGGER.info("Auction #" + auction.getAuctionId().getValue() + " ended with no bids for task "
                             + auction.getTaskUri().getValue());
