@@ -18,12 +18,6 @@ public class Auction {
         OPEN, CLOSED
     }
 
-    // One way to generate auction identifiers is incremental starting from 1. This makes identifiers
-    // predictable, which can help with debugging when multiple parties are interacting, but it also
-    // means that auction identifiers are not universally unique unless they are part of a URI.
-    // An alternative would be to use UUIDs (see constructor).
-    private static long AUCTION_COUNTER = 1;
-
     @Getter
     private AuctionId auctionId;
 
@@ -71,10 +65,8 @@ public class Auction {
      */
     public Auction(AuctionHouseUri auctionHouseUri, AuctionedTaskUri taskUri,
                    AuctionedTaskType taskType, AuctionDeadline deadline) {
-        // Generates an incremental identifier
-        this.auctionId = new AuctionId("" + AUCTION_COUNTER ++);
-        // As an alternative, we could also generate an UUID
-        // this.auctionId = new AuctionId(UUID.randomUUID().toString());
+
+        this.auctionId = new AuctionId(UUID.randomUUID().toString());
 
         this.auctionStatus = new AuctionStatus(Status.OPEN);
 

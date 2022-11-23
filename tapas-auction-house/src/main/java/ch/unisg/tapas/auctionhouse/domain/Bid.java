@@ -32,6 +32,9 @@ public class Bid {
     @Getter
     private final BidTime bidTime;
 
+    @Getter
+    private final TargetAuctionHouseUri targetAuctionHouseUri;
+
     /**
      * Constructs a bid.
      *
@@ -42,12 +45,13 @@ public class Bid {
      * @param bidTime
      */
     public Bid(Auction.AuctionId auctionId, BidderName bidderName, BidderAuctionHouseUri auctionHouseUri,
-               BidderTaskListUri taskListUri, BidTime bidTime) {
+               BidderTaskListUri taskListUri, BidTime bidTime, TargetAuctionHouseUri targetAuctionHouseUri) {
         this.auctionId = auctionId;
         this.bidderName = bidderName;
         this.bidderAuctionHouseUri = auctionHouseUri;
         this.bidderTaskListUri = taskListUri;
         this.bidTime = bidTime;
+        this.targetAuctionHouseUri = targetAuctionHouseUri;
     }
 
     /*
@@ -71,6 +75,11 @@ public class Bid {
 
     @Value
     public static class BidTime {
-        private Integer value;
+        private long value;
+    }
+
+    @Value
+    public static class TargetAuctionHouseUri {
+        private URI value;
     }
 }

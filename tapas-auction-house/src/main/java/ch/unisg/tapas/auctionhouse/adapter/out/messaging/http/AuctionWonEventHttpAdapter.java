@@ -17,7 +17,8 @@ import java.net.http.HttpResponse;
  * here only as a placeholder, it is up to you to decide how such events should be sent.
  */
 @Component
-@Profile("http-websub")
+// profile is not used as both mqtt and websub use http outg adapter to send the shadow task
+// @Profile("http-websub")
 public class AuctionWonEventHttpAdapter implements AuctionWonEventPort {
     @Override
     public void publishAuctionWonEvent(AuctionWonEvent event, Auction.AuctionedTaskUri auctionedTaskUri) {

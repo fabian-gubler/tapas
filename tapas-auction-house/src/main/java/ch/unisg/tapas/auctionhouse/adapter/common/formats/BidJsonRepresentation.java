@@ -29,7 +29,7 @@ public class BidJsonRepresentation {
 
     @Getter
     @Setter
-    private Integer bidTime;
+    private long bidTime;
 
     @Getter
     @Setter
@@ -39,22 +39,28 @@ public class BidJsonRepresentation {
     @Setter
     private String bidderAuctionHouseUri;
 
+    @Getter
+    @Setter
+    private String targetAuctionHouseUri;
+
 
     public BidJsonRepresentation() {
     }
 
-    public BidJsonRepresentation(String auctionId, String bidderTaskListUri, Integer bidTime, String bidderName, String bidderAuctionHouseUri) {
+    public BidJsonRepresentation(String auctionId, String bidderTaskListUri, Integer bidTime, String bidderName, String bidderAuctionHouseUri, String targetAuctionHouseUri) {
         this.auctionId = auctionId;
         this.bidderTaskListUri = bidderTaskListUri;
         this.bidTime = bidTime;
         this.bidderName = bidderName;
         this.bidderAuctionHouseUri = bidderAuctionHouseUri;
+        this.targetAuctionHouseUri = targetAuctionHouseUri;
     }
 
     public BidJsonRepresentation(Bid bid) {
         this.auctionId = bid.getAuctionId().getValue();
         this.bidderTaskListUri = bid.getBidderTaskListUri().getValue().toString();
         this.bidTime = bid.getBidTime().getValue();
+        this.targetAuctionHouseUri = bid.getTargetAuctionHouseUri().getValue().toString();
         this.bidderName = bid.getBidderName().getValue();
         this.bidderAuctionHouseUri = bid.getBidderAuctionHouseUri().getValue().toString();
     }
@@ -79,7 +85,8 @@ public class BidJsonRepresentation {
             new Bid.BidderName(representation.getBidderName()),
             new Bid.BidderAuctionHouseUri(URI.create(representation.getBidderAuctionHouseUri())),
             new Bid.BidderTaskListUri(URI.create(representation.getBidderTaskListUri())),
-            new Bid.BidTime(representation.getBidTime())
+            new Bid.BidTime(representation.getBidTime()),
+            new Bid.TargetAuctionHouseUri(URI.create(representation.getTargetAuctionHouseUri()))
         );
     }
 }
