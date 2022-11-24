@@ -42,8 +42,8 @@ public class TaskList {
         return newTask;
     }
 
-    public Task addNewTaskWithNameAndTypeAndInput(Task.TaskName name, Task.TaskType type, Task.InputData input) {
-        Task newTask = Task.createTaskWithNameAndTypeAndInput(name, type, input);
+    public Task addNewTaskWithNameAndTypeAndInput(Task.TaskName name, Task.TaskType type, Task.InputData input, Task.TaskListURI taskListURI) {
+        Task newTask = Task.createTaskWithNameAndTypeAndInput(name, type, input, taskListURI);
         this.addNewTaskToList(newTask);
 
         return newTask;

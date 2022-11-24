@@ -40,12 +40,13 @@ public class Task {
     @Getter @Setter
     private TaskListURI taskListURI;
 
-    private Task(TaskName taskName, TaskType taskType, InputData input) {
+    private Task(TaskName taskName, TaskType taskType, InputData input, TaskListURI taskListURI) {
         this.taskId = new TaskId(UUID.randomUUID().toString());
         this.taskName = taskName;
         this.taskType = taskType;
         this.inputData = input;
         this.taskStatus = new TaskStatus(Status.OPEN);
+        this.taskListURI = taskListURI;
     }
 
     //Constructor from repo
@@ -66,13 +67,13 @@ public class Task {
     public static Task createTaskWithNameAndType(TaskName name, TaskType type) {
         //This is a simple debug message to see that the request has reached the right method in the core
         System.out.println("New Task: " + name.getValue() + " " + type.getValue());
-        return new Task(name, type, null);
+        return new Task(name, type, null, new TaskListURI(""));
     }
 
-    public static Task createTaskWithNameAndTypeAndInput(TaskName name, TaskType type, InputData input) {
+    public static Task createTaskWithNameAndTypeAndInput(TaskName name, TaskType type, InputData input, TaskListURI taskListURI) {
         //This is a simple debug message to see that the request has reached the right method in the core
         System.out.println("New Task: " + name.getValue() + " " + type.getValue());
-        return new Task(name, type, input);
+        return new Task(name, type, input, taskListURI);
     }
 
     //This is for recreating a task from a repository.
