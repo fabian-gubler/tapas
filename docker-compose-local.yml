@@ -92,6 +92,22 @@ services:
     networks:
       - tapas-network
 
+  tapas-auctionhouse:
+    hostname: tapas-auction-house
+    build:
+      context: ./tapas-auction-house
+      dockerfile: Dockerfile-local
+    image: tapas-fs22-group3-tapas-auction-house
+    # Use environment variables instead of application.properties
+    environment:
+      - KEY=VALUE
+    ports: #Just needed when testing from outside
+      - "8090:8090"
+    depends_on:
+      - mongodb
+    networks:
+      - tapas-network
+
   mongodb:
     image: mongo
     hostname: mongodb

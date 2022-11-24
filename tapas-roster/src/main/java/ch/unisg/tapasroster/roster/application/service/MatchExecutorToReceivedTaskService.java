@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.util.UUID;
+
 
 /**
  * service to match the executor to the received Task.
@@ -26,7 +29,8 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
 
     private final NewTaskExecutionUseCase newTaskExecutionUseCase;
     private final UpdateTaskStatusUseCase updateTaskStatusUseCase;
-    private final UpdateTaskOutputUseCase updateTaskOutputUseCase;
+
+    private final LaunchAuctionUseCase launchAuctionUseCase;
 
     private final RetrieveExecutorUseCase retrieveExecutorUseCase;
 
@@ -39,7 +43,6 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
     /**
      * method to match the executor to the appropriate task, if an executor with a matching task is existing.
      * @param command - gets the data from the command class.
-     * @return
      */
     @Override
     @Async
@@ -92,7 +95,18 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
                 new RosterAssignment.AssignmentStatus("PENDING"));
             addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
-            // todo: send task to AuctionHouse
+
+            int deadline = (int) Instant.now().getEpochSecond() + 15;
+
+            //TODO remove uneccessary data (id, uri, status)
+            LaunchAuctionCommand launchAuctionCommand = new LaunchAuctionCommand(
+                "",
+                "uri",
+                rosterAssignment.getTaskLocation().getValue(),
+                command.getTaskType(),
+                deadline,
+                "OPEN");
+            launchAuctionUseCase.launchAuction(launchAuctionCommand);
         }
     }
 }

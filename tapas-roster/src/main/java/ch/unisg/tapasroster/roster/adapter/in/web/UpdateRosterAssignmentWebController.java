@@ -35,6 +35,7 @@ public class UpdateRosterAssignmentWebController {
             Optional<String> outputData = Optional.ofNullable(payload.getOutputData());
 
 
+
             UpdateRosterAssignmentCommand command = new UpdateRosterAssignmentCommand(assignmentId, newStatus, outputData);
 
             if(updateRosterAssignmentUseCase.updateAssignment(command)){

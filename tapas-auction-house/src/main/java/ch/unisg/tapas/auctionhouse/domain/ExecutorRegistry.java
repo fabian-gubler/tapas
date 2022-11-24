@@ -20,6 +20,21 @@ public class ExecutorRegistry {
 
     private ExecutorRegistry() {
         this.executors = new Hashtable<>();
+
+        // hardcode available executors for testing purposes
+        // todo: change to dynamic executor list
+        Set<ExecutorIdentifier> taskTypeGenderApi = executors.getOrDefault(new Auction.AuctionedTaskType("gender-api"),
+            Collections.synchronizedSet(new HashSet<>()));
+
+        Set<ExecutorIdentifier> taskTypeComputeAdd = executors.getOrDefault(new Auction.AuctionedTaskType("compute-add"),
+            Collections.synchronizedSet(new HashSet<>()));
+
+        Set<ExecutorIdentifier> taskTypeComputeMultiply = executors.getOrDefault(new Auction.AuctionedTaskType("compute-multiply"),
+            Collections.synchronizedSet(new HashSet<>()));
+
+        this.executors.put(new Auction.AuctionedTaskType("gender-api"), taskTypeGenderApi);
+        this.executors.put(new Auction.AuctionedTaskType("compute-add"), taskTypeComputeAdd);
+        this.executors.put(new Auction.AuctionedTaskType("compute-multiply"), taskTypeComputeMultiply);
     }
 
     public static synchronized ExecutorRegistry getInstance() {

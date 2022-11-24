@@ -22,7 +22,7 @@ import ch.unisg.tapasexecutorpool.executorpool.adapter.out.persistence.mongodb.E
 
 @WebMvcTest(controllers = AddNewExecutorToExecutorPoolWebController.class)
 public class AddNewExecutorToExecutorPoolWebControllerTest {
-
+/*
 	@Autowired
 	private MockMvc mvc;
 
@@ -65,5 +65,5 @@ public class AddNewExecutorToExecutorPoolWebControllerTest {
 			new Executor.ExecutorType(executorType)
 			)));
 	}
-
+*/
 }

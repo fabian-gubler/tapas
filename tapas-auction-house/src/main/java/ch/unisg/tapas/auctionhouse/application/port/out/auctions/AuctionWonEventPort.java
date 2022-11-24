@@ -1,5 +1,6 @@
 package ch.unisg.tapas.auctionhouse.application.port.out.auctions;
 
+import ch.unisg.tapas.auctionhouse.domain.Auction;
 import ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent;
 
 /**
@@ -7,5 +8,5 @@ import ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent;
  */
 public interface AuctionWonEventPort {
 
-    void publishAuctionWonEvent(AuctionWonEvent event);
+    void publishAuctionWonEvent(AuctionWonEvent event, Auction.AuctionedTaskUri auctionedTaskUri);
 }

@@ -29,20 +29,29 @@ public class Bid {
     @Getter
     private final BidderTaskListUri bidderTaskListUri;
 
+    @Getter
+    private final BidTime bidTime;
+
+    @Getter
+    private final TargetAuctionHouseUri targetAuctionHouseUri;
+
     /**
      * Constructs a bid.
      *
-     * @param auctionId the identifier of the auction for which the bid is placed
-     * @param bidderName the name of the bidder, i.e. the identifier of the TAPAS group
+     * @param auctionId       the identifier of the auction for which the bid is placed
+     * @param bidderName      the name of the bidder, i.e. the identifier of the TAPAS group
      * @param auctionHouseUri the URI of the bidder's auction house
-     * @param taskListUri the URI fo the bidder's list of tasks
+     * @param taskListUri     the URI fo the bidder's list of tasks
+     * @param bidTime
      */
     public Bid(Auction.AuctionId auctionId, BidderName bidderName, BidderAuctionHouseUri auctionHouseUri,
-            BidderTaskListUri taskListUri) {
+               BidderTaskListUri taskListUri, BidTime bidTime, TargetAuctionHouseUri targetAuctionHouseUri) {
         this.auctionId = auctionId;
         this.bidderName = bidderName;
         this.bidderAuctionHouseUri = auctionHouseUri;
         this.bidderTaskListUri = taskListUri;
+        this.bidTime = bidTime;
+        this.targetAuctionHouseUri = targetAuctionHouseUri;
     }
 
     /*
@@ -61,6 +70,16 @@ public class Bid {
 
     @Value
     public static class BidderTaskListUri {
+        private URI value;
+    }
+
+    @Value
+    public static class BidTime {
+        private long value;
+    }
+
+    @Value
+    public static class TargetAuctionHouseUri {
         private URI value;
     }
 }
