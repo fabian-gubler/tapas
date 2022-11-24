@@ -27,11 +27,11 @@ public class BidReceivedListenerHttpAdapter {
     private final BidReceivedEventHandler bidReceivedEventHandler;
 
     @PostMapping(path = "/{auctionId}/")
-    public ResponseEntity<Void> handleExecutorAddedEvent(@PathVariable("auctionId") String auctionId, @RequestBody String payload) {
+    public ResponseEntity<Void> handeBidReceivedEvent(@PathVariable("auctionId") String auctionId, @RequestBody String payload) {
 
         try {
             Bid bid = BidJsonRepresentation.deserialize(payload);
-            LOGGER.info("Bid placed for auction #" + auctionId + " by " + bid.getBidderName());
+            LOGGER.info("Bid placed for auction #" + auctionId + " by " + bid.getBidderName().getValue());
 
             BidReceivedEvent bidReceivedEvent = new BidReceivedEvent(bid);
             bidReceivedEventHandler.handleBidReceivedEvent(bidReceivedEvent);

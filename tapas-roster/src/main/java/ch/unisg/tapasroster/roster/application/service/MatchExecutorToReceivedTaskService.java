@@ -96,7 +96,7 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
             addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
 
-            int deadline = (int) Instant.now().getEpochSecond();
+            int deadline = (int) Instant.now().getEpochSecond() + 15;
 
             LaunchAuctionCommand launchAuctionCommand = new LaunchAuctionCommand(
                 "",
