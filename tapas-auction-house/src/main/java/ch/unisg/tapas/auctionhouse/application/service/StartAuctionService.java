@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -62,8 +63,9 @@ public class StartAuctionService implements LaunchAuctionUseCase {
             command.getTaskUri(), command.getTaskType(), deadline);
         auctions.addAuction(auction);
 
+        int remainingTime = (int) Instant.now().getEpochSecond() - deadline.getValue();
         // Schedule the closing of the auction at the deadline
-        service.schedule(new CloseAuctionTask(auction.getAuctionId()), deadline.getValue(),
+        service.schedule(new CloseAuctionTask(auction.getAuctionId()), remainingTime,
             TimeUnit.MILLISECONDS);
 
         // Publish an auction started event

@@ -7,19 +7,23 @@ public class NewTaskAddedEvent {
     public String taskType;
 
     public String inputData;
+    public String taskListURI;
 
-    public NewTaskAddedEvent(String taskId, String taskListName, String taskType) {
+    public NewTaskAddedEvent(String taskId, String taskListName, String taskType, String taskListURI) {
         this.taskId = taskId;
         this.taskListName = taskListName;
         this.taskType = taskType;
         this.inputData = "";
+        this.taskListURI = taskListURI;
+
     }
 
-    public NewTaskAddedEvent(String taskId, String taskListName, String taskType, String inputData) {
+    public NewTaskAddedEvent(String taskId, String taskListName, String taskType, String inputData, String taskListURI) {
         this.taskId = taskId;
         this.taskListName = taskListName;
         this.taskType = taskType;
         this.inputData = inputData;
+        this.taskListURI = taskListURI;
     }
 }
 
