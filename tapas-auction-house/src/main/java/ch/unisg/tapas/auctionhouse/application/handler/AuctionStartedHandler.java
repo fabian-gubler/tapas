@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.net.URI;
 import java.time.Instant;
 
 /**
@@ -43,13 +44,14 @@ public class AuctionStartedHandler implements AuctionStartedEventHandler {
                 + auction.getTaskType().getValue() + " in auction " + auction.getAuctionId().getValue()
                 + " from auction house " + auction.getAuctionHouseUri().getValue().toString());
 
-            Bid.BidTime bidTime = new Bid.BidTime((int) Instant.now().getEpochSecond());
+            Bid.BidTime bidTime = new Bid.BidTime(Instant.now().getEpochSecond());
 
             Bid bid = new Bid(auction.getAuctionId(),
                 new Bid.BidderName(config.getGroupName()),
                 new Bid.BidderAuctionHouseUri(config.getAuctionHouseUri()),
                 new Bid.BidderTaskListUri(config.getTaskListUri()),
-                bidTime);
+                bidTime,
+                new Bid.TargetAuctionHouseUri(URI.create(auction.getAuctionHouseUri().getValue().toString())));
 
             placeBidForAuctionPort.placeBid(auction, bid);
         } else {
