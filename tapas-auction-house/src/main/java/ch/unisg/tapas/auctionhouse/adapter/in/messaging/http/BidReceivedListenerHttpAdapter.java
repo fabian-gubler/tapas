@@ -26,7 +26,7 @@ public class BidReceivedListenerHttpAdapter {
     private static final Logger LOGGER = LogManager.getLogger(BidReceivedListenerHttpAdapter.class);
     private final BidReceivedEventHandler bidReceivedEventHandler;
 
-    @PostMapping(path = "/{auctionId}/")
+    @PostMapping(path = "/{auctionId}/", consumes = BidJsonRepresentation.MEDIA_TYPE)
     public ResponseEntity<Void> handeBidReceivedEvent(@PathVariable("auctionId") String auctionId, @RequestBody String payload) {
 
         try {
