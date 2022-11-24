@@ -53,13 +53,13 @@ public class SubscribeToAuctionFeedWebSubAdapter implements SubscribeToAuctionFe
                 for (String link : response.headers().allValues("link")) {
                     if (link.contains("rel=\"hub\"")) {
                         String hub = link.split("href=")[1];
-                        hub = hub.split(">")[0].replace("\"","");
+                        hub = hub.split("/>")[0].replace("\"","");
                         HUB_URI = hub;
                     }
                     if (link.contains("rel=\"self\"")) {
                         LOGGER.info(link);
                         String hub = link.split("href=")[1];
-                        hub = hub.split(">")[0].replace("\"","");
+                        hub = hub.split("/>")[0].replace("\"","");
                         LOGGER.info(hub);
                         TOPIC = hub;
                         LOGGER.info("Discovered Topic: " +TOPIC);

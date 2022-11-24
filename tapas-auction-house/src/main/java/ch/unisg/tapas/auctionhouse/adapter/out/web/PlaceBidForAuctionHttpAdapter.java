@@ -32,7 +32,7 @@ public class PlaceBidForAuctionHttpAdapter implements PlaceBidForAuctionPort {
         System.out.println(auction.getAuctionHouseUri().getValue().toString() + auction.getAuctionId().getValue());
         try {
             request = HttpRequest.newBuilder()
-                .uri(URI.create(auction.getAuctionHouseUri().getValue().toString() + auction.getAuctionId().getValue() + "/"))
+                .uri(URI.create(auction.getAuctionHouseUri().getValue().toString() + "/auctions/" +auction.getAuctionId().getValue() + "/"))
                 .header("content-type", BidJsonRepresentation.MEDIA_TYPE)
                 .POST(HttpRequest.BodyPublishers.ofString(BidJsonRepresentation.serialize(bid)))
                 .build();
