@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class RetrieveOpenAuctionsWebController {
     private final RetrieveOpenAuctionsUseCase retrieveAuctionListUseCase;
+
+    @Autowired
+    private Environment environment;
 
     /**
      * Handles HTTP GET requests to retrieve the auctions that are open. Note: you are free to modify
@@ -51,7 +56,8 @@ public class RetrieveOpenAuctionsWebController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add(HttpHeaders.CONTENT_TYPE, "application/json");
 
-        // TODO: add WebSub links to headers to make this resource observable (cf. WebSub protocol)
+        responseHeaders.add("Link", "<" + environment.getProperty("websub.hub") + ">; rel=\"hub\"");
+        responseHeaders.add("Link", "<" + environment.getProperty("auction.house.uri") + "auctions/>; rel=\"self\"");
 
         return new ResponseEntity<>(array.toString(), responseHeaders, HttpStatus.OK);
     }
