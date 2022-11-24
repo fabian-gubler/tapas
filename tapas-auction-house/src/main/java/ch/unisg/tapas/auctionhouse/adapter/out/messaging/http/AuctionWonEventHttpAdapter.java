@@ -26,14 +26,14 @@ public class AuctionWonEventHttpAdapter implements AuctionWonEventPort {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest requestTask = HttpRequest.newBuilder()
                 .uri(auctionedTaskUri.getValue())
-                .header("content-type", "application/json")
+                .header("content-type", "application/task+json")
                 .GET()
                 .build();
             HttpResponse<String> shadowTask = client.send(requestTask, HttpResponse.BodyHandlers.ofString());
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(event.getWinningBid().getBidderTaskListUri().getValue())
-                .header("content-type", "application/json")
+                .header("content-type", "application/task+json")
                 .POST(HttpRequest.BodyPublishers.ofString(shadowTask.body()))
                 .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
