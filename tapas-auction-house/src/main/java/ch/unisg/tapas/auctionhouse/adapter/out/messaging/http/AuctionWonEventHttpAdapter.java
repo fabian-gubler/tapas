@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -29,6 +28,8 @@ public class AuctionWonEventHttpAdapter implements AuctionWonEventPort {
                 .GET()
                 .build();
             HttpResponse<String> shadowTask = client.send(requestTask, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println(shadowTask);
 
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(event.getWinningBid().getBidderTaskListUri().getValue())
