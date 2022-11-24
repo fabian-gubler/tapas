@@ -47,7 +47,7 @@ public class AddNewTaskToTaskListWebControllerTest {
             new Task.TaskType(taskType));
 
         AddNewTaskToTaskListCommand addNewTaskToTaskListCommand = new AddNewTaskToTaskListCommand(
-            new Task.TaskName(taskName), new Task.OriginalTaskUri(originalTaskUri), new Task.TaskType(taskType), null
+            new Task.TaskName(taskName), new Task.OriginalTaskUri(originalTaskUri), new Task.TaskType(taskType), null, new Task.TaskListURI("uri")
         );
 
         Mockito.when(addNewTaskToTaskListUseCase.addNewTaskToTaskList(addNewTaskToTaskListCommand))
@@ -60,7 +60,7 @@ public class AddNewTaskToTaskListWebControllerTest {
 
         then(addNewTaskToTaskListUseCase).should()
             .addNewTaskToTaskList(eq(new AddNewTaskToTaskListCommand(
-                new Task.TaskName(taskName), new Task.OriginalTaskUri(originalTaskUri), new Task.TaskType(taskType), null)
+                new Task.TaskName(taskName), new Task.OriginalTaskUri(originalTaskUri), new Task.TaskType(taskType), null, new Task.TaskListURI("bla"))
             ));
 
     }

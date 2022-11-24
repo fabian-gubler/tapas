@@ -1,12 +1,10 @@
 package ch.unisg.tapas.auctionhouse.adapter.out.messaging.http;
 
-import ch.unisg.tapas.auctionhouse.adapter.out.messaging.websub.PublishAuctionStartedEventWebSubAdapter;
 import ch.unisg.tapas.auctionhouse.application.port.out.auctions.AuctionWonEventPort;
 import ch.unisg.tapas.auctionhouse.domain.Auction;
 import ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

@@ -61,6 +61,9 @@ final public class TaskJsonRepresentation {
     @Getter @Setter
     private String outputData;
 
+    @Getter @Setter
+    private String taskListUri;
+
     /**
      * Instantiate a task representation with a task name and type.
      *
@@ -74,6 +77,7 @@ final public class TaskJsonRepresentation {
         this.taskStatus = null;
         this.inputData = null;
         this.outputData = null;
+        this.taskListUri = null;
     }
 
     /**
@@ -89,6 +93,9 @@ final public class TaskJsonRepresentation {
 
         this.originalTaskUri = (task.getOriginalTaskUri() == null) ?
             null : task.getOriginalTaskUri().getValue();
+
+        this.taskListUri = (task.getTaskListURI() == null ?
+            null: task.getTaskListURI().getValue());
 
         this.serviceProvider = (task.getServiceProvider() == null) ? null : task.getServiceProvider().getValue();
         this.inputData = (task.getInputData() == null) ? null : task.getInputData().getValue();
@@ -133,7 +140,8 @@ final public class TaskJsonRepresentation {
                 new Task.InputData(representation.getInputData()),
                 new Task.OutputData(representation.getOutputData()),
                 new Task.TaskStatus(Task.Status.valueOf(representation.getTaskStatus())),
-                new Task.ServiceProvider(representation.getServiceProvider())
+                new Task.ServiceProvider(representation.getServiceProvider()),
+                new Task.TaskListURI(representation.getTaskListUri())
             );
     }
 }

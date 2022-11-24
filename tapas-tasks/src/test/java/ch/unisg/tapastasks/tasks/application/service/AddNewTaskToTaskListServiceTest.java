@@ -31,7 +31,7 @@ public class AddNewTaskToTaskListServiceTest {
         TaskList taskList = givenAnEmptyTaskList(TaskList.getTapasTaskList());
 
         AddNewTaskToTaskListCommand addNewTaskToTaskListCommand = new AddNewTaskToTaskListCommand(newTask.getTaskName(),
-            null, newTask.getTaskType(), newTask.getInputData());
+            null, newTask.getTaskType(), newTask.getInputData(), newTask.getTaskListURI());
 
         String addedTaskId = addNewTaskToTaskListService.addNewTaskToTaskList(addNewTaskToTaskListCommand);
 

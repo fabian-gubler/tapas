@@ -53,8 +53,11 @@ public class AddNewTaskToTaskListWebController {
             Task.InputData taskInputData =
                 (payload.getInputData() == null) ? null : new Task.InputData(payload.getInputData());
 
+            Task.TaskListURI taskListURI =
+                (payload.getInputData() == null) ? null : new Task.TaskListURI(payload.getInputData());
+
             AddNewTaskToTaskListCommand command = new AddNewTaskToTaskListCommand(taskName, originalTaskUri,
-                taskType, taskInputData);
+                taskType, taskInputData, taskListURI);
 
             String taskId = addNewTaskToTaskListUseCase.addNewTaskToTaskList(command);
 

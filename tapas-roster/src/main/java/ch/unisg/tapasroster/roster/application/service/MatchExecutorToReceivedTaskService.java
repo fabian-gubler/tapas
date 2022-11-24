@@ -98,6 +98,7 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
 
             int deadline = (int) Instant.now().getEpochSecond() + 15;
 
+            //TODO remove uneccessary data (id, uri, status)
             LaunchAuctionCommand launchAuctionCommand = new LaunchAuctionCommand(
                 "",
                 "uri",
