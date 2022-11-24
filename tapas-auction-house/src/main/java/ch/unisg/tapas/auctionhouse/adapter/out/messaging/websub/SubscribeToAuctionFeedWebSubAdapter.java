@@ -52,13 +52,16 @@ public class SubscribeToAuctionFeedWebSubAdapter implements SubscribeToAuctionFe
             if(response.statusCode() == 200) {
                 for (String link : response.headers().allValues("link")) {
                     if (link.contains("rel=\"hub\"")) {
-                        String hub = link.split(">")[0];
-                        HUB_URI = hub.substring(1);
-                        LOGGER.info("Discovered HUB: " + HUB_URI);
+                        String hub = link.split("href=")[1];
+                        hub = hub.split(">")[0].replace("\"","");
+                        HUB_URI = hub;
                     }
                     if (link.contains("rel=\"self\"")) {
-                        String hub = link.split(">")[0];
-                        TOPIC = hub.substring(1);
+                        LOGGER.info(link);
+                        String hub = link.split("href=")[1];
+                        hub = hub.split(">")[0].replace("\"","");
+                        LOGGER.info(hub);
+                        TOPIC = hub;
                         LOGGER.info("Discovered Topic: " +TOPIC);
                     }
                 }
