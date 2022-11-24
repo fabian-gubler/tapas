@@ -36,7 +36,7 @@ public class TaskPersistenceAdapterTest {
         String testTaskStatus = Task.Status.OPEN.toString();
         String testTaskServiceProvider = null;
         String testTaskListName = "tapas-tasks-group3";
-        String testTaskListURI = null;
+        String testTaskListUri = null;
 
         Task testTask = new Task(
             new Task.TaskId(testTaskId),
@@ -47,7 +47,7 @@ public class TaskPersistenceAdapterTest {
                 new Task.OutputData(testTaskOutput),
                 new Task.TaskStatus(Task.Status.valueOf(testTaskStatus)),
                 new Task.ServiceProvider(testTaskServiceProvider),
-                new Task.TaskListURI(testTaskListURI)
+                new Task.TaskListUri(testTaskListUri)
             );
         adapterUnderTest.addTask(testTask);
 
@@ -71,10 +71,10 @@ public class TaskPersistenceAdapterTest {
         String testTaskStatus = Task.Status.OPEN.toString();
         String testTaskServiceProvider = null;
         String testTaskListName = "tapas-tasks-tutors";
-        String testTaskListURI = null;
+        String testTaskListUri = null;
 
         MongoTaskDocument mongoTask = new MongoTaskDocument(testTaskId, testTaskName, testTaskOriginalUri,
-            testTaskType, testTaskInput, testTaskOutput, testTaskStatus, testTaskServiceProvider, testTaskListName, testTaskListURI);
+            testTaskType, testTaskInput, testTaskOutput, testTaskStatus, testTaskServiceProvider, testTaskListName, testTaskListUri);
         taskRepository.insert(mongoTask);
 
         try {

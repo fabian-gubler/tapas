@@ -17,7 +17,7 @@ class TaskMapper {
             new Task.OutputData(task.outputData),
             new Task.TaskStatus(Task.Status.valueOf(task.taskStatus)),
             new Task.ServiceProvider(task.serviceProvider),
-            new Task.TaskListURI(task.taskListURI)
+            new Task.TaskListUri(task.taskListUri)
         );
     }
 
@@ -39,9 +39,9 @@ class TaskMapper {
             (task.getOutputData() == null) ? ""
                 : task.getOutputData().getValue();
 
-        String taskListURI =
-            (task.getTaskListURI() == null) ? ""
-                : task.getTaskListURI().getValue();
+        String taskListUri =
+            (task.getTaskListUri() == null) ? ""
+                : task.getTaskListUri().getValue();
 
         return new MongoTaskDocument(
             task.getTaskId().getValue(),
@@ -53,7 +53,7 @@ class TaskMapper {
             task.getTaskStatus().getValue().toString(),
             serviceProvider,
             TaskList.getTapasTaskList().getTaskListName().getValue(),
-            taskListURI
+            taskListUri
         );
     }
 }

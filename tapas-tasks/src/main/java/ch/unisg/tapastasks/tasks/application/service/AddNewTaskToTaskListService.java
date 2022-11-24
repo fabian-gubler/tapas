@@ -41,7 +41,7 @@ public class AddNewTaskToTaskListService implements AddNewTaskToTaskListUseCase 
 
         if (command.getTaskInput() != null) {
             newTask = taskList.addNewTaskWithNameAndTypeAndInput(command.getTaskName(), command.getTaskType(),
-                command.getTaskInput(), command.getTaskListURI());
+                command.getTaskInput(), command.getTaskListUri());
         } else {
             newTask = taskList.addNewTaskWithNameAndType(command.getTaskName(), command.getTaskType());
         }
@@ -62,10 +62,10 @@ public class AddNewTaskToTaskListService implements AddNewTaskToTaskListUseCase 
             NewTaskAddedEvent newTaskAdded;
             if (newTask.getInputData() == null) {
                 newTaskAdded = new NewTaskAddedEvent(newTask.getTaskId().getValue(),
-                    taskList.getTaskListName().getValue(), newTask.getTaskType().getValue(), newTask.getTaskListURI().getValue());
+                    taskList.getTaskListName().getValue(), newTask.getTaskType().getValue(), newTask.getTaskListUri().getValue());
             } else {
                 newTaskAdded = new NewTaskAddedEvent(newTask.getTaskId().getValue(),
-                    taskList.getTaskListName().getValue(), newTask.getTaskType().getValue(), newTask.getInputData().getValue(), newTask.getTaskListURI().getValue());
+                    taskList.getTaskListName().getValue(), newTask.getTaskType().getValue(), newTask.getInputData().getValue(), newTask.getTaskListUri().getValue());
             }
             newTaskAddedEventPort.publishNewTaskAddedEvent(newTaskAdded);
         }

@@ -16,7 +16,7 @@ public class TaskList {
     private final ListOfTasks listOfTasks;
 
     @Getter
-    private final TaskListURI taskListURI;
+    private final TaskListUri taskListUri;
 
     //Note: We do not care about the management of task lists, there is only one within this service
     //--> using the Singleton pattern here to make lives easy; we will later load it from a repo
@@ -26,7 +26,7 @@ public class TaskList {
     private TaskList(TaskListName taskListName) {
         this.taskListName = taskListName;
         this.listOfTasks = new ListOfTasks(new LinkedList<>());
-        this.taskListURI = new TaskListURI("https://xyz.com/tapas-group-3/tasklist");
+        this.taskListUri = new TaskListUri("https://xyz.com/tapas-group-3/tasklist");
     }
 
     public static TaskList getTapasTaskList() {
@@ -42,8 +42,8 @@ public class TaskList {
         return newTask;
     }
 
-    public Task addNewTaskWithNameAndTypeAndInput(Task.TaskName name, Task.TaskType type, Task.InputData input, Task.TaskListURI taskListURI) {
-        Task newTask = Task.createTaskWithNameAndTypeAndInput(name, type, input, taskListURI);
+    public Task addNewTaskWithNameAndTypeAndInput(Task.TaskName name, Task.TaskType type, Task.InputData input, Task.TaskListUri taskListUri) {
+        Task newTask = Task.createTaskWithNameAndTypeAndInput(name, type, input, taskListUri);
         this.addNewTaskToList(newTask);
 
         return newTask;
@@ -113,7 +113,7 @@ public class TaskList {
     }
 
     @Value
-    public static class TaskListURI {
+    public static class TaskListUri {
         private String value;
     }
 }

@@ -36,7 +36,7 @@ public class PublishNewTaskAddedEventWebAdapter implements NewTaskAddedEventPort
             put("taskType", event.taskType);
             put("tasklist", event.taskListName);
             put("inputData", event.inputData);
-            put("taskListURI", event.taskListURI);
+            put("taskListUri", event.taskListUri);
         }};
 
         var objectMapper = new ObjectMapper();

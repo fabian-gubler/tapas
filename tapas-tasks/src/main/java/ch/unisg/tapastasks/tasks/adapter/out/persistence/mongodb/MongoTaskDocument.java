@@ -18,10 +18,10 @@ public class MongoTaskDocument {
     public String inputData;
     public String outputData;
     public String taskListName;
-    public String taskListURI;
+    public String taskListUri;
 
     public MongoTaskDocument(String taskId, String taskName, String originalTaskUri, String taskType,
-            String inputData, String outputData, String taskStatus, String serviceProvider, String taskListName, String taskListURI) {
+            String inputData, String outputData, String taskStatus, String serviceProvider, String taskListName, String taskListUri) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.originalTaskUri = originalTaskUri;
@@ -31,6 +31,6 @@ public class MongoTaskDocument {
         this.taskStatus = taskStatus;
         this.serviceProvider = serviceProvider;
         this.taskListName = taskListName;
-        this.taskListURI = taskListURI;
+        this.taskListUri = taskListUri;
     }
 }

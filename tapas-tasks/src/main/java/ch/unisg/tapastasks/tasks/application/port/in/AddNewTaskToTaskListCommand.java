@@ -22,15 +22,15 @@ public class AddNewTaskToTaskListCommand extends SelfValidating<AddNewTaskToTask
     private final Task.InputData taskInput;
 
     @Getter
-    private final Task.TaskListURI taskListURI;
+    private final Task.TaskListUri taskListUri;
 
     public AddNewTaskToTaskListCommand(Task.TaskName taskName, Task.OriginalTaskUri originalTaskUri,
-            Task.TaskType taskType, Task.InputData input, Task.TaskListURI taskListURI) {
+            Task.TaskType taskType, Task.InputData input, Task.TaskListUri taskListUri) {
         this.taskName = taskName;
         this.originalTaskUri = originalTaskUri;
         this.taskType = taskType;
         this.taskInput = input;
-        this.taskListURI = taskListURI;
+        this.taskListUri = taskListUri;
 
         this.validateSelf();
     }

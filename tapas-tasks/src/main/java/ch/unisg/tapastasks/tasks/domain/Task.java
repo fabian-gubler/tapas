@@ -38,20 +38,20 @@ public class Task {
     private OutputData outputData;
 
     @Getter @Setter
-    private TaskListURI taskListURI;
+    private TaskListUri taskListUri;
 
-    private Task(TaskName taskName, TaskType taskType, InputData input, TaskListURI taskListURI) {
+    private Task(TaskName taskName, TaskType taskType, InputData input, TaskListUri taskListUri) {
         this.taskId = new TaskId(UUID.randomUUID().toString());
         this.taskName = taskName;
         this.taskType = taskType;
         this.inputData = input;
         this.taskStatus = new TaskStatus(Status.OPEN);
-        this.taskListURI = taskListURI;
+        this.taskListUri = taskListUri;
     }
 
     //Constructor from repo
     public Task(TaskId taskId, TaskName taskName, OriginalTaskUri originalTaskUri, TaskType taskType,
-                InputData input, OutputData output, TaskStatus taskStatus, ServiceProvider serviceProvider, TaskListURI taskListURI) {
+                InputData input, OutputData output, TaskStatus taskStatus, ServiceProvider serviceProvider, TaskListUri taskListUri) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.originalTaskUri = originalTaskUri;
@@ -60,27 +60,27 @@ public class Task {
         this.outputData = output;
         this.taskStatus = taskStatus;
         this.serviceProvider = serviceProvider;
-        this.taskListURI = taskListURI;
+        this.taskListUri = taskListUri;
     }
 
 
     public static Task createTaskWithNameAndType(TaskName name, TaskType type) {
         //This is a simple debug message to see that the request has reached the right method in the core
         System.out.println("New Task: " + name.getValue() + " " + type.getValue());
-        return new Task(name, type, null, new TaskListURI(""));
+        return new Task(name, type, null, new TaskListUri(""));
     }
 
-    public static Task createTaskWithNameAndTypeAndInput(TaskName name, TaskType type, InputData input, TaskListURI taskListURI) {
+    public static Task createTaskWithNameAndTypeAndInput(TaskName name, TaskType type, InputData input, TaskListUri taskListUri) {
         //This is a simple debug message to see that the request has reached the right method in the core
         System.out.println("New Task: " + name.getValue() + " " + type.getValue());
-        return new Task(name, type, input, taskListURI);
+        return new Task(name, type, input, taskListUri);
     }
 
     //This is for recreating a task from a repository.
     public static Task createwithIdNameUriTypeInputOutputStatusProvider(TaskId taskId,
             TaskName taskName, OriginalTaskUri taskUri, TaskType taskType, InputData input,
-            OutputData output, TaskStatus taskStatus, ServiceProvider provider, TaskListURI taskListURI) {
-        return new Task(taskId, taskName, taskUri, taskType, input, output, taskStatus, provider, taskListURI);
+            OutputData output, TaskStatus taskStatus, ServiceProvider provider, TaskListUri taskListUri) {
+        return new Task(taskId, taskName, taskUri, taskType, input, output, taskStatus, provider, taskListUri);
     }
 
 
@@ -125,7 +125,7 @@ public class Task {
     }
 
     @Value
-    public static class TaskListURI {
+    public static class TaskListUri {
         String value;
     }
 }

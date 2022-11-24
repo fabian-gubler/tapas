@@ -94,8 +94,8 @@ final public class TaskJsonRepresentation {
         this.originalTaskUri = (task.getOriginalTaskUri() == null) ?
             null : task.getOriginalTaskUri().getValue();
 
-        this.taskListUri = (task.getTaskListURI() == null ?
-            null: task.getTaskListURI().getValue());
+        this.taskListUri = (task.getTaskListUri() == null ?
+            null: task.getTaskListUri().getValue());
 
         this.serviceProvider = (task.getServiceProvider() == null) ? null : task.getServiceProvider().getValue();
         this.inputData = (task.getInputData() == null) ? null : task.getInputData().getValue();
@@ -141,7 +141,7 @@ final public class TaskJsonRepresentation {
                 new Task.OutputData(representation.getOutputData()),
                 new Task.TaskStatus(Task.Status.valueOf(representation.getTaskStatus())),
                 new Task.ServiceProvider(representation.getServiceProvider()),
-                new Task.TaskListURI(representation.getTaskListUri())
+                new Task.TaskListUri(representation.getTaskListUri())
             );
     }
 }
