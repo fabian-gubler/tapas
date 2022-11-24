@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubscribeToAuctionFeedWebController {
     private static final Logger LOGGER = LogManager.getLogger(SubscribeToAuctionFeedWebController.class);
 
-    private final SubscribeToAuctionFeedUseCase subscribeToAuctionFeedUseCase;
-
     /**
      * Handles an HTTP POST request for subscribing to an auction feed.
      *
@@ -39,4 +37,6 @@ public class SubscribeToAuctionFeedWebController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    private final SubscribeToAuctionFeedUseCase subscribeToAuctionFeedUseCase;
 }

@@ -15,6 +15,9 @@ public class TaskList {
     @Getter
     private final ListOfTasks listOfTasks;
 
+    @Getter
+    private final TaskListURI taskListURI;
+
     //Note: We do not care about the management of task lists, there is only one within this service
     //--> using the Singleton pattern here to make lives easy; we will later load it from a repo
     //TODO: change "tutors" to your group name ("groupx")
@@ -23,6 +26,7 @@ public class TaskList {
     private TaskList(TaskListName taskListName) {
         this.taskListName = taskListName;
         this.listOfTasks = new ListOfTasks(new LinkedList<>());
+        this.taskListURI = new TaskListURI("https://xyz.com/tapas-group-3/tasklist");
     }
 
     public static TaskList getTapasTaskList() {
@@ -106,5 +110,10 @@ public class TaskList {
     @Value
     public static class ListOfTasks {
         private List<Task> value;
+    }
+
+    @Value
+    public static class TaskListURI {
+        private String value;
     }
 }
