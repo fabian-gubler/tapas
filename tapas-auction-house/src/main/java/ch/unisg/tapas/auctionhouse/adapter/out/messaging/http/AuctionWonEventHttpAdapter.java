@@ -5,9 +5,14 @@ import ch.unisg.tapas.auctionhouse.domain.Auction;
 import ch.unisg.tapas.auctionhouse.domain.AuctionWonEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -22,6 +27,9 @@ import java.net.http.HttpResponse;
 public class AuctionWonEventHttpAdapter implements AuctionWonEventPort {
     private static final Logger LOGGER = LogManager.getLogger(AuctionWonEventHttpAdapter.class);
 
+    @Autowired
+    private Environment environment;
+
     @Override
     public void publishAuctionWonEvent(AuctionWonEvent event, Auction.AuctionedTaskUri auctionedTaskUri) {
         try {
@@ -32,14 +40,18 @@ public class AuctionWonEventHttpAdapter implements AuctionWonEventPort {
                 .header("content-type", "application/task+json")
                 .GET()
                 .build();
-            HttpResponse<String> shadowTask = client.send(requestTask, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> retrievedTask = client.send(requestTask, HttpResponse.BodyHandlers.ofString());
 
-            System.out.println(shadowTask);
+            JSONObject shadowTaskJson = new JSONObject(retrievedTask.body());
+            shadowTaskJson.remove("taskStatus");
+            shadowTaskJson.remove("taskListUri");
+            shadowTaskJson.remove("outputData");
+            shadowTaskJson.put("originalTaskUri",environment.getProperty("tasks.list.uri") + "/tasks/" + shadowTaskJson.get("taskId"));
 
             HttpRequest request = HttpRequest.newBuilder()
-                .uri(event.getWinningBid().getBidderTaskListUri().getValue())
+                .uri(URI.create(event.getWinningBid().getBidderTaskListUri().getValue() + "tasks/"))
                 .header("content-type", "application/task+json")
-                .POST(HttpRequest.BodyPublishers.ofString(shadowTask.body()))
+                .POST(HttpRequest.BodyPublishers.ofString(shadowTaskJson.toString()))
                 .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -47,6 +59,8 @@ public class AuctionWonEventHttpAdapter implements AuctionWonEventPort {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
