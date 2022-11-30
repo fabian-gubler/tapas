@@ -19,11 +19,14 @@ public class MongoRosterAssignmentDocument {
 
     public String outputData;
 
-    public MongoRosterAssignmentDocument(String rosterId, String executorEndpoint, String taskLocation, String assignmentStatus, String outputData) {
+    public String originalTaskUri;
+
+    public MongoRosterAssignmentDocument(String rosterId, String executorEndpoint, String taskLocation, String assignmentStatus, String outputData, String originalTaskUri) {
         this.rosterId = rosterId;
         this.executorEndpoint = executorEndpoint;
         this.taskLocation = taskLocation;
         this.assignmentStatus = assignmentStatus;
         this.outputData = outputData;
+        this.originalTaskUri = originalTaskUri;
     }
 }
