@@ -19,6 +19,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +28,8 @@ public class CrawlAuctionFeedsWebController {
     private static final Logger LOGGER = LogManager.getLogger(CrawlAuctionFeedsWebController.class);
 
     private final SubscribeToAuctionFeedUseCase subscribeToAuctionFeedUseCase;
+
+    private ArrayList<String> checkedResources = new ArrayList<>();
 
     @Autowired
     private Environment environment;
@@ -39,6 +42,8 @@ public class CrawlAuctionFeedsWebController {
         String resourceLocation = payload != null ? payload : environment.getProperty("group1.auction-feed");
         crawlResource(resourceLocation);
 
+        // clear checked resources
+        checkedResources = new ArrayList<>();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -47,6 +52,10 @@ public class CrawlAuctionFeedsWebController {
      * @param location
      */
     private void crawlResource(String location) {
+
+        // check if the resource has been crawled already, for now we only check each resource once
+        if(checkedResources.contains(location)) return;
+        checkedResources.add(location);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
