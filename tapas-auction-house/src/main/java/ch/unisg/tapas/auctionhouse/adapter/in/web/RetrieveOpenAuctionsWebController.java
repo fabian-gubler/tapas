@@ -56,8 +56,13 @@ public class RetrieveOpenAuctionsWebController {
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add(HttpHeaders.CONTENT_TYPE, "application/json");
 
-        responseHeaders.add("Link", "<rel=\"hub\" href=\""  + environment.getProperty("websub.hub") + "\">;");
-        responseHeaders.add("Link", "<rel=\"self\" href=\"" + environment.getProperty("auction.house.uri") + "auctions/\">;");
+        // WebSub Info
+        responseHeaders.add("Link", "<"  + environment.getProperty("websub.hub") + ">; rel=\"hub\"");
+        responseHeaders.add("Link", "<" + environment.getProperty("auction.house.uri") + "auctions/>; rel=\"self\"");
+
+        // Info for other groups (link to group 1 and self reference)
+        responseHeaders.add("Link", "<" + environment.getProperty("auction.house.uri") + "auctions/>; rel=\"environment\"");
+        responseHeaders.add("Link", "<" + environment.getProperty("group1.auction-feed") + ">; rel=\"experimental\"");
 
         return new ResponseEntity<>(array.toString(), responseHeaders, HttpStatus.OK);
     }

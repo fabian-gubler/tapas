@@ -1,8 +1,5 @@
 package ch.unisg.tapasroster.roster.adapter.in.formats;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,15 +27,19 @@ public class NewTaskJsonRepresentation {
     @Getter
     private final String inputData;
 
+    @Getter
+    private final String originalTaskUri;
+
 
     /**
      * Instantiate a task representation with a task name and type.
      *
      */
-    public NewTaskJsonRepresentation(String taskLocation, String taskType, String tasklist, String inputData) {
+    public NewTaskJsonRepresentation(String taskLocation, String taskType, String tasklist, String inputData, String originalTaskUri) {
         this.taskLocation = taskLocation;
         this.taskType = taskType;
         this.tasklist = tasklist;
         this.inputData = inputData;
+        this.originalTaskUri = originalTaskUri;
     }
 }

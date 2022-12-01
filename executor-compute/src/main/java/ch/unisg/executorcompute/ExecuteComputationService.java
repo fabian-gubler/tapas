@@ -14,12 +14,6 @@ public class ExecuteComputationService {
     @Async
     public void compute(String computationType, ComputationJsonRepresentation payload, String returnLocation) {
         try {
-            Thread.sleep(10000);
-
-        } catch (InterruptedException e){
-            System.out.println("interruped");
-        }
-        try {
             double sum;
 
             if(payload.getInputData() == null || payload.getInputData().equals("")){

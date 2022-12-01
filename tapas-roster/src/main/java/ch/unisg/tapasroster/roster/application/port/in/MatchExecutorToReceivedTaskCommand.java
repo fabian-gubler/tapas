@@ -17,15 +17,19 @@ public class MatchExecutorToReceivedTaskCommand {
 
     private final String inputData;
 
+    private final String originalTaskUri;
+
+
     /**
      * Constructor where the values of the data field are initialised and validated.
      * @param taskType
      * @param taskLocation
      * @param inputData
      */
-    public MatchExecutorToReceivedTaskCommand(String taskType, String taskLocation, String inputData) {
+    public MatchExecutorToReceivedTaskCommand(String taskType, String taskLocation, String inputData, String originalTaskUri) {
         this.taskType = taskType;
         this.taskLocation = taskLocation;
         this.inputData = inputData;
+        this.originalTaskUri = originalTaskUri;
     }
 }

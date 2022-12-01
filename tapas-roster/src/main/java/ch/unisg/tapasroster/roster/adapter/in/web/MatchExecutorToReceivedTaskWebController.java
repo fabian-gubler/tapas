@@ -38,11 +38,12 @@ public class MatchExecutorToReceivedTaskWebController {
             String taskType = payload.getTaskType();
             String taskLocation = payload.getTaskLocation();
             String inputData = payload.getInputData();
+            String originalTaskUri = payload.getOriginalTaskUri();
 
             System.out.println("Received new task from tasklist, trying to match executor. taskType: " +
                 taskType + ", inputData: " + inputData);
 
-            MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType, taskLocation, inputData);
+            MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType, taskLocation, inputData, originalTaskUri);
 
             matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command);
 

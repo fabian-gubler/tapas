@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.core.env.Environment;
 
 import java.io.IOException;
 import java.net.URI;
@@ -37,6 +36,7 @@ public class PublishNewTaskAddedEventWebAdapter implements NewTaskAddedEventPort
             put("tasklist", event.taskListName);
             put("inputData", event.inputData);
             put("taskListUri", event.taskListUri);
+            put("originalTaskUri", event.originalTaskUri);
         }};
 
         var objectMapper = new ObjectMapper();

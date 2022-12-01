@@ -7,9 +7,10 @@ import org.springframework.stereotype.Component;
 class RosterAssignmentMapper {
 
     RosterAssignment mapToDomainEntity(MongoRosterAssignmentDocument roster) {
-        return RosterAssignment.createRoster(
+        return RosterAssignment.createRosterAssignment(
             new RosterAssignment.ExecutorEndpoint(roster.executorEndpoint),
-            new RosterAssignment.TaskLocation(roster.taskLocation)
+            new RosterAssignment.TaskLocation(roster.taskLocation),
+            new RosterAssignment.OriginalTaskUri(roster.originalTaskUri)
         );
     }
 
@@ -20,7 +21,8 @@ class RosterAssignmentMapper {
             rosterAssignment.getExecutorEndpoint().getValue(),
             rosterAssignment.getTaskLocation().getValue(),
             rosterAssignment.getAssignmentStatus() != null ? rosterAssignment.getAssignmentStatus().getValue() : "",
-            rosterAssignment.getOutputData()
+            rosterAssignment.getOutputData(),
+            rosterAssignment.getOriginalTaskUri().getValue()
         );
     }
 }

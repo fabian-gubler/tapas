@@ -45,6 +45,23 @@ public class UpdateRosterAssignmentService implements UpdateRosterAssignmentUseC
                     new RosterAssignment.TaskLocation(updatedRosterAssignment.getTaskLocation().getValue()));
             updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusExecutedCommand);
 
+
+            // update original task uri
+            if(updatedRosterAssignment.getOriginalTaskUri() != null && !updatedRosterAssignment.getOriginalTaskUri().getValue().equals("")) {
+                if (command.getOutputData().isPresent()) {
+                    UpdateTaskOutputCommand updateTaskOutputAtOriginCommand = new UpdateTaskOutputCommand(
+                        command.getOutputData().get(),
+                        new RosterAssignment.TaskLocation(updatedRosterAssignment.getOriginalTaskUri().getValue()));
+                    updateTaskOutputUseCase.updateTaskOutputUseCase(updateTaskOutputAtOriginCommand);
+                }
+
+                UpdateTaskStatusCommand updateTaskStatusExecutedAtOriginCommand =
+                    new UpdateTaskStatusCommand(
+                        UpdateTaskStatusCommand.Status.EXECUTED,
+                        new RosterAssignment.TaskLocation(updatedRosterAssignment.getOriginalTaskUri().getValue()));
+                updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusExecutedAtOriginCommand);
+            }
+
             return true;
         } catch (RosterNotFoundError e){
             System.out.println("RosterAssignment not updated: " + e);

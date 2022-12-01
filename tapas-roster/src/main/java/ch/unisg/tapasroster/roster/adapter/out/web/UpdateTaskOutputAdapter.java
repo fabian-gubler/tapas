@@ -58,7 +58,7 @@ public class UpdateTaskOutputAdapter implements UpdateTaskOutputUseCase {
                 System.out.println(response.toString());
             }
         } catch (IOException | InterruptedException e) {
-            System.out.println("Executor endpoint not available, setting status to pending");
+            System.out.println("Tasklist endpoint not available");
         }
         return false;
     }

@@ -47,7 +47,7 @@ public class AddNewTaskToTaskListWebController {
             // If the created task is a delegated task, the representation contains a URI reference
             // to the original task
             Task.OriginalTaskUri originalTaskUri =
-                (payload.getOriginalTaskUri() == null) ? null : new Task.OriginalTaskUri(payload.getOriginalTaskUri());
+                (payload.getOriginalTaskUri() == null) ? new Task.OriginalTaskUri("") : new Task.OriginalTaskUri(payload.getOriginalTaskUri());
 
             // When creating a task, the task's representation may include optional input data
             Task.InputData taskInputData =
