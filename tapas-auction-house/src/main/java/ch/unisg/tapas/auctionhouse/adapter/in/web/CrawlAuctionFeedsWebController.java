@@ -29,7 +29,7 @@ public class CrawlAuctionFeedsWebController {
 
     private final SubscribeToAuctionFeedUseCase subscribeToAuctionFeedUseCase;
 
-    private ArrayList<String> checkedResources = new ArrayList<>();
+    private final ArrayList<String> checkedResources = new ArrayList<>();
 
     @Autowired
     private Environment environment;
@@ -38,12 +38,12 @@ public class CrawlAuctionFeedsWebController {
     @PostMapping(path = "/crawlAuctionFeeds/")
     public ResponseEntity<Void> initiateCrawling(@RequestBody(required = false) String payload) {
         LOGGER.info("Crawling location: " + payload);
+        // clear checked resources
+        checkedResources.clear();
 
         String resourceLocation = payload != null ? payload : environment.getProperty("group1.auction-feed");
         crawlResource(resourceLocation);
 
-        // clear checked resources
-        checkedResources = new ArrayList<>();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -74,13 +74,12 @@ public class CrawlAuctionFeedsWebController {
                         SubscribeToAuctionFeedCommand command = new SubscribeToAuctionFeedCommand(new Auction.AuctionFeedId(newLocation));
                         subscribeToAuctionFeedUseCase.subscribeToFeed(command);
                     }
-                    else if (link.contains("rel=\"experimental\"")) {
+                    else if(!link.contains("rel=\"self\"") && !link.contains("rel=\"hub\"")) {
                         LOGGER.info("Crawling new resource " + link.split(">")[0].substring(1));
                         crawlResource(link.split(">")[0].substring(1));
                     }
                 }
             }
-
         } catch (IOException e) {
             LOGGER.error("IOException: " + e.getMessage());
         } catch (InterruptedException e) {
