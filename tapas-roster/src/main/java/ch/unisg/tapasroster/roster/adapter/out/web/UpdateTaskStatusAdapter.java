@@ -42,7 +42,6 @@ public class UpdateTaskStatusAdapter implements UpdateTaskStatusUseCase {
             .header("content-type", "application/json")
             .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
             .build();
-
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 204) {

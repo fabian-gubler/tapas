@@ -45,6 +45,7 @@ public class LaunchAuctionWebController {
      */
     @PostMapping(path = "/auctions/", consumes = AuctionJsonRepresentation.MEDIA_TYPE)
     public ResponseEntity<String> launchAuction(@RequestBody AuctionJsonRepresentation payload) {
+        LOGGER.info("lauching auction+ " + payload);
         Auction.AuctionDeadline deadline = (payload.getDeadline() == null) ?
             null : new Auction.AuctionDeadline(payload.getDeadline());
 

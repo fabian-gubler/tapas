@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.UUID;
 
 
 /**
@@ -64,10 +63,11 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
             System.out.println("Executor found, executing task");
 
             // create roster entry
-            RosterAssignment rosterAssignment = RosterAssignment.createRoster(
+            RosterAssignment rosterAssignment = RosterAssignment.createRosterAssignment(
                 new RosterAssignment.ExecutorEndpoint(matchedExecutorEndpoint.getValue()),
                 new RosterAssignment.TaskLocation(command.getTaskLocation()),
-                new RosterAssignment.AssignmentStatus("ASSIGNED"));
+                new RosterAssignment.AssignmentStatus("ASSIGNED"),
+                new RosterAssignment.OriginalTaskUri(command.getOriginalTaskUri()));
             System.out.println(rosterAssignment);
             addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
 
@@ -89,14 +89,16 @@ public class MatchExecutorToReceivedTaskService implements MatchExecutorToReceiv
             updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusRunningCommand);
 
         } else {
-            RosterAssignment rosterAssignment = RosterAssignment.createRoster(
+            RosterAssignment rosterAssignment = RosterAssignment.createRosterAssignment(
                 new RosterAssignment.ExecutorEndpoint(""),
                 new RosterAssignment.TaskLocation(command.getTaskLocation()),
-                new RosterAssignment.AssignmentStatus("PENDING"));
+                new RosterAssignment.AssignmentStatus("PENDING"),
+                new RosterAssignment.OriginalTaskUri(command.getOriginalTaskUri())
+            );
             addRosterAssignmentPort.addRosterAssignment(rosterAssignment);
             System.out.println("No executor found for type " + command.getTaskType() + ", sending task to auction house ");
 
-            int deadline = (int) Instant.now().getEpochSecond() + 15;
+            int deadline = (int) Instant.now().getEpochSecond() + 30000;
 
             //TODO remove uneccessary data (id, uri, status)
             LaunchAuctionCommand launchAuctionCommand = new LaunchAuctionCommand(

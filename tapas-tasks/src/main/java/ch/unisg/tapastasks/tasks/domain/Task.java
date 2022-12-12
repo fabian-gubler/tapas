@@ -46,7 +46,7 @@ public class Task {
         this.taskType = taskType;
         this.inputData = input;
         this.taskStatus = new TaskStatus(Status.OPEN);
-        this.taskListUri = taskListUri;
+        this.taskListUri = taskListUri == null ? new TaskListUri("") : taskListUri;
     }
 
     //Constructor from repo
@@ -60,7 +60,7 @@ public class Task {
         this.outputData = output;
         this.taskStatus = taskStatus;
         this.serviceProvider = serviceProvider;
-        this.taskListUri = taskListUri;
+        this.taskListUri = taskListUri == null ? new TaskListUri("") : taskListUri;
     }
 
 

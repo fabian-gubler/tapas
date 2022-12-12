@@ -66,6 +66,7 @@ public class TaskEventHttpDispatcher {
     @PatchMapping(path = "/tasks/{taskId}", consumes = {JSON_PATCH_MEDIA_TYPE})
     public ResponseEntity<Void> dispatchTaskEvents(@PathVariable("taskId") String taskId,
                                                    @RequestBody JsonNode payload) {
+        System.out.println("gotpatchrequest + " + payload);
         try {
             // Throw an exception if the JSON Patch format is invalid. This call is only used to
             // validate the JSON PATCH syntax.
@@ -100,6 +101,7 @@ public class TaskEventHttpDispatcher {
         } catch (TaskNotFoundError e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } catch (IOException | RuntimeException e) {
+            System.out.println("EXCEPTION"+e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

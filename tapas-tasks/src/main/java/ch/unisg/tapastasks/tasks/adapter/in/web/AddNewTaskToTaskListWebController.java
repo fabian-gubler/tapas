@@ -47,14 +47,19 @@ public class AddNewTaskToTaskListWebController {
             // If the created task is a delegated task, the representation contains a URI reference
             // to the original task
             Task.OriginalTaskUri originalTaskUri =
-                (payload.getOriginalTaskUri() == null) ? null : new Task.OriginalTaskUri(payload.getOriginalTaskUri());
+                (payload.getOriginalTaskUri() == null) ? new Task.OriginalTaskUri("") : new Task.OriginalTaskUri(payload.getOriginalTaskUri());
 
             // When creating a task, the task's representation may include optional input data
             Task.InputData taskInputData =
                 (payload.getInputData() == null) ? null : new Task.InputData(payload.getInputData());
 
-            Task.TaskListUri taskListUri =
-                (payload.getTaskListUri() == null) ? null : new Task.TaskListUri(payload.getTaskListUri());
+
+            Task.TaskListUri taskListUri = new Task.TaskListUri("");
+            try {
+                  taskListUri =(payload.getTaskListUri() == null) ? null : new Task.TaskListUri(payload.getTaskListUri());
+            } catch ( NullPointerException e ) {
+                System.out.println("No Task List URI specified");
+            }
 
             AddNewTaskToTaskListCommand command = new AddNewTaskToTaskListCommand(taskName, originalTaskUri,
                 taskType, taskInputData, taskListUri);

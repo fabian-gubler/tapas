@@ -63,7 +63,9 @@ public class StartAuctionService implements LaunchAuctionUseCase {
             command.getTaskUri(), command.getTaskType(), deadline);
         auctions.addAuction(auction);
 
-        int remainingTime = (int) Instant.now().getEpochSecond() - deadline.getValue();
+        int remainingTime =  deadline.getValue() > Instant.now().getEpochSecond() ?
+            deadline.getValue() - (int) Instant.now().getEpochSecond() : 15000;
+
         // Schedule the closing of the auction at the deadline
         service.schedule(new CloseAuctionTask(auction.getAuctionId()), remainingTime,
             TimeUnit.MILLISECONDS);

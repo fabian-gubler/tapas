@@ -34,17 +34,19 @@ class MatchExecutorToReceivedTaskWebControllerTest {
         String taskType = "apiTEST";
         String taskList = "TEST_TASKLIST";
         String inputData = "TEST_INPUTDATA";
+        String originalTaskUri = "ORIGINAL_TASK_URI";
 
         String jsonPayLoad = new JSONObject()
             .put("taskLocation", taskLocation)
             .put("taskType", taskType)
             .put("taskList", taskList)
             .put("inputData", inputData)
+            .put("originalTaskUri", originalTaskUri)
             .toString();
 
         Executor executorStub = Executor.createExecutorWithTypeAndEnpoint(new Executor.ExecutorType(taskType), new Executor.Endpoint("/executor/api"));
 
-        MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType,taskLocation,inputData);
+        MatchExecutorToReceivedTaskCommand command = new MatchExecutorToReceivedTaskCommand(taskType,taskLocation,inputData, originalTaskUri);
 
         // fixme: test does not work anymore, as the match executor is now an async function and does not return the found executor directly
         // Mockito.when(matchExecutorToReceivedTaskUseCase.matchExecutorToReceivedTask(command)).thenReturn(new Roster.ExecutorEndpoint(executorStub.getEndpoint().getValue()));
@@ -59,7 +61,8 @@ class MatchExecutorToReceivedTaskWebControllerTest {
             .matchExecutorToReceivedTask(eq(new MatchExecutorToReceivedTaskCommand(
                 taskType,
                 taskLocation,
-                inputData
+                inputData,
+                originalTaskUri
             )));
     }
 

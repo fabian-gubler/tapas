@@ -3,8 +3,6 @@ package ch.unisg.tapas.auctionhouse.adapter.out.messaging.websub;
 import ch.unisg.tapas.auctionhouse.application.port.out.auctions.AuctionStartedEventPort;
 import ch.unisg.tapas.auctionhouse.domain.AuctionStartedEvent;
 import ch.unisg.tapas.common.ConfigProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +48,8 @@ public class PublishAuctionStartedEventWebSubAdapter implements AuctionStartedEv
         String requestBody = map.keySet().stream()
             .map(key -> key + "=" + URLEncoder.encode(map.get(key), StandardCharsets.UTF_8))
             .collect(Collectors.joining("&"));
+
+        LOGGER.info("Request parameter: " +requestBody);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
