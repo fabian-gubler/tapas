@@ -27,7 +27,7 @@ public class ExecutorRobotSearchEngineService {
 
     public static final String SEARCH_ENGINE_ENTRY_POINT = "https://api.interactions.ics.unisg.ch/search/searchEngine";
 
-    public ThingDescription findTd(String sparql_query, String thingTitle) throws ThingDescriptionNotFoundException {
+    public ThingDescription findTd(String sparql_query) throws ThingDescriptionNotFoundException {
 
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -48,23 +48,16 @@ public class ExecutorRobotSearchEngineService {
             Document document = builder.parse(inStream);
             NodeList nodeList = document.getElementsByTagName("uri");
 
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                String uri = nodeList.item(i).getTextContent();
-                ThingDescription td = getRobotTd(uri);
+            String uri = nodeList.item(0).getTextContent();
+            return getRobotTd(uri);
 
-                // check if TD has the right title
-                if (td.getTitle().equals(thingTitle)) {
-                    LOGGER.info("Found Thing Description for robot " + thingTitle);
-                    return td;
-                }
-            }
         } catch (IOException |
                  ParserConfigurationException |
                  InterruptedException |
                  SAXException e) {
             LOGGER.error("Error while searching for TD: " + e.getMessage());
         }
-        throw new ThingDescriptionNotFoundException("No TD with title " + thingTitle + " found");
+        throw new ThingDescriptionNotFoundException("No valid TD found");
     }
 
     private ThingDescription getRobotTd(String robotUri) {
