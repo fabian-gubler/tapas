@@ -23,14 +23,12 @@ import org.springframework.stereotype.Component;
 public class PublishAuctionStartedEventMqttAdapter implements AuctionStartedEventPort {
     private static final Logger LOGGER = LogManager.getLogger(PublishAuctionStartedEventMqttAdapter.class);
 
-    private final ConfigProperties configProperties;
-    private final AuctionHouseEventMqttDispatcher dispatcher;
 
     @Override
     public void publishAuctionStartedEvent(AuctionStartedEvent event) {
         LOGGER.info("Publishing auction started event via MQTT");
 
-        TapasMqttClient mqttClient = TapasMqttClient.getInstance(configProperties.getMqttBrokerAddress(), dispatcher);
+        TapasMqttClient mqttClient = TapasMqttClient.getInstance();
         try {
             mqttClient.publish("ch/unisg/tapas/auctions",
                 AuctionJsonRepresentation.serialize(event.getAuction()));
