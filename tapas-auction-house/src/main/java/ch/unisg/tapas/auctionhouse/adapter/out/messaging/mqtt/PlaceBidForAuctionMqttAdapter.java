@@ -26,9 +26,12 @@ import org.springframework.stereotype.Component;
 public class PlaceBidForAuctionMqttAdapter implements PlaceBidForAuctionPort {
     private static final Logger LOGGER = LogManager.getLogger(PlaceBidForAuctionMqttAdapter.class);
 
+    private final ConfigProperties configProperties;
+    private final AuctionHouseEventMqttDispatcher dispatcher;
+
     @Override
     public void placeBid(Auction auction, Bid bid) {
-        TapasMqttClient mqttClient = TapasMqttClient.getInstance();
+        TapasMqttClient mqttClient = TapasMqttClient.getInstance(configProperties.getMqttBrokerAddress(), dispatcher);
 
         try {
             mqttClient.publish("ch/unisg/tapas/bids", BidJsonRepresentation.serialize(bid));
