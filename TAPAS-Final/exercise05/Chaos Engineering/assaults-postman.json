@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "33df0a3e-dde2-40cb-aa86-072e4950dfc9",
+		"name": "Assaults",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23718359"
+	},
+	"item": [
+		{
+			"name": "KILLAPP",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"killApplicationActive\": true,\n    \"runtimeAssaultCronExpression\": \"*/1 * * * * ?\",\n    \"latencyActive\": false,\n    \"exceptionsActive\": false,\n    \"memoryActive\": false\n}\n"
+				},
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/assaults",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"assaults"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LATENCY",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"killApplicationActive\": false,\n    \"runtimeAssaultCronExpression\": \"*/1 * * * * ?\",\n    \"latencyActive\": true,\n    \"exceptionsActive\": false,\n    \"memoryActive\": false\n}\n"
+				},
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/assaults",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"assaults"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EXCEPTION",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"killApplicationActive\": false,\n    \"runtimeAssaultCronExpression\": \"*/1 * * * * ?\",\n    \"latencyActive\": false,\n    \"exceptionsActive\": true,\n    \"memoryActive\": false\n}\n"
+				},
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/assaults",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"assaults"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MEMORY",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"killApplicationActive\": false,\n    \"runtimeAssaultCronExpression\": \"*/1 * * * * ?\",\n    \"latencyActive\": false,\n    \"exceptionsActive\": false,\n    \"memoryActive\": true\n}\n"
+				},
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/assaults",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"assaults"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "tasks",
+			"value": "https://tapas-tasks.86-119-34-242.asse.scs.unisg.ch/",
+			"type": "string"
+		}
+	]
+}
