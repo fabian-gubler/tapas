@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "3f893c5b-1f68-431e-8f8b-b8336f4d041c",
+		"name": "Chaos Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23718359"
+	},
+	"item": [
+		{
+			"name": "Check Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/status",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Full Configuration",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"killApplicationActive\": false,\n    \"runtimeAssaultCronExpression\": \"*/1 * * * * ?\",\n    \"latencyActive\": true,\n    \"exceptionsActive\": false,\n    \"memoryActive\": false\n}\n"
+				},
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/assaults",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"assaults"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Current Config",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Disable Chaosmonkey",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/disable",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"disable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enable Chaosmonkey",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{tasks}}/actuator/chaosmonkey/enable",
+					"host": [
+						"{{tasks}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"enable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Watchers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/actuator/chaosmonkey/watchers",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"watchers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change Watchers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"controller\": true,\n  \"restController\": true,\n  \"service\": true,\n  \"repository\": true,\n  \"component\": false,\n  \"restTemplate\": false,\n  \"webClient\": false,\n  \"actuatorHealth\": false\n}"
+				},
+				"url": {
+					"raw": "{{host}}/actuator/chaosmonkey/watchers",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"actuator",
+						"chaosmonkey",
+						"watchers"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://127.0.0.1:8081"
+		},
+		{
+			"key": "tasks",
+			"value": "https://tapas-tasks.86-119-34-242.asse.scs.unisg.ch/",
+			"type": "string"
+		},
+		{
+			"key": "pool",
+			"value": "https://tapas-executorpool.86-119-34-242.asse.scs.unisg.ch/",
+			"type": "string"
+		},
+		{
+			"key": "host-executor",
+			"value": "http://127.0.0.1:8082",
+			"type": "string"
+		}
+	]
+}
