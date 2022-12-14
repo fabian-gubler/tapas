@@ -30,9 +30,9 @@ public class ExecutorRobotCherryBotService {
     private static final Logger LOGGER = LogManager.getLogger(ExecutorRobotCherryBotService.class);
     private static final String OPERATOR_NAME = "Valentin Berger";
     private static final String OPERATOR_EMAIL = "valentin.berger@student.unisg.ch";
-    private static final String REGISTER_OPERATOR_ACTION = "registerOperator";
-    private static final String REMOVE_OPERATOR_ACTION = "removeOperator";
-    private static final String SET_ROBOT_TARGET_ACTION = "setTarget";
+    private static final String REGISTER_OPERATOR_ACTION = "https://interactions.ics.unisg.ch/cherrybot#RegisterOperator";
+    private static final String REMOVE_OPERATOR_ACTION = "https://interactions.ics.unisg.ch/cherrybot#RemoveOperator";
+    private static final String SET_ROBOT_TARGET_ACTION = "https://interactions.ics.unisg.ch/cherrybot#SetTarget";
 
     public void moveRobot(ThingDescription cherryBotTD) throws IOException {
         String token = registerOperator(cherryBotTD);
@@ -48,7 +48,7 @@ public class ExecutorRobotCherryBotService {
     }
 
     private String registerOperator(ThingDescription robotTd) throws IOException {
-        Optional<ActionAffordance> action = robotTd.getActionByName(REGISTER_OPERATOR_ACTION);
+        Optional<ActionAffordance> action = robotTd.getFirstActionBySemanticType(REGISTER_OPERATOR_ACTION);
 
         Optional<Form> form = Optional.empty();
 
@@ -83,7 +83,7 @@ public class ExecutorRobotCherryBotService {
 
     private void setRobotTarget(ThingDescription robotTd, String token){
         try {
-            Optional<ActionAffordance> action = robotTd.getActionByName(SET_ROBOT_TARGET_ACTION);
+            Optional<ActionAffordance> action = robotTd.getFirstActionBySemanticType(SET_ROBOT_TARGET_ACTION);
             Optional<Form> form = Optional.empty();
 
             if (action.isPresent()) {
@@ -125,7 +125,7 @@ public class ExecutorRobotCherryBotService {
     }
 
     private void deleteOperator(ThingDescription robotTd, String token){
-        Optional<ActionAffordance> action = robotTd.getActionByName(REMOVE_OPERATOR_ACTION);
+        Optional<ActionAffordance> action = robotTd.getFirstActionBySemanticType(REMOVE_OPERATOR_ACTION);
 
         Optional<Form> form = Optional.empty();
 

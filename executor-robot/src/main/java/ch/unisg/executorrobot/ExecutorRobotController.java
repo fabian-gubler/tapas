@@ -19,17 +19,16 @@ public class ExecutorRobotController {
     private final ExecutorRobotSearchEngineService executorRobotSearchEngineService;
     private static final String SPARQL_QUERY = "@prefix td: <https://www.w3.org/2019/wot/td#>.\n" +
             "select ?x\n" +
-            "where { ?x a td:Thing }";
+            "where { ?x a <https://interactions.ics.unisg.ch/cherrybot#Cherrybot> }";
 
-    private static final String ROBOT_TITLE = "cherryBot";
 
     @PostMapping(path = "/executor/robot/")
     public ResponseEntity<String> triggerRobot() {
         try {
-           ThingDescription cherryBotTD = executorRobotSearchEngineService.findTd(SPARQL_QUERY, ROBOT_TITLE);
+           ThingDescription cherryBotTD = executorRobotSearchEngineService.findTd(SPARQL_QUERY);
            executorRobotCherryBotService.moveRobot(cherryBotTD);
         } catch (ThingDescriptionNotFoundException e) {
-            LOGGER.error("Could not find a Thing Description for the robot " + ROBOT_TITLE, e);
+            LOGGER.error("Could not find a Thing Description for the robot " + e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
