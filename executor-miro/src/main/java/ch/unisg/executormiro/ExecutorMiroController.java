@@ -1,19 +1,13 @@
 package ch.unisg.executormiro;
 
+import ch.unisg.ics.interactions.wot.td.ThingDescription;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.californium.core.CoapClient;
-import org.eclipse.californium.core.coap.Response;
-import org.eclipse.californium.core.config.CoapConfig;
-import org.eclipse.californium.elements.config.UdpConfig;
-import org.eclipse.californium.elements.exception.ConnectorException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.google.gson.Gson;
-
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,31 +15,29 @@ public class ExecutorMiroController {
 
     private static final Logger LOGGER = LogManager.getLogger(ExecutorMiroController.class);
 
-    private final String coapServer = "coap://130.82.171.10:5683";
+    private final ExecutorMiroQueryService executorMiroQueryService;
+    private final ExecutorMiroSearchEngineService executorMiroSearchEngineService;
+    private static final String SPARQL_QUERY = "@prefix td: <https://www.w3.org/2019/wot/td#>.\n" +
+            "select ?x\n" +
+            "where { ?x a <https://interactions.ics.unisg.ch/mirogate#Mirogate> }";
 
-    @PostMapping(path = "/executor/miro/{endpoint}")
-    public ResponseEntity<String> triggerRobot(@PathVariable("endpoint") String endpoint) {
+
+    @GetMapping(path = "/executor/miro/{endpoint}")
+    public ResponseEntity<String> queryMiro(@PathVariable("endpoint") String endpoint) {
         try {
-            CoapConfig.register();
-            UdpConfig.register();
+            ThingDescription miroTD = executorMiroSearchEngineService.findTd(SPARQL_QUERY);
+            String value = executorMiroQueryService.querySensor(miroTD, endpoint);
+            if (value != null) {
 
-            CoapClient client = new CoapClient(coapServer + "/" + endpoint);
-            Response response = client.get().advanced();
-
-            Gson gson = new Gson();
-            ResponsePayload responsePayload = gson.fromJson(response.getPayloadString(), ResponsePayload.class);
-
-            System.out.println(responsePayload.value);
-
-            client.shutdown();
-
-            return new ResponseEntity<>("Data received, value is: " + responsePayload.value.toString(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Request error", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Miro card queries successfully, value is: " + value, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("No value found for given endpoint '" + endpoint + "'", HttpStatus.BAD_REQUEST);
+            }
+        } catch (ThingDescriptionNotFoundException e) {
+            LOGGER.error("Could not find a Thing Description for the miro card " + e.getMessage());
+            return new ResponseEntity<>("could not find a Thing Description for the miro card" + e.getMessage(), HttpStatus.NOT_FOUND);
         }
+
     }
 }
 
-class ResponsePayload {
-    Float value;
-}
