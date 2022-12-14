@@ -17,7 +17,7 @@ public class ExecutorComputeController {
 
     @PostMapping(path = "/executor/compute/{computationType}")
     public ResponseEntity<String> triggerComputation(@PathVariable("computationType") String computationType, @RequestBody ComputationJsonRepresentation payload, @RequestHeader(HttpHeaders.LOCATION) String returnLocation) {
-        System.out.println("trigger" + returnLocation);
+        System.out.println("Computing task: " + returnLocation);
         executeComputationService.compute(computationType, payload, returnLocation);
         return new ResponseEntity<>("Computation triggered", HttpStatus.OK);
     }

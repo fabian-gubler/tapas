@@ -9,6 +9,8 @@ import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonpatch.JsonPatch;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +48,8 @@ public class TaskEventHttpDispatcher {
     @Autowired
     private Environment environment;
 
+    private static final Logger LOGGER = LogManager.getLogger(TaskEventHttpDispatcher.class);
+
     private final TaskAssignedEventListenerHttpAdapter taskAssignedEventListenerHttpAdapter;
     private final TaskStartedEventListenerHttpAdapter taskStartedEventListenerHttpAdapter;
     private final TaskExecutedEventListenerHttpAdapter taskExecutedEventListenerHttpAdapter;
@@ -69,7 +73,7 @@ public class TaskEventHttpDispatcher {
     @PatchMapping(path = "/tasks/{taskId}", consumes = {JSON_PATCH_MEDIA_TYPE})
     public ResponseEntity<Void> dispatchTaskEvents(@PathVariable("taskId") String taskId,
                                                    @RequestBody JsonNode payload) {
-        System.out.println("gotpatchrequest + " + payload);
+        LOGGER.info("patching + " + taskId + " with patch: " + payload);
         try {
             // Throw an exception if the JSON Patch format is invalid. This call is only used to
             // validate the JSON PATCH syntax.
@@ -94,9 +98,7 @@ public class TaskEventHttpDispatcher {
             UpdateTaskCommand updateTaskCommand = new UpdateTaskCommand(new Task.TaskId(taskId),
                 Optional.of(new Task.TaskStatus(status.get())),
                 representation.extractFirstOutputDataAddition());
-            System.out.println("COMMAND: " + updateTaskCommand.getTaskOutput());
-            Boolean taskUpdated = updateTaskUseCase.updateTask(updateTaskCommand);
-            System.out.println("Task updated in MongoDB: " + taskUpdated);
+            updateTaskUseCase.updateTask(updateTaskCommand);
 
             if (listener == null) {
                 // The HTTP PATCH request is valid, but the patch does not match any known event
