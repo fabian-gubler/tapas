@@ -2,6 +2,8 @@ package ch.unisg.tapastasks.tasks.adapter.in.messaging.http;
 
 import ch.unisg.tapastasks.tasks.adapter.in.formats.TaskJsonPatchRepresentation;
 import ch.unisg.tapastasks.tasks.adapter.in.messaging.UnknownEventException;
+import ch.unisg.tapastasks.tasks.application.port.in.UpdateTaskCommand;
+import ch.unisg.tapastasks.tasks.application.port.in.UpdateTaskUseCase;
 import ch.unisg.tapastasks.tasks.domain.Task;
 import ch.unisg.tapastasks.tasks.domain.TaskNotFoundError;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -47,6 +49,7 @@ public class TaskEventHttpDispatcher {
     private final TaskAssignedEventListenerHttpAdapter taskAssignedEventListenerHttpAdapter;
     private final TaskStartedEventListenerHttpAdapter taskStartedEventListenerHttpAdapter;
     private final TaskExecutedEventListenerHttpAdapter taskExecutedEventListenerHttpAdapter;
+    private final UpdateTaskUseCase updateTaskUseCase;
 
     // The standard media type for JSON Patch registered with IANA
     // See: https://www.iana.org/assignments/media-types/application/json-patch+json
@@ -87,6 +90,14 @@ public class TaskEventHttpDispatcher {
                 }
             }
 
+            // Update the task in the db -> should be moved to the appropriate listeners
+            UpdateTaskCommand updateTaskCommand = new UpdateTaskCommand(new Task.TaskId(taskId),
+                Optional.of(new Task.TaskStatus(status.get())),
+                representation.extractFirstOutputDataAddition());
+            System.out.println("COMMAND: " + updateTaskCommand.getTaskOutput());
+            Boolean taskUpdated = updateTaskUseCase.updateTask(updateTaskCommand);
+            System.out.println("Task updated in MongoDB: " + taskUpdated);
+
             if (listener == null) {
                 // The HTTP PATCH request is valid, but the patch does not match any known event
                 throw new UnknownEventException();
@@ -101,7 +112,7 @@ public class TaskEventHttpDispatcher {
         } catch (TaskNotFoundError e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         } catch (IOException | RuntimeException e) {
-            System.out.println("EXCEPTION"+e.getMessage());
+            System.out.println("EXCEPTION: " + e);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

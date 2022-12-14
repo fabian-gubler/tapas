@@ -26,19 +26,6 @@ public class UpdateTaskOutputAdapter implements UpdateTaskOutputUseCase {
 
     @Override
     public Boolean updateTaskOutputUseCase(UpdateTaskOutputCommand command) {
-        /*var values = new HashMap<String, String>() {{
-            put("op", "replace},");
-            put("{path", "/outputData},");
-            put("{value", command.output);
-        }};
-
-        var objectMapper = new ObjectMapper();
-        String requestBody = null;
-        try {
-            requestBody = objectMapper.writeValueAsString(values);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }*/
         String requestBody = "";
         try {
             JSONObject outputPatch = new JSONObject()
@@ -50,7 +37,13 @@ public class UpdateTaskOutputAdapter implements UpdateTaskOutputUseCase {
                 .put("op", "replace")
                 .put("path", "/taskStatus")
                 .put("value", "EXECUTED");
-            requestBody = new JSONArray().put(outputPatch).put(statusPatch).toString();
+
+            JSONObject serviceProviderPatch = new JSONObject()
+                .put("op", "add")
+                .put("path", "/serviceProvider")
+                .put("value", "group-3");
+
+            requestBody = new JSONArray().put(outputPatch).put(statusPatch).put(serviceProviderPatch).toString();
 
         } catch (JSONException e) {
             System.out.println(e.getMessage());

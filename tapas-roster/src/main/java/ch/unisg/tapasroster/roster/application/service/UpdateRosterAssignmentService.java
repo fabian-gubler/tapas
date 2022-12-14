@@ -38,14 +38,6 @@ public class UpdateRosterAssignmentService implements UpdateRosterAssignmentUseC
                 updateTaskOutputUseCase.updateTaskOutputUseCase(updateTaskOutputCommand);
             }
 
-            // updating task as EXECUTED
-            UpdateTaskStatusCommand updateTaskStatusExecutedCommand =
-                new UpdateTaskStatusCommand(
-                    UpdateTaskStatusCommand.Status.EXECUTED,
-                    new RosterAssignment.TaskLocation(updatedRosterAssignment.getTaskLocation().getValue()));
-            updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusExecutedCommand);
-
-
             // update original task uri
             if(updatedRosterAssignment.getOriginalTaskUri() != null && !updatedRosterAssignment.getOriginalTaskUri().getValue().equals("")) {
                 if (command.getOutputData().isPresent()) {
@@ -54,12 +46,6 @@ public class UpdateRosterAssignmentService implements UpdateRosterAssignmentUseC
                         new RosterAssignment.TaskLocation(updatedRosterAssignment.getOriginalTaskUri().getValue()));
                     updateTaskOutputUseCase.updateTaskOutputUseCase(updateTaskOutputAtOriginCommand);
                 }
-
-                UpdateTaskStatusCommand updateTaskStatusExecutedAtOriginCommand =
-                    new UpdateTaskStatusCommand(
-                        UpdateTaskStatusCommand.Status.EXECUTED,
-                        new RosterAssignment.TaskLocation(updatedRosterAssignment.getOriginalTaskUri().getValue()));
-                updateTaskStatusUseCase.updateTaskStatusUseCase(updateTaskStatusExecutedAtOriginCommand);
             }
 
             return true;
