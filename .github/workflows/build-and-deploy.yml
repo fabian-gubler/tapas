@@ -38,7 +38,11 @@ jobs:
 
     - name: Build executor-robot with Maven
       run: mvn -f executor-robot/pom.xml --batch-mode --update-snapshots verify
-    - run: cp ./executor-robot/target/executor-compute-0.0.1.jar ./target
+    - run: cp ./executor-robot/target/executor-robot-0.0.1.jar ./target
+
+    - name: Build executor-miro with Maven
+      run: mvn -f executor-miro/pom.xml --batch-mode --update-snapshots verify
+    - run: cp ./executor-miro/target/executor-miro-0.0.1.jar ./target
 
     - name: Build tapas-roster with Maven
       run: mvn -f tapas-roster/pom.xml --batch-mode --update-snapshots verify

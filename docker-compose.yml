@@ -124,12 +124,27 @@ services:
       - ./:/data/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.executor-robot.rule=Host(`executor-compute.${PUB_IP}.asse.scs.unisg.ch`)"
-      - "traefik.http.routers.executor-robot.service=executor-compute"
-      - "traefik.http.services.executor-robot.loadbalancer.server.port=8083"
+      - "traefik.http.routers.executor-robot.rule=Host(`executor-robot.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.executor-robot.service=executor-robot"
+      - "traefik.http.services.executor-robot.loadbalancer.server.port=8088"
       - "traefik.http.routers.executor-robot.tls=true"
       - "traefik.http.routers.executor-robot.entryPoints=web,websecure"
       - "traefik.http.routers.executor-robot.tls.certresolver=le"
+
+  executor-miro:
+    image: openjdk
+    command: "java -jar /data/executor-miro-0.0.1.jar"
+    restart: unless-stopped
+    volumes:
+      - ./:/data/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.executor-miro.rule=Host(`executor-miro.${PUB_IP}.asse.scs.unisg.ch`)"
+      - "traefik.http.routers.executor-miro.service=executor-miro"
+      - "traefik.http.services.executor-miro.loadbalancer.server.port=8093"
+      - "traefik.http.routers.executor-miro.tls=true"
+      - "traefik.http.routers.executor-miro.entryPoints=web,websecure"
+      - "traefik.http.routers.executor-miro.tls.certresolver=le"
 
   executor-api:
     image: openjdk
