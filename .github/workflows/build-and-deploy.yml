@@ -33,23 +33,23 @@ jobs:
     - run: cp ./tapas-executorpool/target/tapas-executorpool-0.0.3.jar ./target
 
     - name: Build executor-compute with Maven
-      run: mvn -f executor-compute/pom.xml --batch-mode --update-snapshots verify
+      run: mvn -f executor-compute/pom.xml --batch-mode --update-snapshots verify -DskipTests
     - run: cp ./executor-compute/target/executor-compute-0.0.1.jar ./target
 
     - name: Build executor-robot with Maven
-      run: mvn -f executor-robot/pom.xml --batch-mode --update-snapshots verify
+      run: mvn -f executor-robot/pom.xml --batch-mode --update-snapshots verify -DskipTests
     - run: cp ./executor-robot/target/executor-robot-0.0.1.jar ./target
 
     - name: Build executor-miro with Maven
-      run: mvn -f executor-miro/pom.xml --batch-mode --update-snapshots verify
+      run: mvn -f executor-miro/pom.xml --batch-mode --update-snapshots verify -DskipTests
     - run: cp ./executor-miro/target/executor-miro-0.0.1.jar ./target
 
     - name: Build tapas-roster with Maven
-      run: mvn -f tapas-roster/pom.xml --batch-mode --update-snapshots verify
+      run: mvn -f tapas-roster/pom.xml --batch-mode --update-snapshots verify -DskipTests
     - run: cp ./tapas-roster/target/tapas-roster-0.0.1.jar ./target
 
     - name: Build executor-api with Maven
-      run: mvn -f executor-api/pom.xml --batch-mode --update-snapshots verify
+      run: mvn -f executor-api/pom.xml --batch-mode --update-snapshots verify -DskipTests
     - run: cp ./executor-api/target/executor-api-0.0.1.jar ./target
 
     - name: Build Tapas-Auction-House with Maven

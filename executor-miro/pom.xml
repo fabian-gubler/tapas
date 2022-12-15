@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ch.unisg</groupId>
 	<artifactId>executor-miro</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>executor-miro</name>
 	<description>Executing the robot in the lab</description>
 	<properties>
