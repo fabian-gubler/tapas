@@ -1,4 +1,4 @@
-package ch.unisg.executormiro;
+package ch.unisg.executorrobot;
 
 import ch.unisg.ics.interactions.wot.td.ThingDescription;
 import ch.unisg.ics.interactions.wot.td.affordances.ActionAffordance;

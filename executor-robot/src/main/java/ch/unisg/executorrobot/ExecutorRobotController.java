@@ -1,4 +1,4 @@
-package ch.unisg.executormiro;
+package ch.unisg.executorrobot;
 
 import ch.unisg.ics.interactions.wot.td.ThingDescription;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,6 @@ public class ExecutorRobotController {
         }
         return new ResponseEntity<>("Robot moved", HttpStatus.OK);
     }
-
 
 
 }
