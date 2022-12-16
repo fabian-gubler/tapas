@@ -10,7 +10,6 @@ import ch.unisg.executorcompute.adapters.ComputationJsonRepresentation;
 
 @RestController
 @RequiredArgsConstructor
-
 public class ExecutorComputeController {
 
     private final ExecuteComputationService executeComputationService;

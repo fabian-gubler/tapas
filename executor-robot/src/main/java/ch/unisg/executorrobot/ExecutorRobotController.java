@@ -4,6 +4,7 @@ import ch.unisg.ics.interactions.wot.td.ThingDescription;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,16 +24,18 @@ public class ExecutorRobotController {
 
 
     @PostMapping(path = "/executor/robot/")
-    public ResponseEntity<String> triggerRobot() {
+    public ResponseEntity<String> triggerRobot(@RequestHeader(HttpHeaders.LOCATION) String returnLocation) {
         try {
            ThingDescription cherryBotTD = executorRobotSearchEngineService.findTd(SPARQL_QUERY);
-           executorRobotCherryBotService.moveRobot(cherryBotTD);
+           executorRobotCherryBotService.moveRobot(cherryBotTD, returnLocation);
         } catch (ThingDescriptionNotFoundException e) {
             LOGGER.error("Could not find a Thing Description for the robot " + e.getMessage());
+            return new ResponseEntity<>("Error while triggering robot", HttpStatus.BAD_REQUEST);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return new ResponseEntity<>("Robot moved", HttpStatus.OK);
+        return new ResponseEntity<>("Robot triggered", HttpStatus.OK);
     }
 
 
