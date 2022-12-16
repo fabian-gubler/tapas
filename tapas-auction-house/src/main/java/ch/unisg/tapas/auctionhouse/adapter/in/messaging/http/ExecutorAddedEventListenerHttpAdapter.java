@@ -21,6 +21,8 @@ public class ExecutorAddedEventListenerHttpAdapter {
     public ResponseEntity<Void> handleExecutorAddedEvent(@PathVariable("taskType") String taskType,
             @PathVariable("executorId") String executorId) {
 
+        System.out.println("Received executor added event for task type " + taskType + " and executor id " + executorId);
+
         ExecutorAddedEvent executorAddedEvent = new ExecutorAddedEvent(
             new ExecutorRegistry.ExecutorIdentifier(executorId),
             new Auction.AuctionedTaskType(taskType)
@@ -28,7 +30,7 @@ public class ExecutorAddedEventListenerHttpAdapter {
 
         ExecutorAddedHandler newExecutorHandler = new ExecutorAddedHandler();
         newExecutorHandler.handleNewExecutorEvent(executorAddedEvent);
-
+        System.out.println("Handled executor added event for task type " + ExecutorRegistry.getInstance());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

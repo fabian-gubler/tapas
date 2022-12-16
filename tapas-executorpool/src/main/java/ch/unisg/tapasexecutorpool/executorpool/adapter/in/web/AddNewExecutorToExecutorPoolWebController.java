@@ -3,6 +3,8 @@ package ch.unisg.tapasexecutorpool.executorpool.adapter.in.web;
 import ch.unisg.tapasexecutorpool.executorpool.adapter.in.formats.ExecutorJsonRepresentation;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolCommand;
 import ch.unisg.tapasexecutorpool.executorpool.application.port.in.AddNewExecutorToExecutorPoolUseCase;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.out.NewExecutorAddedEvent;
+import ch.unisg.tapasexecutorpool.executorpool.application.port.out.NewExecutorAddedEventPort;
 import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,8 @@ public class AddNewExecutorToExecutorPoolWebController {
     //Instead of explicitly adding an ingoing port here, we are directly referencing the use case to reduce redundancy.
     private final AddNewExecutorToExecutorPoolUseCase addNewExecutorToExecutorPoolUseCase;
 
+    private final NewExecutorAddedEventPort newExecutorAddedEventPort;
+
     // Used to retrieve properties from application.properties
     @Autowired
     private Environment environment;
@@ -61,6 +65,10 @@ public class AddNewExecutorToExecutorPoolWebController {
             // from the application.properties file
             responseHeaders.add(HttpHeaders.LOCATION, environment.getProperty("baseuri")
                 + "executors/" + executorId);
+
+            // Publish the new executor to the auction house
+            NewExecutorAddedEvent event = new NewExecutorAddedEvent(endpoint.getValue(), executorType.getValue());
+            newExecutorAddedEventPort.publishNewExecutorAddedEvent(event);
 
             return new ResponseEntity<Void>(responseHeaders,
                 HttpStatus.CREATED);
