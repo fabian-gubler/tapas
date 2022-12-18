@@ -74,7 +74,7 @@ public class CrawlAuctionFeedsWebController {
                         SubscribeToAuctionFeedCommand command = new SubscribeToAuctionFeedCommand(new Auction.AuctionFeedId(newLocation));
                         subscribeToAuctionFeedUseCase.subscribeToFeed(command);
                     }
-                    else if(!link.contains("rel=\"self\"") && !link.contains("rel=\"hub\"")) {
+                    if(!link.contains("rel=\"self\"") && !link.contains("rel=\"hub\"")) {
                         LOGGER.info("Crawling new resource " + link.split(">")[0].substring(1));
                         crawlResource(link.split(">")[0].substring(1));
                     }
