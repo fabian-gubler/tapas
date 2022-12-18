@@ -53,8 +53,8 @@ public class CrawlAuctionFeedsWebController {
      */
     private void crawlResource(String location) {
 
-        // check if the resource has been crawled already, for now we only check each resource once
-        if(checkedResources.contains(location)) return;
+        // check if the resource has been crawled already or if it is our own auction house
+        if(checkedResources.contains(location) || location.contains(environment.getProperty("auction.house.uri"))) return;
         checkedResources.add(location);
 
         HttpClient client = HttpClient.newHttpClient();
@@ -81,7 +81,7 @@ public class CrawlAuctionFeedsWebController {
                 }
             }
         } catch (IOException e) {
-            LOGGER.error("IOException: " + e.getMessage());
+            LOGGER.error("Error for " + location + ": IOException - " + e.getMessage());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
