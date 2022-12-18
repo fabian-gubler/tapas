@@ -30,6 +30,7 @@ public class CrawlAuctionFeedsWebController {
     private final SubscribeToAuctionFeedUseCase subscribeToAuctionFeedUseCase;
 
     private final ArrayList<String> checkedResources = new ArrayList<>();
+    private final ArrayList<String> subscribedFeeds = new ArrayList<>();
 
     @Autowired
     private Environment environment;
@@ -40,6 +41,7 @@ public class CrawlAuctionFeedsWebController {
         LOGGER.info("Crawling location: " + payload);
         // clear checked resources
         checkedResources.clear();
+        subscribedFeeds.clear();
 
         String resourceLocation = payload != null ? payload : environment.getProperty("group1.auction-feed");
         crawlResource(resourceLocation);
@@ -71,8 +73,11 @@ public class CrawlAuctionFeedsWebController {
                     if (link.contains("rel=\"entertainment\"") || link.contains("rel=\"computation\"")) {
                         LOGGER.info("Business client found: " + link);
                         String newLocation = link.split(">")[0].substring(1);
-                        SubscribeToAuctionFeedCommand command = new SubscribeToAuctionFeedCommand(new Auction.AuctionFeedId(newLocation));
-                        subscribeToAuctionFeedUseCase.subscribeToFeed(command);
+                        if(!subscribedFeeds.contains(newLocation)) {
+                            LOGGER.info("Subscribing to new feed: " + newLocation);
+                            SubscribeToAuctionFeedCommand command = new SubscribeToAuctionFeedCommand(new Auction.AuctionFeedId(newLocation));
+                            subscribeToAuctionFeedUseCase.subscribeToFeed(command);
+                        }
                     }
                     if(!link.contains("rel=\"self\"") && !link.contains("rel=\"hub\"")) {
                         LOGGER.info("Crawling new resource " + link.split(">")[0].substring(1));
