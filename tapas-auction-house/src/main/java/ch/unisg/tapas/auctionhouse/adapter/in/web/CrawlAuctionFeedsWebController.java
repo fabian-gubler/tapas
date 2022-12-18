@@ -77,6 +77,7 @@ public class CrawlAuctionFeedsWebController {
                             LOGGER.info("Subscribing to new feed: " + newLocation);
                             SubscribeToAuctionFeedCommand command = new SubscribeToAuctionFeedCommand(new Auction.AuctionFeedId(newLocation));
                             subscribeToAuctionFeedUseCase.subscribeToFeed(command);
+                            subscribedFeeds.add(newLocation);
                         }
                     }
                     if(!link.contains("rel=\"self\"") && !link.contains("rel=\"hub\"")) {
