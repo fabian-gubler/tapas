@@ -4,6 +4,7 @@ import ch.unisg.tapasexecutorpool.executorpool.application.port.out.AddExecutorP
 import ch.unisg.tapasexecutorpool.executorpool.application.port.out.LoadExecutorPort;
 import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorNotFoundError;
+import ch.unisg.tapasexecutorpool.executorpool.domain.ExecutorPool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.Query;
@@ -25,6 +26,7 @@ public class ExecutorPersistenceAdapter implements
     public void addExecutor(Executor executor) {
         MongoExecutorDocument mongoExecutorDocument = executorMapper.mapToMongoDocument(executor);
         executorRepository.save(mongoExecutorDocument);
+        ExecutorPool executorPool = ExecutorPool.getExecutorPool();
     }
 
     @Override
