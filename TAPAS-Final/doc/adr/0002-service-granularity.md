@@ -29,10 +29,11 @@ Extensibility:
 The parts of the systems that need to be extended are separated into microservices, e.g. the auction house
 
 Database transaction:
-There is no action that requires a single data transaction that need to be executed in multiple services therefore we dont need to join any services.
+
+There are a few actions that requires a single data transaction that need to be executed in multiple services. Nevertheless, we decided not to join any services.
 
 Workflow and choreography:
-There are no services that need to execute tasks in synchronization, services work independently. 
+There are no services that need to execute tasks in synchronization, due to our ansynchronous implementation of the services. Therefore, the services work independently. This approach leads to reduced decoupling of services and improves the fault tolerance. 
 
 Shared code:
 As of now there are no shared libraries that are used in multiple services

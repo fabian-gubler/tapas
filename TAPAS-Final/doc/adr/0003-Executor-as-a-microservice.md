@@ -13,8 +13,8 @@ We don't know in advance how long the task-execution will take.
 
 ## Decision
 
-We decide to use a microservice architecture for executors. 
-The executors need to function as independent services, if one executer is down the rest of the system must not be impacted.
+We decide to implement the executors as independent microservices. 
+The executors need to function as independent services, if one executor is down the rest of the system must not be impacted.
 Executors will execute task asynchronously and take care of queueing multiple tasks.
 
 ## Consequences

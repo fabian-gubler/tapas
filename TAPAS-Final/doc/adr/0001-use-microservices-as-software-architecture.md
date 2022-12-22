@@ -10,7 +10,7 @@ Accepted
 
 We need a distributed architecture because we need to have a collection of independently deployable components.
 Based on our chosen architecture characteristics interoperability, fault-tolerance and scalability we evaluated an event-driven system or microservices.
-We chose microservices because of lower complexity which leads to less developement overhead, additionally microservices satisfy ACID properties.
+We chose microservices because of lower complexity which leads to less developement overhead.
 
 ## Decision
 
