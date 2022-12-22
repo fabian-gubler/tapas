@@ -13,7 +13,9 @@ import ch.unisg.ics.interactions.wot.td.vocabularies.TD;
 import ch.unisg.ics.interactions.wot.td.vocabularies.WoTSec;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
@@ -30,11 +32,12 @@ public class ExecutorRobotCherryBotService {
     private static final Logger LOGGER = LogManager.getLogger(ExecutorRobotCherryBotService.class);
     private static final String OPERATOR_NAME = "Valentin Berger";
     private static final String OPERATOR_EMAIL = "valentin.berger@student.unisg.ch";
-    private static final String REGISTER_OPERATOR_ACTION = "registerOperator";
-    private static final String REMOVE_OPERATOR_ACTION = "removeOperator";
-    private static final String SET_ROBOT_TARGET_ACTION = "setTarget";
+    private static final String REGISTER_OPERATOR_ACTION = "https://interactions.ics.unisg.ch/cherrybot#RegisterOperator";
+    private static final String REMOVE_OPERATOR_ACTION = "https://interactions.ics.unisg.ch/cherrybot#RemoveOperator";
+    private static final String SET_ROBOT_TARGET_ACTION = "https://interactions.ics.unisg.ch/cherrybot#SetTarget";
 
-    public void moveRobot(ThingDescription cherryBotTD) throws IOException {
+    @Async
+    public void moveRobot(ThingDescription cherryBotTD, String returnLocation) throws IOException {
         String token = registerOperator(cherryBotTD);
         setRobotTarget(cherryBotTD, token);
 
@@ -45,10 +48,19 @@ public class ExecutorRobotCherryBotService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("success", "true");
+        map.put("outputData", "Robot moved to target location");
+
+        // todo handle case if retrun location is not available
+        restTemplate.postForEntity(URI.create(returnLocation), map, Void.class);
     }
 
     private String registerOperator(ThingDescription robotTd) throws IOException {
-        Optional<ActionAffordance> action = robotTd.getActionByName(REGISTER_OPERATOR_ACTION);
+        Optional<ActionAffordance> action = robotTd.getFirstActionBySemanticType(REGISTER_OPERATOR_ACTION);
 
         Optional<Form> form = Optional.empty();
 
@@ -83,7 +95,7 @@ public class ExecutorRobotCherryBotService {
 
     private void setRobotTarget(ThingDescription robotTd, String token){
         try {
-            Optional<ActionAffordance> action = robotTd.getActionByName(SET_ROBOT_TARGET_ACTION);
+            Optional<ActionAffordance> action = robotTd.getFirstActionBySemanticType(SET_ROBOT_TARGET_ACTION);
             Optional<Form> form = Optional.empty();
 
             if (action.isPresent()) {
@@ -125,7 +137,7 @@ public class ExecutorRobotCherryBotService {
     }
 
     private void deleteOperator(ThingDescription robotTd, String token){
-        Optional<ActionAffordance> action = robotTd.getActionByName(REMOVE_OPERATOR_ACTION);
+        Optional<ActionAffordance> action = robotTd.getFirstActionBySemanticType(REMOVE_OPERATOR_ACTION);
 
         Optional<Form> form = Optional.empty();
 

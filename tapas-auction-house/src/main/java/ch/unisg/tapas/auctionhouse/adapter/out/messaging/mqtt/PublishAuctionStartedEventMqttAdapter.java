@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 public class PublishAuctionStartedEventMqttAdapter implements AuctionStartedEventPort {
     private static final Logger LOGGER = LogManager.getLogger(PublishAuctionStartedEventMqttAdapter.class);
 
+
     @Override
     public void publishAuctionStartedEvent(AuctionStartedEvent event) {
         LOGGER.info("Publishing auction started event via MQTT");

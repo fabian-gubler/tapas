@@ -28,6 +28,8 @@ public class UpdateTaskWebController {
 
     @PutMapping(path = "/tasks/{taskId}", consumes = "application/json")
     public ResponseEntity<Void> updateTask(@RequestBody TaskJsonRepresentation payload, @PathVariable("taskId") String taskId) {
+       System.out.println("RECEIVED PUT REQUEST: " + payload.getOutputData());
+       System.out.println("RECEIVED PUT REQUEST: " + payload.getTaskStatus());
         try {
 
             // When creating a task, the task's representation may include optional input data

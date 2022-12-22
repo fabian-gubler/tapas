@@ -4,6 +4,7 @@ import ch.unisg.ics.interactions.wot.td.ThingDescription;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,23 +20,23 @@ public class ExecutorRobotController {
     private final ExecutorRobotSearchEngineService executorRobotSearchEngineService;
     private static final String SPARQL_QUERY = "@prefix td: <https://www.w3.org/2019/wot/td#>.\n" +
             "select ?x\n" +
-            "where { ?x a td:Thing }";
+            "where { ?x a <https://interactions.ics.unisg.ch/cherrybot#Cherrybot> }";
 
-    private static final String ROBOT_TITLE = "cherryBot";
 
     @PostMapping(path = "/executor/robot/")
-    public ResponseEntity<String> triggerRobot() {
+    public ResponseEntity<String> triggerRobot(@RequestHeader(HttpHeaders.LOCATION) String returnLocation) {
         try {
-           ThingDescription cherryBotTD = executorRobotSearchEngineService.findTd(SPARQL_QUERY, ROBOT_TITLE);
-           executorRobotCherryBotService.moveRobot(cherryBotTD);
+           ThingDescription cherryBotTD = executorRobotSearchEngineService.findTd(SPARQL_QUERY);
+           executorRobotCherryBotService.moveRobot(cherryBotTD, returnLocation);
         } catch (ThingDescriptionNotFoundException e) {
-            LOGGER.error("Could not find a Thing Description for the robot " + ROBOT_TITLE, e);
+            LOGGER.error("Could not find a Thing Description for the robot " + e.getMessage());
+            return new ResponseEntity<>("Error while triggering robot", HttpStatus.BAD_REQUEST);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return new ResponseEntity<>("Robot moved", HttpStatus.OK);
+        return new ResponseEntity<>("Robot triggered", HttpStatus.OK);
     }
-
 
 
 }

@@ -4,6 +4,7 @@ import ch.unisg.tapasexecutorpool.executorpool.domain.Executor;
 import org.springframework.stereotype.Component;
 
 @Component
+public
 class ExecutorMapper {
 
     Executor mapToDomainEntity(MongoExecutorDocument executor) {
@@ -13,7 +14,7 @@ class ExecutorMapper {
         );
     }
 
-    MongoExecutorDocument mapToMongoDocument(Executor executor) {
+    public MongoExecutorDocument mapToMongoDocument(Executor executor) {
         return new MongoExecutorDocument(
             executor.getExecutorId().getValue(),
             executor.getEndpoint().getValue(),
