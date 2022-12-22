@@ -8,7 +8,7 @@ public class LaunchAuctionCommand {
     public static final String MEDIA_TYPE = "application/json";
 
     @Getter @Setter
-    private String auctionID;
+    private String auctionId;
 
     @Getter @Setter
     private String auctionHouseUri;
@@ -25,8 +25,8 @@ public class LaunchAuctionCommand {
     @Getter @Setter
     private String auctionStatus;
 
-    public LaunchAuctionCommand(String auctionID, String auctionHouseUri, String taskUri, String taskType, Integer deadline, String auctionStatus ) {
-        this.auctionID = auctionID;
+    public LaunchAuctionCommand(String auctionId, String auctionHouseUri, String taskUri, String taskType, Integer deadline, String auctionStatus ) {
+        this.auctionId = auctionId;
         this.auctionHouseUri = auctionHouseUri;
         this.taskUri = taskUri;
         this.taskType = taskType;

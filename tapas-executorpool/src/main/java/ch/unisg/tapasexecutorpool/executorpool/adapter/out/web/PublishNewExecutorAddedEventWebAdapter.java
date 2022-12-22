@@ -25,11 +25,11 @@ public class PublishNewExecutorAddedEventWebAdapter implements NewExecutorAddedE
 
         String server = environment.getProperty("auction-house.baseuri");
 
-        System.out.println(server + "/executors/" + event.executorType + "/" + event.executorType);
+        System.out.println(server + "executors/" + event.executorType + "/" + event.executorType);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(server + "/executors/" + event.executorType + "/" + event.executorType))
+            .uri(URI.create(server + "executors/" + event.executorType + "/" + event.executorType))
             .header("content-type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(""))
             .build();

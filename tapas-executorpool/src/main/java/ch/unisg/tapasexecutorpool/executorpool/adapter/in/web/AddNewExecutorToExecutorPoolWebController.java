@@ -37,7 +37,6 @@ public class AddNewExecutorToExecutorPoolWebController {
     //Instead of explicitly adding an ingoing port here, we are directly referencing the use case to reduce redundancy.
     private final AddNewExecutorToExecutorPoolUseCase addNewExecutorToExecutorPoolUseCase;
 
-    private final NewExecutorAddedEventPort newExecutorAddedEventPort;
 
     // Used to retrieve properties from application.properties
     @Autowired
@@ -66,9 +65,6 @@ public class AddNewExecutorToExecutorPoolWebController {
             responseHeaders.add(HttpHeaders.LOCATION, environment.getProperty("baseuri")
                 + "executors/" + executorId);
 
-            // Publish the new executor to the auction house
-            NewExecutorAddedEvent event = new NewExecutorAddedEvent(endpoint.getValue(), executorType.getValue());
-            newExecutorAddedEventPort.publishNewExecutorAddedEvent(event);
 
             return new ResponseEntity<Void>(responseHeaders,
                 HttpStatus.CREATED);

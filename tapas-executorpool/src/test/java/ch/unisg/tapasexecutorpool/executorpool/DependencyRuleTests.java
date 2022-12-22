@@ -1,4 +1,4 @@
-package ch.unisg.tapasexecutorpool;
+package ch.unisg.tapasexecutorpool.executorpool;
 
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import org.junit.jupiter.api.Test;

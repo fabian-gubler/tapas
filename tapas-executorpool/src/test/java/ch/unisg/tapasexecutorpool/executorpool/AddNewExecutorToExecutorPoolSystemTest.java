@@ -48,7 +48,7 @@ public class AddNewExecutorToExecutorPoolSystemTest {
 	@Test
 	void addNewExecutorToExecutorPoolSystemTest() throws JSONException {
 
-		Executor.ExecutorType executorType = new Executor.ExecutorType("Api");
+		Executor.ExecutorType executorType = new Executor.ExecutorType("executor-miro");
 		Executor.Endpoint executorEndpoint = new Executor.Endpoint("Endpoint");
 
 		ResponseEntity response = whenAddNewExecutorToEmptyPool(executorType, executorEndpoint);
@@ -74,5 +74,4 @@ public class AddNewExecutorToExecutorPoolSystemTest {
 
 		return restTemplate.exchange("/executors/", HttpMethod.POST, request, Object.class);
 	}
-
 }
