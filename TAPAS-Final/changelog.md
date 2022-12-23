@@ -1,5 +1,23 @@
 # TAPAS Group 3 Changelog
 
+## Tapas-group3 v0.0.7 Final Release
+December 23rd 2022
+
+### Features
+
+#### TAPAS Final 
+- A TAPAS-Final folder was added containing all the exercise documentation
+- Final presentation and sequence diagrams have been added
+
+#### Testing
+- Executorpool tests have been refactored
+
+### Architectural Decision Records
+- ADRs 1-4,6 and 10 have been rewritten to better clarify the decisions made
+- ADRs have been updated to match current release cycle
+- ADRs can be found in the `/doc/adr` directory
+
+
 ## Tapas-group3 v0.0.6
 December 4th 2022
 
