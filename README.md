@@ -1,5 +1,8 @@
 # tapas-fs22
-The master repository for the TAPAS application to be developed in Fall Semester 2022.
+The master repository for the TAPAS application developed in Fall Semester 2022.
+
+## Project Description
+Tapas is a practical software application developed as part of the Advanced Software and Systems Engineering course. It is a distributed system that allows teams to offer auctions for tasks, and other teams can bid on these auctions through an auction house. The project was designed to give students hands-on experience in using architectural patterns and state-of-the-art software engineering practices to conceive, build, test, and deploy a large-scale software-based system.
 
 ## Project Structure
 This project is structured as follows:
